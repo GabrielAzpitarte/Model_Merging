@@ -72,6 +72,19 @@ Reading: a small, consistently positive, attention-concentrated signal, in the R
 professor's hypothesis. It is TENTATIVE because it was selected among about 45 rules; master's pre-registered
 ViT-B/16 transfer is the settling test.
 
+**LoRA transfer (this track; configs fixed a priori; `results/aa/lora/q90_transfer.jsonl`):** strongly
+HARMFUL on every LoRA bank tested.
+- KnOTS release: −4.1 to −17.6 pt vs uniform.
+- lora_c5a: −9.3 to −16.7.
+- lora_c5a_seed1: −8.7 to −12.5.
+- vit20: +0.3 / −0.3 at b = 1, −1.7 / −2.9 at b = 4 (inside its shuffle range).
+- It is worse than its own matched shuffles on every KnOTS-recipe bank.
+
+Mechanism: for low-rank updates, κ_q90(W0 + BA) varies through the bulk value σ_{0.9q} (within-map ρ −0.85),
+not through σ1 (+0.22). The rule therefore rewards adapters that shrink the base's bulk spectrum, which here
+are destructive adapters. So the rule is not a general property of conditioning; at most it is a full-FT
+effect, and the B/16 full-FT transfer decides that.
+
 Bound on global rules: the global oracle (one weight per expert) reaches 69.8 absolute on test vs 69.3 for
 tuned uniform. So no global rule can gain more than about +0.5 there; `global:logkappa`'s +0.27 lies inside its
 shuffled-null range.
@@ -195,9 +208,14 @@ lottery. On the well-behaved vit20 bank, any hard per-map selection loses badly 
    | distinct tasks | uninformative | expert identity | — |
 
 3. **Where the merging headroom actually lies:** per-layer allocation (+8 / +12 pt), concentrated in
-   attention-map routing, which no spectral statistic recovers. This points to data-dependent routing /
-   selection research, outside conditioning.
+   attention-map routing. Spectral statistics recover at most a small fraction of it. The best is master's
+   reversed bulk ratio, with within-map ρ ≈ +0.09 against the oracle and +0.47 on full-FT test, pending the
+   pre-registered ViT-B/16 transfer. This points to data-dependent routing / selection research, largely
+   outside conditioning.
 4. (Closed) The apparent LoRA hard-selection effect did not replicate across banks (2/4).
+5. (Open, master's) `logkappa_q90_rev`: the only conditioning-type rule with a positive per-map signal and a
+   test gain. Its direction is the reverse of the hypothesis (more bulk anisotropy → more weight). Settling
+   tests: the ViT-B/16 transfer (master) and the LoRA transfer (this track, running).
 
 Novelty check (2026-10-18): no prior paper uses Marchenko–Pastur / Gavish–Donoho noise estimates to weight
 checkpoints. The closest are Model Stock (ECCV'24), MonoSoup (arXiv 2602.09689), Fisher merging, and
