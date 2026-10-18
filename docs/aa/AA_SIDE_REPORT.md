@@ -32,7 +32,7 @@ Conventions, shared with master:
 | Is there headroom in the rule's own family? | **Large, all per-layer.** | Oracle (D): full-FT +8 pt dev (test 77.2); LoRA +12 pt (test 64.1); global per-expert weights ≤ +0.4 pt (§3). |
 | Where should a κ-decreasing rule work in principle? | Noisy estimates of one target (review §3.3). | The literal rule is **anti-inverse-variance** there: noise improves conditioning (§4). |
 | Is there a conditioning-connected signal that works? | The update spectrum's **shape**, under isotropic noise only. | It reaches the inverse-variance oracle even with norms matched (+9 pt), but fails on real same-task variants (§4). |
-| LoRA? | Small, tentative positive for hard κ selection, below the best single expert. | §6. |
+| LoRA? | **No reliable effect.** Hard κ selection beat random per-map selection on 2 of 4 independent 8-task banks and was at or below chance on the other 2. It never beat the best single expert. | §6 |
 
 ## 2. Per-layer diagnostics on full-FT: ESTABLISHED (budget D targets)
 
@@ -50,6 +50,50 @@ Tables: `results/aa/score_vs_targets.md`, `results/aa/grad_pref/`, `results/aa/o
 | functional energy tr(ΔCΔᵀ) (budget B) | +0.33 | +0.07 | +0.12 to +0.16 (p ≤ 0.007), the only per-layer predictor |
 
 Two independent κ implementations (this track's NumPy and master's torch) agree to 1e-13 median.
+
+### 2b. Check of master's dev-best rule `logkappa_q90_rev` (requested by the peer)
+
+The rule weights maps by the tail-robust bulk ratio σ1/σ_{⌈0.9q⌉} of the full weight, giving more weight to
+higher values. Master's numbers: dev-best of about 45 rules, frozen full-FT TEST +0.47 [+0.24, +0.70] over
+tuned uniform.
+
+Per-map association with log κ_q90 (positive = supports the rule):
+
+| target | within-map ρ (p) | within-expert (p) |
+|---|---|---|
+| gradient pref, α = 1 | +0.076 (0.09) | +0.070 (0.11) |
+| gradient pref, α = 2.4 | +0.076 (0.10); attention +0.18, MLP −0.12 | +0.059 (0.19) |
+| oracle layerwise + α (2 seeds) | +0.09 (0.046) | +0.075 (≈ 0.08) |
+| oracle, α = 1 | +0.03 (0.48) | — |
+
+The median ratio κ_q50 carries nothing.
+
+Reading: a small, consistently positive, attention-concentrated signal, in the REVERSE direction of the
+professor's hypothesis. It is TENTATIVE because it was selected among about 45 rules; master's pre-registered
+ViT-B/16 transfer is the settling test.
+
+**LoRA transfer (this track; configs fixed a priori; `results/aa/lora/q90_transfer.jsonl`):** strongly
+HARMFUL on every LoRA bank tested.
+- KnOTS release: −4.1 to −17.6 pt vs uniform.
+- lora_c5a: −9.3 to −16.7.
+- lora_c5a_seed1: −8.7 to −12.5.
+- vit20: +0.3 / −0.3 at b = 1, −1.7 / −2.9 at b = 4 (inside its shuffle range).
+- It is worse than its own matched shuffles on every KnOTS-recipe bank.
+
+Mechanism: for low-rank updates, κ_q90(W0 + BA) varies through the bulk value σ_{0.9q} (within-map ρ −0.85),
+not through σ1 (+0.22). The rule therefore rewards adapters that shrink the base's bulk spectrum, which here
+are destructive adapters.
+
+**Settled by master's pre-registered ViT-B/16 transfer** (B/32-frozen configs, test, paired bootstrap vs
+tuned uniform at 82.01):
+- `logkappa_q90_rev` −1.01, below all 5 matched-config shuffles (−0.95 … +0.32): **FAILS**. The B/32 +0.47
+  was a selection artifact.
+- Literal κ −0.11, inside its shuffles (−0.76 … +0.24).
+- `global:logkappa` +0.02; reversed κ −2.15; MetaGPT −0.83.
+
+Bound on global rules: the global oracle (one weight per expert) reaches 69.8 absolute on test vs 69.3 for
+tuned uniform. So no global rule can gain more than about +0.5 there; `global:logkappa`'s +0.27 lies inside its
+shuffled-null range.
 
 ## 3. The oracle allocation: ESTABLISHED (budget D, absolute accuracy)
 
@@ -90,7 +134,17 @@ Findings:
   uniform). Variant quality correlates with update spread at +0.5, so diffuse means better, and with mean
   log κ inconsistently (−0.31 … +0.60). The isotropic-noise model does not describe real checkpoint
   variation, and the uniform soup is already near the D-oracle (+0.6).
-- PENDING: frozen-rule TEST evaluation (`scripts/aa_soup_test_freeze.py`).
+- **Frozen TEST** (rules fixed before any test look; `results/aa/soup/test_freeze_summary.json`):
+
+  | rule | A | A-nm | B |
+  |---|---|---|---|
+  | uniform | 89.4 | 80.6 | 90.6 |
+  | literal κ, b = 1 / 4 | 89.0 / 88.7 (0/8 tasks above uniform) | 80.5 / 80.5 | 90.5 / 90.5 |
+  | update stable rank, b = 4 | 90.3 (7/8) | 90.0 (8/8) | 88.2 (0/8) |
+  | GD/MP inverse variance | 90.3 | 83.3 | 89.6 (0/8) |
+  | oracle | 90.3 | 89.7 | 89.9 (best single by dev) |
+
+  This replicates dev exactly.
 
 ## 5. Weak-tail stress test: ESTABLISHED (`results/aa/tail_stress_*.json`)
 
@@ -106,7 +160,7 @@ Edit: in the 47 maps with κ0 > 1e3, floor one expert's singular values at 10 σ
 
 The rule's coefficients are controlled by function-irrelevant spectral tails.
 
-## 6. LoRA (KnOTS r16): checks ESTABLISHED, κ-selection effect TENTATIVE
+## 6. LoRA: checks ESTABLISHED; the κ-selection effect did NOT replicate
 
 Checks:
 - The QR-core spectrum is exact (9e-10).
@@ -114,41 +168,40 @@ Checks:
 - Factor κ changes by about 5000× under an exact gauge change.
 - 5/5 merge-correctness tests pass (`tests/test_aa_lora.py`).
 - κ₊(Δ; τ = 0.1) is capped at 10 (80% of updates truncated), so it is a threshold artifact.
-- Bank caveat: the KnOTS SUN397 adapter is weak.
+- In LoRA, κ is σ_min only (argmin-κ = argmax-σ_min in 100% of maps).
 
-**Dev sweep:** κ best 54.3 (b = 128, n_eff 1.35, near per-map selection). Free shuffles best 52.5–53.2,
-uniform 52.3, best single expert 54.9.
+KnOTS release:
+- Dev: κ best 54.3 (b = 128, near per-map selection); uniform 52.3; best single expert 54.9.
+- Argmin-κ is at the 95th percentile of a 20-seed random-selection null (count-preserving and free; p ≈ 0.05).
+- Frozen TEST: κ 53.3, uniform 51.2 (rank-16 compressed: κ 53.2, uniform 50.2), shuffles 46.8 / 51.3 / 50.2,
+  best single expert 54.4.
 
-**20-seed null (dev):** argmin-κ selection sits at the 95th percentile of count-preserving and of free random
-per-map selections at α 0.8 and 1.0 (p ≈ 0.05). It is also robust to α, where random selections are not.
+**Cross-bank replication** (`results/aa/lora/replicate_banks.jsonl`; 20 free random per-map selections per
+α; dev):
 
-**Frozen TEST:**
+| bank | argmin-κ percentile, α 0.8 / 1.0 | κ b128 vs best uniform |
+|---|---|---|
+| KnOTS release | 95 / 95 | 54.3 vs 52.3 |
+| KnOTS recipe, seed 0 (lora_c5a) | 95 / 100 | 55.3 vs 53.5 |
+| KnOTS recipe, seed 1 (lora_c5a_seed1) | 55 / 45 | 51.8 vs 54.1 |
+| vit20, 2000 steps (lora) | 20 / 15 | 58.0 vs 64.6 |
 
-| config | test |
-|---|---|
-| best single expert | 54.4 |
-| κ b128 (rank-16 compressed: 53.2) | 53.3 |
-| κ argmin | 52.9 |
-| MetaGPT | 52.2 |
-| uniform (rank-16 compressed: 50.2) | 51.2 |
-| shuffles at κ's configuration | 46.8 / 51.3 / 50.2 |
+**Mechanisms tested and rejected:**
+- expert frequency;
+- functional gentleness;
+- bulk base-subspace overlap;
+- null-space occupancy (k = 4–32; the inputs visit V0_low at 80–90% of the isotropic rate);
+- singularity avoidance: across 40 random selections, accuracy does not track the number of σ_min-decreasing
+  picks (ρ +0.14, p 0.37).
 
-**Mechanisms rejected:**
-- expert frequency (global-frequency rule 52.2);
-- functional gentleness (argmin tr(ΔCΔᵀ) gives 52.1–52.5, 19% agreement);
-- bulk base-subspace overlap (ρ ≈ 0);
-- null-space occupancy for k = 4–32 (ρ ≈ 0, agreement at chance; the inputs visit V0_low at 80–90% of the
-  isotropic rate).
-
-In LoRA, κ = σ_min only (argmin-κ = argmax-σ_min in 100% of maps).
-
-PENDING (settling test): replication on 3 independent 8-task LoRA banks (`scripts/aa_lora_replicate_banks.py`).
+Verdict: **NOT REPLICATED.** The KnOTS-bank advantage is a favourable draw from a high-variance selection
+lottery. On the well-behaved vit20 bank, any hard per-map selection loses badly to averaging.
 
 ## 7. Variant ledger
 
 | variant | problem addressed | assumption | discriminating experiment | closest prior | status |
 |---|---|---|---|---|---|
-| literal κ₂(W), layerwise | the professor's rule | κ tracks reliability | per-layer targets; shuffles; noisy soups; tail stress | SADA, CT, AMM (exp weights) | **DEAD END** (full-FT); LoRA hard selection TENTATIVE |
+| literal κ₂(W), layerwise | the professor's rule | κ tracks reliability | per-layer targets; shuffles; noisy soups; tail stress; cross-bank LoRA replication | SADA, CT, AMM (exp weights) | **DEAD END** (full-FT and LoRA; the LoRA selection effect did not replicate, 2/4 banks) |
 | log κ (power law) | κ spans 1e1–1e8 | variance route | same | review eq. 22 | dead with κ; collapses faster under noise |
 | κ(W C^{1/2}) (budget B) | κ dominated by directions the data may not excite | pooled C is representative | per-layer targets | PAVE, ESM, NSC | **FAILED** (blind) |
 | update spread or noise share | κ(W) is a σ_min probe | spike/bulk model | noisy, norm-matched and real soups | STAR, TSV, MonoSoup | SUPPORTED under isotropic noise; **FAILS on real variants** |
@@ -171,9 +224,15 @@ PENDING (settling test): replication on 3 independent 8-task LoRA banks (`script
    | distinct tasks | uninformative | expert identity | — |
 
 3. **Where the merging headroom actually lies:** per-layer allocation (+8 / +12 pt), concentrated in
-   attention-map routing, which no spectral statistic recovers. This points to data-dependent routing /
-   selection research, outside conditioning.
-4. Possibly a narrow LoRA hard-selection effect of the literal rule, if the cross-bank replication holds.
+   attention-map routing. No spectral statistic recovers it in a way that transfers: the best per-map signal,
+   master's reversed bulk ratio, failed the pre-registered ViT-B/16 transfer and the LoRA transfer. This points
+   to data-dependent routing / selection research, outside conditioning.
+4. (Closed) The apparent LoRA hard-selection effect did not replicate across banks (2/4).
+5. (Closed) `logkappa_q90_rev`: B/32 dev-best of about 45 rules with a small per-map signal. It failed both
+   the ViT-B/16 transfer (−1.01, below all matched shuffles) and the LoRA transfer (−4 to −18 pt).
+
+**Final status (2026-10-18):** no conditioning-based weighting survives on full-FT (ViT-B/32, ViT-B/16) or on
+LoRA (4 banks), against matched shuffled-score nulls and frozen test evaluation.
 
 Novelty check (2026-10-18): no prior paper uses Marchenko–Pastur / Gavish–Donoho noise estimates to weight
 checkpoints. The closest are Model Stock (ECCV'24), MonoSoup (arXiv 2602.09689), Fisher merging, and
