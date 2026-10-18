@@ -1,0 +1,582 @@
+{
+ "C/full": {
+  "encoder.layers.0.self_attn.k_proj.weight": {
+   "kappa_G": Infinity,
+   "kappa_solve": Infinity,
+   "rho": 0.0,
+   "trace_mean": 4.277727916886378
+  },
+  "encoder.layers.0.self_attn.out_proj.weight": {
+   "kappa_G": 367211.7822398996,
+   "kappa_solve": 367211.7822398996,
+   "rho": 0.0,
+   "trace_mean": 0.23078769921443154
+  },
+  "encoder.layers.0.self_attn.q_proj.weight": {
+   "kappa_G": Infinity,
+   "kappa_solve": Infinity,
+   "rho": 0.0,
+   "trace_mean": 4.277727916886378
+  },
+  "encoder.layers.0.self_attn.v_proj.weight": {
+   "kappa_G": Infinity,
+   "kappa_solve": Infinity,
+   "rho": 0.0,
+   "trace_mean": 4.277727916886378
+  },
+  "encoder.layers.1.self_attn.k_proj.weight": {
+   "kappa_G": 933216714560.9268,
+   "kappa_solve": 933216714560.9268,
+   "rho": 0.0,
+   "trace_mean": 5.780706877851148
+  },
+  "encoder.layers.1.self_attn.out_proj.weight": {
+   "kappa_G": 12150.812199618602,
+   "kappa_solve": 12150.812199618602,
+   "rho": 0.0,
+   "trace_mean": 0.1345677062473444
+  },
+  "encoder.layers.1.self_attn.q_proj.weight": {
+   "kappa_G": 933216714560.9268,
+   "kappa_solve": 933216714560.9268,
+   "rho": 0.0,
+   "trace_mean": 5.780706877851148
+  },
+  "encoder.layers.1.self_attn.v_proj.weight": {
+   "kappa_G": 933216714560.9268,
+   "kappa_solve": 933216714560.9268,
+   "rho": 0.0,
+   "trace_mean": 5.780706877851148
+  },
+  "encoder.layers.10.self_attn.k_proj.weight": {
+   "kappa_G": 6667.139453775798,
+   "kappa_solve": 6667.139453775798,
+   "rho": 0.0,
+   "trace_mean": 24.125425417131435
+  },
+  "encoder.layers.10.self_attn.out_proj.weight": {
+   "kappa_G": 1325.5071570312077,
+   "kappa_solve": 1325.5071570312077,
+   "rho": 0.0,
+   "trace_mean": 0.9592434366240923
+  },
+  "encoder.layers.10.self_attn.q_proj.weight": {
+   "kappa_G": 6667.139453775798,
+   "kappa_solve": 6667.139453775798,
+   "rho": 0.0,
+   "trace_mean": 24.125425417131435
+  },
+  "encoder.layers.10.self_attn.v_proj.weight": {
+   "kappa_G": 6667.139453775798,
+   "kappa_solve": 6667.139453775798,
+   "rho": 0.0,
+   "trace_mean": 24.125425417131435
+  },
+  "encoder.layers.11.self_attn.k_proj.weight": {
+   "kappa_G": 171101.64103132728,
+   "kappa_solve": 171101.64103132728,
+   "rho": 0.0,
+   "trace_mean": 28.382292980017763
+  },
+  "encoder.layers.11.self_attn.out_proj.weight": {
+   "kappa_G": 9836.694208076005,
+   "kappa_solve": 9836.694208076005,
+   "rho": 0.0,
+   "trace_mean": 1.800633437174838
+  },
+  "encoder.layers.11.self_attn.q_proj.weight": {
+   "kappa_G": 171101.64103132728,
+   "kappa_solve": 171101.64103132728,
+   "rho": 0.0,
+   "trace_mean": 28.382292980017763
+  },
+  "encoder.layers.11.self_attn.v_proj.weight": {
+   "kappa_G": 171101.64103132728,
+   "kappa_solve": 171101.64103132728,
+   "rho": 0.0,
+   "trace_mean": 28.382292980017763
+  },
+  "encoder.layers.2.self_attn.k_proj.weight": {
+   "kappa_G": 563015.3180813484,
+   "kappa_solve": 563015.3180813484,
+   "rho": 0.0,
+   "trace_mean": 6.729960124624388
+  },
+  "encoder.layers.2.self_attn.out_proj.weight": {
+   "kappa_G": 50559.17414149876,
+   "kappa_solve": 50559.17414149876,
+   "rho": 0.0,
+   "trace_mean": 0.16264325724464848
+  },
+  "encoder.layers.2.self_attn.q_proj.weight": {
+   "kappa_G": 563015.3180813484,
+   "kappa_solve": 563015.3180813484,
+   "rho": 0.0,
+   "trace_mean": 6.729960124624388
+  },
+  "encoder.layers.2.self_attn.v_proj.weight": {
+   "kappa_G": 563015.3180813484,
+   "kappa_solve": 563015.3180813484,
+   "rho": 0.0,
+   "trace_mean": 6.729960124624388
+  },
+  "encoder.layers.3.self_attn.k_proj.weight": {
+   "kappa_G": 312400.40813475975,
+   "kappa_solve": 312400.40813475975,
+   "rho": 0.0,
+   "trace_mean": 9.250867105506282
+  },
+  "encoder.layers.3.self_attn.out_proj.weight": {
+   "kappa_G": 24056.348084115598,
+   "kappa_solve": 24056.348084115598,
+   "rho": 0.0,
+   "trace_mean": 0.2886423627711565
+  },
+  "encoder.layers.3.self_attn.q_proj.weight": {
+   "kappa_G": 312400.40813475975,
+   "kappa_solve": 312400.40813475975,
+   "rho": 0.0,
+   "trace_mean": 9.250867105506282
+  },
+  "encoder.layers.3.self_attn.v_proj.weight": {
+   "kappa_G": 312400.40813475975,
+   "kappa_solve": 312400.40813475975,
+   "rho": 0.0,
+   "trace_mean": 9.250867105506282
+  },
+  "encoder.layers.4.self_attn.k_proj.weight": {
+   "kappa_G": 88511.31172599689,
+   "kappa_solve": 88511.31172599689,
+   "rho": 0.0,
+   "trace_mean": 11.694021885302694
+  },
+  "encoder.layers.4.self_attn.out_proj.weight": {
+   "kappa_G": 4571.0864647711005,
+   "kappa_solve": 4571.0864647711005,
+   "rho": 0.0,
+   "trace_mean": 0.3178192996958084
+  },
+  "encoder.layers.4.self_attn.q_proj.weight": {
+   "kappa_G": 88511.31172599689,
+   "kappa_solve": 88511.31172599689,
+   "rho": 0.0,
+   "trace_mean": 11.694021885302694
+  },
+  "encoder.layers.4.self_attn.v_proj.weight": {
+   "kappa_G": 88511.31172599689,
+   "kappa_solve": 88511.31172599689,
+   "rho": 0.0,
+   "trace_mean": 11.694021885302694
+  },
+  "encoder.layers.5.self_attn.k_proj.weight": {
+   "kappa_G": 274187.63339080464,
+   "kappa_solve": 274187.63339080464,
+   "rho": 0.0,
+   "trace_mean": 11.600587172744175
+  },
+  "encoder.layers.5.self_attn.out_proj.weight": {
+   "kappa_G": 3853.000337138627,
+   "kappa_solve": 3853.000337138627,
+   "rho": 0.0,
+   "trace_mean": 0.3871974160951292
+  },
+  "encoder.layers.5.self_attn.q_proj.weight": {
+   "kappa_G": 274187.63339080464,
+   "kappa_solve": 274187.63339080464,
+   "rho": 0.0,
+   "trace_mean": 11.600587172744175
+  },
+  "encoder.layers.5.self_attn.v_proj.weight": {
+   "kappa_G": 274187.63339080464,
+   "kappa_solve": 274187.63339080464,
+   "rho": 0.0,
+   "trace_mean": 11.600587172744175
+  },
+  "encoder.layers.6.self_attn.k_proj.weight": {
+   "kappa_G": 134672.4856607452,
+   "kappa_solve": 134672.4856607452,
+   "rho": 0.0,
+   "trace_mean": 11.640167964738794
+  },
+  "encoder.layers.6.self_attn.out_proj.weight": {
+   "kappa_G": 5491.663064352351,
+   "kappa_solve": 5491.663064352351,
+   "rho": 0.0,
+   "trace_mean": 0.3919066261670802
+  },
+  "encoder.layers.6.self_attn.q_proj.weight": {
+   "kappa_G": 134672.4856607452,
+   "kappa_solve": 134672.4856607452,
+   "rho": 0.0,
+   "trace_mean": 11.640167964738794
+  },
+  "encoder.layers.6.self_attn.v_proj.weight": {
+   "kappa_G": 134672.4856607452,
+   "kappa_solve": 134672.4856607452,
+   "rho": 0.0,
+   "trace_mean": 11.640167964738794
+  },
+  "encoder.layers.7.self_attn.k_proj.weight": {
+   "kappa_G": 83789.31647298967,
+   "kappa_solve": 83789.31647298967,
+   "rho": 0.0,
+   "trace_mean": 13.039265272207558
+  },
+  "encoder.layers.7.self_attn.out_proj.weight": {
+   "kappa_G": 3873.687744921788,
+   "kappa_solve": 3873.687744921788,
+   "rho": 0.0,
+   "trace_mean": 0.4182748779267058
+  },
+  "encoder.layers.7.self_attn.q_proj.weight": {
+   "kappa_G": 83789.31647298967,
+   "kappa_solve": 83789.31647298967,
+   "rho": 0.0,
+   "trace_mean": 13.039265272207558
+  },
+  "encoder.layers.7.self_attn.v_proj.weight": {
+   "kappa_G": 83789.31647298967,
+   "kappa_solve": 83789.31647298967,
+   "rho": 0.0,
+   "trace_mean": 13.039265272207558
+  },
+  "encoder.layers.8.self_attn.k_proj.weight": {
+   "kappa_G": 59734.00177106698,
+   "kappa_solve": 59734.00177106698,
+   "rho": 0.0,
+   "trace_mean": 15.820021629682742
+  },
+  "encoder.layers.8.self_attn.out_proj.weight": {
+   "kappa_G": 2515.537417703181,
+   "kappa_solve": 2515.537417703181,
+   "rho": 0.0,
+   "trace_mean": 0.5102912575712253
+  },
+  "encoder.layers.8.self_attn.q_proj.weight": {
+   "kappa_G": 59734.00177106698,
+   "kappa_solve": 59734.00177106698,
+   "rho": 0.0,
+   "trace_mean": 15.820021629682742
+  },
+  "encoder.layers.8.self_attn.v_proj.weight": {
+   "kappa_G": 59734.00177106698,
+   "kappa_solve": 59734.00177106698,
+   "rho": 0.0,
+   "trace_mean": 15.820021629682742
+  },
+  "encoder.layers.9.self_attn.k_proj.weight": {
+   "kappa_G": 16257.204823537297,
+   "kappa_solve": 16257.204823537297,
+   "rho": 0.0,
+   "trace_mean": 20.54765568370931
+  },
+  "encoder.layers.9.self_attn.out_proj.weight": {
+   "kappa_G": 2178.443891858944,
+   "kappa_solve": 2178.443891858944,
+   "rho": 0.0,
+   "trace_mean": 0.722951869344494
+  },
+  "encoder.layers.9.self_attn.q_proj.weight": {
+   "kappa_G": 16257.204823537297,
+   "kappa_solve": 16257.204823537297,
+   "rho": 0.0,
+   "trace_mean": 20.54765568370931
+  },
+  "encoder.layers.9.self_attn.v_proj.weight": {
+   "kappa_G": 16257.204823537297,
+   "kappa_solve": 16257.204823537297,
+   "rho": 0.0,
+   "trace_mean": 20.54765568370931
+  }
+ },
+ "Bp/full": {
+  "encoder.layers.0.self_attn.k_proj.weight": {
+   "kappa_G": Infinity,
+   "kappa_solve": Infinity,
+   "rho": 0.0,
+   "trace_mean": 4.277727912209746
+  },
+  "encoder.layers.0.self_attn.out_proj.weight": {
+   "kappa_G": 354090.83656047017,
+   "kappa_solve": 354090.83656047017,
+   "rho": 0.0,
+   "trace_mean": 0.228926249050564
+  },
+  "encoder.layers.0.self_attn.q_proj.weight": {
+   "kappa_G": Infinity,
+   "kappa_solve": Infinity,
+   "rho": 0.0,
+   "trace_mean": 4.277727912209746
+  },
+  "encoder.layers.0.self_attn.v_proj.weight": {
+   "kappa_G": Infinity,
+   "kappa_solve": Infinity,
+   "rho": 0.0,
+   "trace_mean": 4.277727912209746
+  },
+  "encoder.layers.1.self_attn.k_proj.weight": {
+   "kappa_G": 840248624846.6692,
+   "kappa_solve": 840248624846.6692,
+   "rho": 0.0,
+   "trace_mean": 5.750664312016145
+  },
+  "encoder.layers.1.self_attn.out_proj.weight": {
+   "kappa_G": 10476.485836243426,
+   "kappa_solve": 10476.485836243426,
+   "rho": 0.0,
+   "trace_mean": 0.12832125783143056
+  },
+  "encoder.layers.1.self_attn.q_proj.weight": {
+   "kappa_G": 840248624846.6692,
+   "kappa_solve": 840248624846.6692,
+   "rho": 0.0,
+   "trace_mean": 5.750664312016145
+  },
+  "encoder.layers.1.self_attn.v_proj.weight": {
+   "kappa_G": 840248624846.6692,
+   "kappa_solve": 840248624846.6692,
+   "rho": 0.0,
+   "trace_mean": 5.750664312016145
+  },
+  "encoder.layers.10.self_attn.k_proj.weight": {
+   "kappa_G": 6528.588395798461,
+   "kappa_solve": 6528.588395798461,
+   "rho": 0.0,
+   "trace_mean": 23.125447570889566
+  },
+  "encoder.layers.10.self_attn.out_proj.weight": {
+   "kappa_G": 800.1567587188149,
+   "kappa_solve": 800.1567587188149,
+   "rho": 0.0,
+   "trace_mean": 0.630386343242814
+  },
+  "encoder.layers.10.self_attn.q_proj.weight": {
+   "kappa_G": 6528.588395798461,
+   "kappa_solve": 6528.588395798461,
+   "rho": 0.0,
+   "trace_mean": 23.125447570889566
+  },
+  "encoder.layers.10.self_attn.v_proj.weight": {
+   "kappa_G": 6528.588395798461,
+   "kappa_solve": 6528.588395798461,
+   "rho": 0.0,
+   "trace_mean": 23.125447570889566
+  },
+  "encoder.layers.11.self_attn.k_proj.weight": {
+   "kappa_G": 169450.76235948934,
+   "kappa_solve": 169450.76235948934,
+   "rho": 0.0,
+   "trace_mean": 27.229780515811097
+  },
+  "encoder.layers.11.self_attn.out_proj.weight": {
+   "kappa_G": 10765.787171600705,
+   "kappa_solve": 10765.787171600705,
+   "rho": 0.0,
+   "trace_mean": 1.4643958156520966
+  },
+  "encoder.layers.11.self_attn.q_proj.weight": {
+   "kappa_G": 169450.76235948934,
+   "kappa_solve": 169450.76235948934,
+   "rho": 0.0,
+   "trace_mean": 27.229780515811097
+  },
+  "encoder.layers.11.self_attn.v_proj.weight": {
+   "kappa_G": 169450.76235948934,
+   "kappa_solve": 169450.76235948934,
+   "rho": 0.0,
+   "trace_mean": 27.229780515811097
+  },
+  "encoder.layers.2.self_attn.k_proj.weight": {
+   "kappa_G": 495942.46405289206,
+   "kappa_solve": 495942.46405289206,
+   "rho": 0.0,
+   "trace_mean": 6.7051268004191416
+  },
+  "encoder.layers.2.self_attn.out_proj.weight": {
+   "kappa_G": 39184.80954831491,
+   "kappa_solve": 39184.80954831491,
+   "rho": 0.0,
+   "trace_mean": 0.15811965415537088
+  },
+  "encoder.layers.2.self_attn.q_proj.weight": {
+   "kappa_G": 495942.46405289206,
+   "kappa_solve": 495942.46405289206,
+   "rho": 0.0,
+   "trace_mean": 6.7051268004191416
+  },
+  "encoder.layers.2.self_attn.v_proj.weight": {
+   "kappa_G": 495942.46405289206,
+   "kappa_solve": 495942.46405289206,
+   "rho": 0.0,
+   "trace_mean": 6.7051268004191416
+  },
+  "encoder.layers.3.self_attn.k_proj.weight": {
+   "kappa_G": 288094.09838542104,
+   "kappa_solve": 288094.09838542104,
+   "rho": 0.0,
+   "trace_mean": 9.201925921564301
+  },
+  "encoder.layers.3.self_attn.out_proj.weight": {
+   "kappa_G": 20808.431526069526,
+   "kappa_solve": 20808.431526069526,
+   "rho": 0.0,
+   "trace_mean": 0.2746505781792621
+  },
+  "encoder.layers.3.self_attn.q_proj.weight": {
+   "kappa_G": 288094.09838542104,
+   "kappa_solve": 288094.09838542104,
+   "rho": 0.0,
+   "trace_mean": 9.201925921564301
+  },
+  "encoder.layers.3.self_attn.v_proj.weight": {
+   "kappa_G": 288094.09838542104,
+   "kappa_solve": 288094.09838542104,
+   "rho": 0.0,
+   "trace_mean": 9.201925921564301
+  },
+  "encoder.layers.4.self_attn.k_proj.weight": {
+   "kappa_G": 74451.84354435207,
+   "kappa_solve": 74451.84354435207,
+   "rho": 0.0,
+   "trace_mean": 11.585365879232995
+  },
+  "encoder.layers.4.self_attn.out_proj.weight": {
+   "kappa_G": 3589.001539467222,
+   "kappa_solve": 3589.001539467222,
+   "rho": 0.0,
+   "trace_mean": 0.2979330490895033
+  },
+  "encoder.layers.4.self_attn.q_proj.weight": {
+   "kappa_G": 74451.84354435207,
+   "kappa_solve": 74451.84354435207,
+   "rho": 0.0,
+   "trace_mean": 11.585365879232995
+  },
+  "encoder.layers.4.self_attn.v_proj.weight": {
+   "kappa_G": 74451.84354435207,
+   "kappa_solve": 74451.84354435207,
+   "rho": 0.0,
+   "trace_mean": 11.585365879232995
+  },
+  "encoder.layers.5.self_attn.k_proj.weight": {
+   "kappa_G": 184645.62202839158,
+   "kappa_solve": 184645.62202839158,
+   "rho": 0.0,
+   "trace_mean": 11.51120782791016
+  },
+  "encoder.layers.5.self_attn.out_proj.weight": {
+   "kappa_G": 3795.785759755161,
+   "kappa_solve": 3795.785759755161,
+   "rho": 0.0,
+   "trace_mean": 0.3659325239471703
+  },
+  "encoder.layers.5.self_attn.q_proj.weight": {
+   "kappa_G": 184645.62202839158,
+   "kappa_solve": 184645.62202839158,
+   "rho": 0.0,
+   "trace_mean": 11.51120782791016
+  },
+  "encoder.layers.5.self_attn.v_proj.weight": {
+   "kappa_G": 184645.62202839158,
+   "kappa_solve": 184645.62202839158,
+   "rho": 0.0,
+   "trace_mean": 11.51120782791016
+  },
+  "encoder.layers.6.self_attn.k_proj.weight": {
+   "kappa_G": 106574.36825614823,
+   "kappa_solve": 106574.36825614823,
+   "rho": 0.0,
+   "trace_mean": 11.55040943226777
+  },
+  "encoder.layers.6.self_attn.out_proj.weight": {
+   "kappa_G": 4158.654160288882,
+   "kappa_solve": 4158.654160288882,
+   "rho": 0.0,
+   "trace_mean": 0.3507271527038635
+  },
+  "encoder.layers.6.self_attn.q_proj.weight": {
+   "kappa_G": 106574.36825614823,
+   "kappa_solve": 106574.36825614823,
+   "rho": 0.0,
+   "trace_mean": 11.55040943226777
+  },
+  "encoder.layers.6.self_attn.v_proj.weight": {
+   "kappa_G": 106574.36825614823,
+   "kappa_solve": 106574.36825614823,
+   "rho": 0.0,
+   "trace_mean": 11.55040943226777
+  },
+  "encoder.layers.7.self_attn.k_proj.weight": {
+   "kappa_G": 64025.54846049963,
+   "kappa_solve": 64025.54846049963,
+   "rho": 0.0,
+   "trace_mean": 12.901296018545205
+  },
+  "encoder.layers.7.self_attn.out_proj.weight": {
+   "kappa_G": 2888.929822372607,
+   "kappa_solve": 2888.929822372607,
+   "rho": 0.0,
+   "trace_mean": 0.3681306679197102
+  },
+  "encoder.layers.7.self_attn.q_proj.weight": {
+   "kappa_G": 64025.54846049963,
+   "kappa_solve": 64025.54846049963,
+   "rho": 0.0,
+   "trace_mean": 12.901296018545205
+  },
+  "encoder.layers.7.self_attn.v_proj.weight": {
+   "kappa_G": 64025.54846049963,
+   "kappa_solve": 64025.54846049963,
+   "rho": 0.0,
+   "trace_mean": 12.901296018545205
+  },
+  "encoder.layers.8.self_attn.k_proj.weight": {
+   "kappa_G": 48581.54281921855,
+   "kappa_solve": 48581.54281921855,
+   "rho": 0.0,
+   "trace_mean": 15.554500039666891
+  },
+  "encoder.layers.8.self_attn.out_proj.weight": {
+   "kappa_G": 1464.1899045368816,
+   "kappa_solve": 1464.1899045368816,
+   "rho": 0.0,
+   "trace_mean": 0.4089767683120347
+  },
+  "encoder.layers.8.self_attn.q_proj.weight": {
+   "kappa_G": 48581.54281921855,
+   "kappa_solve": 48581.54281921855,
+   "rho": 0.0,
+   "trace_mean": 15.554500039666891
+  },
+  "encoder.layers.8.self_attn.v_proj.weight": {
+   "kappa_G": 48581.54281921855,
+   "kappa_solve": 48581.54281921855,
+   "rho": 0.0,
+   "trace_mean": 15.554500039666891
+  },
+  "encoder.layers.9.self_attn.k_proj.weight": {
+   "kappa_G": 15384.188604697232,
+   "kappa_solve": 15384.188604697232,
+   "rho": 0.0,
+   "trace_mean": 20.119893724874903
+  },
+  "encoder.layers.9.self_attn.out_proj.weight": {
+   "kappa_G": 1374.1460474333026,
+   "kappa_solve": 1374.1460474333026,
+   "rho": 0.0,
+   "trace_mean": 0.5215281346002788
+  },
+  "encoder.layers.9.self_attn.q_proj.weight": {
+   "kappa_G": 15384.188604697232,
+   "kappa_solve": 15384.188604697232,
+   "rho": 0.0,
+   "trace_mean": 20.119893724874903
+  },
+  "encoder.layers.9.self_attn.v_proj.weight": {
+   "kappa_G": 15384.188604697232,
+   "kappa_solve": 15384.188604697232,
+   "rho": 0.0,
+   "trace_mean": 20.119893724874903
+  }
+ }
+}

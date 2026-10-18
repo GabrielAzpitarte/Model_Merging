@@ -323,6 +323,10 @@ config; paired bootstrap over test images within task):
 | lora_c5a | 53.0 | 64.5 | 65.0 | +0.51 [+0.40, +0.62] |
 | vit20 | 66.7 | 81.9 | 82.1 | +0.20 [+0.10, +0.30] |
 
+**Matched final-rank budget** (KnOTS dev, every merged map truncated to rank 16 = one adapter): uniform 51.3;
+RegMean plain 61.4; shrink 0.95 61.2; κ-cap 1e4 61.7. Extra rank accounts for about 3.8 pt of RegMean's gain,
+but at matched rank it is still about +10 pt over uniform, and the κ-cap still edges shrinkage.
+
 The κ-cap edge replicates on untouched test data in 3/3 banks. The CI covers example sampling only, not
 calibration resampling; the dev seeds showed the same sign. A 2×2 decomposition (conditioning-adaptivity vs
 rotation invariance) is running.
