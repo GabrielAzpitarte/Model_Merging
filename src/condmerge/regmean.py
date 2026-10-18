@@ -62,8 +62,13 @@ def regmean_solve(deltas: list[torch.Tensor], grams: list[torch.Tensor], shrink:
     rho, k_before, k_after = 0.0, float("nan"), float("nan")
     if kappa_target is not None:
         rho, k_before, k_after = kappa_ridge(g, kappa_target)
+    elif return_info:
+        k_before = k_after = gram_kappa(g)
     if ridge is not None:
         rho += float(ridge)
+        if return_info:
+            ev = torch.linalg.eigvalsh(0.5 * (g + g.T))
+            k_after = float((ev[-1] + rho) / (ev[0] + rho)) if float(ev[0]) + rho > 0 else math.inf
     if rho > 0:
         target = sum(ds) / len(ds) if ridge_to == "mean" else torch.zeros_like(ds[0])
         rhs = rhs + rho * target

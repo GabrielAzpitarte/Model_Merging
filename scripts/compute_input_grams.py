@@ -53,6 +53,8 @@ def main() -> None:
     ap.add_argument("--model", default="base", help="'base' or an expert task name")
     ap.add_argument("--data", default="pool", help="'pool' (8 calib splits, no task ids; budget B) or "
                     "'task:<name>' (one task's calib split; budget C)")
+    ap.add_argument("--n-images", type=int, default=None, help="random subset of each calib split (noisier statistics)")
+    ap.add_argument("--sub-seed", type=int, default=0)
     ap.add_argument("--device", default="cuda:0")
     ap.add_argument("--batch", type=int, default=256)
     args = ap.parse_args()
@@ -89,6 +91,9 @@ def main() -> None:
     data_tasks = TASKS8 if args.data == "pool" else [args.data.split(":", 1)[1]]
     for task in data_tasks:
         x, _ = load_cache(task, "calib", mmap=True)  # labels deliberately unused
+        if args.n_images is not None:
+            sel = np.sort(np.random.default_rng(args.sub_seed).choice(x.shape[0], args.n_images, replace=False))
+            x = x[sel]
         for i in range(0, x.shape[0], args.batch):
             px = (torch.from_numpy(np.ascontiguousarray(x[i:i + args.batch])).to(dev).float() / 255 - mean) / std
             # patch-embedding input = non-overlapping 32x32 patches flattened (3*32*32), conv weight order
@@ -111,7 +116,9 @@ def main() -> None:
         out["n_tokens_per_input"][k] = n
     d = CACHE_ARCH / "grams"
     d.mkdir(parents=True, exist_ok=True)
-    name = f"{args.model}.pt" if (args.model == "base" and args.data == "pool") else f"{args.model}__{args.data.replace(':', '-')}.pt"
+    tag = "" if args.n_images is None else f"_n{args.n_images}_s{args.sub_seed}"
+    name = (f"{args.model}.pt" if (args.model == "base" and args.data == "pool" and not tag)
+            else f"{args.model}__{args.data.replace(':', '-')}{tag}.pt")
     torch.save(out, d / name)
     print(f"saved {len(out['grams'])} grams for {args.model} from {n_img} images in {time.time() - t0:.0f}s", flush=True)
 
