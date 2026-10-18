@@ -44,17 +44,18 @@ def main() -> None:
     ap.add_argument("--shrinks", default="1.0,0.95,0.9,0.5,0.0")
     ap.add_argument("--kappas", default="1e2,1e3,1e4,1e5,1e6")
     ap.add_argument("--alphas", default="1.0,1.4")
+    ap.add_argument("--split", default="dev")
     ap.add_argument("--device", default="cuda:0")
     args = ap.parse_args()
-    out = RESULTS / "regmean" / "instability_C_dev.jsonl"
+    out = RESULTS / "regmean" / f"instability_C_{args.split}.jsonl"
     done = done_keys(out)
     dev = args.device
     t0 = time.time()
     base = load_base_state()
     experts = load_experts(TASKS8)
     names = linear_map_names(base)
-    ev = Evaluator(dev, splits=("dev",), tasks=TASKS8)
-    ref = json.loads((RESULTS / "experts" / "expert_accuracy.json").read_text())["expert"]["dev"]
+    ev = Evaluator(dev, splits=(args.split,), tasks=TASKS8)
+    ref = json.loads((RESULTS / "experts" / "expert_accuracy.json").read_text())["expert"][args.split]
     model = CLIPVisionModel(CLIPVisionConfig.from_pretrained(BASE_MODEL)).eval().to(dev)
     deltas = {p: [as_matrix(p, experts[e][p]).double() - as_matrix(p, base[p]).double() for e in TASKS8] for p in names}
     calib = {e: load_cache(e, "calib", mmap=True)[0] for e in TASKS8}
@@ -97,7 +98,7 @@ def main() -> None:
                     a = c["alpha"]
                     sd = {k: base[k] + a * (merged[k] if k in merged else
                                             torch.stack([experts[e][k] - base[k] for e in TASKS8]).mean(0)) for k in base}
-                    acc = ev.evaluate(sd, "dev")
+                    acc = ev.evaluate(sd, args.split)
                     m = summarize(acc, ref)
                     append_record(out, c, {**m, "acc": acc},
                                   {"kappa_before_median": float(np.median(kb)) if kb else None,

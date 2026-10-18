@@ -85,3 +85,14 @@ mathematical argument made here; **[assumption]** = not yet verified.
 * Tail stress: a function-null edit (0.5 % of ||D||) swings lambda_expert from 0.13 to 0.69 and costs up to 8 pt.
 * Shared-target noise: the literal rule is anti-inverse-variance, because noise lowers kappa. The update spectrum shape works under isotropic noise only and fails on real recipe variants.
 * LoRA: the hard-kappa-selection effect did not replicate across 4 banks (2 positive, 2 at chance). Dead end.
+
+## 2026-10-18 16:15: inverse-problem route (review hypothesis row 3), test confirmation plan
+
+Primary test comparisons were fixed from dev before any test evaluation. All other test rows are descriptive.
+
+* Budget C (task-separated calibration), n = 512:
+  * plain RegMean (a = 1, alpha = 1), the untuned standard;
+  * dev-best kappa cap: ridge to mean, kappa_t = 1e5, alpha = 1.2;
+  * dev-best fixed shrinkage: a = 0.99, alpha = 1.2.
+* Budget B (pooled, no task ids): dev-best is the diagonal solve (a = 0, alpha = 1.6), compared with uniform-tuned (76.68 test).
+* Instability: n = 16 per task, seeds 0/1/2, alpha = 1. Plain vs shrink 0.95 vs kappa cap 1e5.
