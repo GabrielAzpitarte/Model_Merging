@@ -63,6 +63,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--bank", default="knots_release")
     ap.add_argument("--budgets", default="C,Bp,B0")
+    ap.add_argument("--n-per-task", type=int, default=512, help="calibration images per task (subsample: first N)")
     args = ap.parse_args()
     dev = "cuda"
     t0 = time.time()
@@ -71,7 +72,7 @@ def main() -> None:
     data = TaskData(TASKS8[:1], ("dev",), dev)   # only for pixels() normalisation constants
     model = new_model(dev)
     params = dict(model.named_parameters())
-    calib = {t: torch.from_numpy(np.array(load_cache(t, "calib")[0])).to(dev) for t in TASKS8}
+    calib = {t: torch.from_numpy(np.array(load_cache(t, "calib")[0][: args.n_per_task])).to(dev) for t in TASKS8}
     pooled = torch.cat([calib[t] for t in TASKS8])
 
     def load_expert(t: str | None):
@@ -98,7 +99,9 @@ def main() -> None:
         blob = {"grams": {k: torch.stack(v) for k, v in sorted(grams.items())}, "experts": experts, "budget": budget,
                 "bank": args.bank, "n_tokens": ntok,
                 "convention": "uncentred E[xx^T], mean over all 50 tokens/image; q/k/v share attn_in"}
-        torch.save(blob, out_dir / f"grams_lora_{args.bank}_{budget}.pt")
+        suffix = "" if args.n_per_task == 512 else f"_n{args.n_per_task}"
+        blob["n_per_task"] = args.n_per_task
+        torch.save(blob, out_dir / f"grams_lora_{args.bank}_{budget}{suffix}.pt")
         print(f"saved {budget}: {len(blob['grams'])} inputs", flush=True)
     print(f"DONE {time.time() - t0:.0f}s", flush=True)
 

@@ -244,3 +244,44 @@ LoRA (4 banks), against matched shuffled-score nulls and frozen test evaluation.
 Novelty check (2026-10-18): no prior paper uses Marchenko–Pastur / Gavish–Donoho noise estimates to weight
 checkpoints. The closest are Model Stock (ECCV'24), MonoSoup (arXiv 2602.09689), Fisher merging, and
 TSV / STAR. The negative real-variant result limits the practical value of that direction anyway.
+
+## 9. Phase 2: "the instability lies in the solve" (review hypothesis row 3), RegMean on LoRA, IN PROGRESS
+
+Conditioning enters a merge directly when the merger inverts a Gram matrix (review §3.6). Per adapted map:
+D = (Σ D_i G̃_i)(Σ G̃_i + ρI)^{-1}, with RegMean's off-diagonal shrinkage G̃ = aG + (1−a)diag(G). The
+κ-capped ridge picks the smallest ρ with κ(ΣG̃ + ρI) ≤ κ_target; the ridge targets zero or the uniform
+average, as in master's `regmean_solve`. My independent implementation matches master's to 5e-8.
+
+Gram budgets:
+- **C**: task-separated; expert i on task i's calibration split.
+- **Bp**: the pooled calibration set through each expert; label-free and task-ID-free.
+- **B0**: pooled through the base; RegMean then must equal averaging.
+
+Solves:
+- full input space (dense output);
+- exact adapter subspace, D = M Pᵀ with P spanning all Aᵢᵀ (output rank ≤ 128).
+
+KnOTS bank, dev (`results/aa/lora/regmean_summary.md`):
+
+| budget, solve | plain | shrink a = 0.95 / 0.9 | κ-cap 1e4 / 1e3 / 1e2 (ridge → zero) |
+|---|---|---|---|
+| C, full | 65.3, **4.1 at α = 1.3** | 64.8 / 64.3 | **65.5** / 64.6 / 61.6 (α 1.3: 50.9) |
+| C, subspace | 57.9 | 57.8 / 57.4 | 57.9 / 57.9 / 57.7 |
+| Bp, full | 51.8 | 51.7 / 51.7 | 51.8 / 51.6 / 51.6 |
+| B0 | 52.3 = averaging (sanity) | | |
+
+Uniform is 52.3 (α 0.8); the per-layer λ oracle was 64.8.
+
+Reading:
+- The plain solve is unstable: median κ(G) is 1e5, some maps have singular Grams, and it collapses when the
+  update is scaled.
+- Capping κ at 1e4 removes the collapse and slightly beats fixed shrinkage. This is a conditioning mechanism
+  of the merge system (review §3.6), not of any expert's weight.
+- It needs budget C. The label-free pooled Grams carry no task information for rank-16 adapters.
+- Part of the gain is extra rank (the subspace solve gives 57.9).
+
+PENDING:
+- a calibration-size sweep (16 / 64 / 512 images per task), the discriminating test;
+- transfer to lora_c5a and vit20;
+- rank-16 compressed comparison;
+- frozen test.

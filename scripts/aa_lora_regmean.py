@@ -55,6 +55,10 @@ def main() -> None:
     ap.add_argument("--bank", default="knots_release")
     ap.add_argument("--budgets", default="C,Bp,B0")
     ap.add_argument("--alphas", default="0.8,1.0,1.3")
+    ap.add_argument("--gram-suffix", default="", help="e.g. _n16 for Grams from 16 calib images per task")
+    ap.add_argument("--solves", default="full,sub")
+    ap.add_argument("--compress", type=int, default=0, help="truncate every merged update to this rank (0 = exact)")
+    ap.add_argument("--quick", action="store_true", help="only plain, shrink 0.95, kappa 1e4 (mean/zero) configs")
     args = ap.parse_args()
     alphas = [float(a) for a in args.alphas.split(",")]
     dev = "cuda"
@@ -64,17 +68,26 @@ def main() -> None:
     names = sorted(bank[TASKS8[0]])
     deltas = {n: torch.stack([bank[t][n] for t in TASKS8]).double() for n in names}
     bases = {n: rowspace_basis(deltas[n]) for n in names}
-    grams = {b: torch.load(CACHE / "aa" / f"grams_lora_{args.bank}_{b}.pt", weights_only=False) for b in args.budgets.split(",")}
+    grams = {b: torch.load(CACHE / "aa" / f"grams_lora_{args.bank}_{b}{args.gram_suffix}.pt", weights_only=False)
+             for b in args.budgets.split(",")}
     data = TaskData(TASKS8, ("dev",), dev)
     model = new_model(dev)
     base_dev = {k: v.to(dev) for k, v in base.items()}
-    out = (RESULTS / "aa" / "lora" / f"regmean_{args.bank}_dev.jsonl").open("a")
+    csfx = f"_r{args.compress}" if args.compress else ""
+    out = (RESULTS / "aa" / "lora" / f"regmean_{args.bank}{args.gram_suffix}{csfx}_dev.jsonl").open("a")
     maps_diag = {}
+
+    def compress(m: torch.Tensor) -> torch.Tensor:
+        if not args.compress:
+            return m
+        u, s_, vh = torch.linalg.svd(m.double(), full_matrices=False)
+        k = args.compress
+        return ((u[:, :k] * s_[:k]) @ vh[:k]).float()
 
     def evaluate(merged: dict[str, torch.Tensor], a: float) -> dict:
         params = dict(base_dev)
         for n in names:
-            params[n] = base_dev[n] + a * merged[n].to(dev)
+            params[n] = base_dev[n] + a * compress(merged[n]).to(dev)
         return data.evaluate(model, "dev", params=params)
 
     def record(cfg: dict, merged: dict, extra: dict):
@@ -88,9 +101,11 @@ def main() -> None:
     record({"method": "uniform", "bank": args.bank}, {n: deltas[n].mean(0).float() for n in names}, {})
     for budget, blob in grams.items():
         g_by_input = blob["grams"]
-        for solve in ("full", "sub"):
+        for solve in args.solves.split(","):
             configs = [(a, None, "zero") for a in (1.0, 0.95, 0.9, 0.5)] + \
                       [(1.0, kt, rt) for kt in (1e2, 1e3, 1e4) for rt in ("zero", "mean")]
+            if args.quick:
+                configs = [(1.0, None, "zero"), (0.95, None, "zero"), (1.0, 1e4, "zero"), (1.0, 1e4, "mean")]
             for shrink_a, kt, rt in configs:
                 merged, kap, kap_s, rhos = {}, [], [], []
                 for n in names:
@@ -107,11 +122,11 @@ def main() -> None:
                     rhos.append(info["rho"])
                     if shrink_a == 1.0 and kt is None:
                         maps_diag.setdefault(f"{budget}/{solve}", {})[n] = info
-                cfg = {"method": "regmean", "bank": args.bank, "budget": budget, "solve": solve, "shrink": shrink_a,
+                cfg = {"method": "regmean", "bank": args.bank, "grams": args.gram_suffix or "_n512", "budget": budget, "solve": solve, "shrink": shrink_a,
                        "kappa_target": kt, "ridge_to": rt if kt is not None else None}
                 record(cfg, merged, {"median_kappa_G": float(np.median(kap)), "max_kappa_G": float(np.max(kap)),
                                      "median_kappa_solve": float(np.median(kap_s)), "median_rho": float(np.median(rhos))})
-    (RESULTS / "aa" / "lora" / f"regmean_{args.bank}_maps.json").write_text(json.dumps(maps_diag, indent=1, default=float))
+    (RESULTS / "aa" / "lora" / f"regmean_{args.bank}{args.gram_suffix}{csfx}_maps.json").write_text(json.dumps(maps_diag, indent=1, default=float))
     print(f"DONE {time.time() - t0:.0f}s", flush=True)
 
 
