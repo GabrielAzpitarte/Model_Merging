@@ -2,7 +2,9 @@
 
 Mirrors master's full-FT sweep (experiments/rule_sweep.py) so the two banks line up:
   beta = b / scale(rule), scale = median over matrices of the across-expert std of the rule's scores,
-  b in {0, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128, inf (argmin selection)}, alpha in {1.0, 1.6, 2.0, 2.4, 2.8, 3.2}.
+  b in {0, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128, inf (argmin selection)}; alpha in {0.6, 0.8, 1.0, 1.3, 1.6}
+  (LoRA-appropriate grid, shared by every rule; the first launch with the full-FT grid showed the uniform
+  optimum at alpha <= 1 and collapse above 1.6, those rows are kept in the shard files).
 Merge: W0 + alpha * sum_i lambda_i^p * gamma B_i A_i on the 48 adapted matrices (exact, dense, rank <= 128);
 other parameters stay at the base. Lower score -> higher lambda.
 
@@ -41,7 +43,7 @@ from condmerge.aa_common import TaskData, new_model  # noqa: E402
 from condmerge.lora import LoRABank, core_svals, gauge, load_knots_lora  # noqa: E402
 
 BETA_MULTS = (0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128, math.inf)
-ALPHAS = (1.0, 1.6, 2.0, 2.4, 2.8, 3.2)
+ALPHAS = (0.6, 0.8, 1.0, 1.3, 1.6)  # LoRA bank: uniform optimum at alpha<=1 (full-FT grid wasted; same grid for every rule)
 
 
 def lora_score_tables(stats_csv: Path, names: list[str]) -> dict[str, dict[str, np.ndarray]]:

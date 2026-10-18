@@ -1,0 +1,300 @@
+{
+ "layerwise_a1_seed0": {
+  "alpha": 1.0,
+  "dev": 0.7504050499016741,
+  "test": 0.7390664226677852,
+  "expert_mean_lambda": {
+   "sun397": 0.0197,
+   "cars": 0.0225,
+   "resisc45": 0.1187,
+   "eurosat": 0.1405,
+   "svhn": 0.2289,
+   "gtsrb": 0.2112,
+   "mnist": 0.1123,
+   "dtd": 0.1462
+  },
+  "n_eff_mean": 1.7912103638351853,
+  "max_lambda_mean": 0.8015822882521643,
+  "kappa_W": {
+   "mean_within_map_spearman": 0.017286366601435087,
+   "p_le": 0.653,
+   "p_ge": 0.3478,
+   "attn_mean": 0.011904761904761899,
+   "mlp_mean": 0.027619047619047623,
+   "between_expert": -0.21020155478005392,
+   "within_expert": 0.0373775445628066,
+   "p_within_le": 0.8235,
+   "p_within_ge": 0.1765
+  },
+  "smin_W": {
+   "mean_within_map_spearman": 0.008480104370515332,
+   "p_le": 0.5824,
+   "p_ge": 0.4186,
+   "attn_mean": -0.011904761904761899,
+   "mlp_mean": 0.047619047619047616,
+   "between_expert": 0.4922556236039655,
+   "within_expert": -0.039782370653936396,
+   "p_within_le": 0.1965,
+   "p_within_ge": 0.8035
+  },
+  "fro_D": {
+   "mean_within_map_spearman": 0.06457925636007827,
+   "p_le": 0.927,
+   "p_ge": 0.0738,
+   "attn_mean": 0.13392857142857142,
+   "mlp_mean": -0.06857142857142856,
+   "between_expert": 0.09057417231683303,
+   "within_expert": 0.07699483596718303,
+   "p_within_le": 0.9585,
+   "p_within_ge": 0.0415
+  },
+  "stable_rank_D": {
+   "mean_within_map_spearman": -0.3206131767775604,
+   "p_le": 0.0,
+   "p_ge": 1.0,
+   "attn_mean": -0.35912698412698413,
+   "mlp_mean": -0.24666666666666665,
+   "between_expert": -0.8374344339855456,
+   "within_expert": -0.026580660722395656,
+   "p_within_le": 0.2705,
+   "p_within_ge": 0.7295
+  },
+  "entropy_rank_D": {
+   "mean_within_map_spearman": -0.3330071754729289,
+   "p_le": 0.0,
+   "p_ge": 1.0,
+   "attn_mean": -0.38938492063492064,
+   "mlp_mean": -0.22476190476190475,
+   "between_expert": -0.8185752136886171,
+   "within_expert": -0.0065586400731547255,
+   "p_within_le": 0.455,
+   "p_within_ge": 0.545
+  }
+ },
+ "layerwise_a1_seed1": {
+  "alpha": 1.0,
+  "dev": 0.7502133767135268,
+  "test": 0.7382070912675318,
+  "expert_mean_lambda": {
+   "sun397": 0.0149,
+   "cars": 0.0231,
+   "resisc45": 0.1177,
+   "eurosat": 0.1489,
+   "svhn": 0.2368,
+   "gtsrb": 0.1945,
+   "mnist": 0.1272,
+   "dtd": 0.1369
+  },
+  "n_eff_mean": 1.8021759630773824,
+  "max_lambda_mean": 0.7928401419561203,
+  "kappa_W": {
+   "mean_within_map_spearman": 0.01239399869536855,
+   "p_le": 0.6118,
+   "p_ge": 0.3882,
+   "attn_mean": 0.006448412698412713,
+   "mlp_mean": 0.0238095238095238,
+   "between_expert": -0.2786967174242272,
+   "within_expert": 0.036577911158719514,
+   "p_within_le": 0.813,
+   "p_within_ge": 0.187
+  },
+  "smin_W": {
+   "mean_within_map_spearman": 0.022504892367906072,
+   "p_le": 0.7022,
+   "p_ge": 0.298,
+   "attn_mean": -0.006448412698412713,
+   "mlp_mean": 0.07809523809523808,
+   "between_expert": 0.5332495612924962,
+   "within_expert": -0.025880501064107074,
+   "p_within_le": 0.279,
+   "p_within_ge": 0.721
+  },
+  "fro_D": {
+   "mean_within_map_spearman": 0.04892367906066536,
+   "p_le": 0.8666,
+   "p_ge": 0.1338,
+   "attn_mean": 0.09027777777777778,
+   "mlp_mean": -0.030476190476190476,
+   "between_expert": 0.021032585729872343,
+   "within_expert": 0.10496171462903568,
+   "p_within_le": 0.9895,
+   "p_within_ge": 0.0105
+  },
+  "stable_rank_D": {
+   "mean_within_map_spearman": -0.32322243966079583,
+   "p_le": 0.0,
+   "p_ge": 1.0,
+   "attn_mean": -0.35912698412698413,
+   "mlp_mean": -0.2542857142857143,
+   "between_expert": -0.8946612303721074,
+   "within_expert": -0.012313291908112183,
+   "p_within_le": 0.3895,
+   "p_within_ge": 0.6105
+  },
+  "entropy_rank_D": {
+   "mean_within_map_spearman": -0.34442270058708413,
+   "p_le": 0.0,
+   "p_ge": 1.0,
+   "attn_mean": -0.3948412698412698,
+   "mlp_mean": -0.24761904761904763,
+   "between_expert": -0.868849840193922,
+   "within_expert": -0.021786207230629295,
+   "p_within_le": 0.304,
+   "p_within_ge": 0.696
+  }
+ },
+ "layerwise_alpha_seed0": {
+  "alpha": 1.9766230583190918,
+  "dev": 0.7864621014956783,
+  "test": 0.7723414456863575,
+  "expert_mean_lambda": {
+   "sun397": 0.0945,
+   "cars": 0.0778,
+   "resisc45": 0.1461,
+   "eurosat": 0.1076,
+   "svhn": 0.153,
+   "gtsrb": 0.1577,
+   "mnist": 0.082,
+   "dtd": 0.1812
+  },
+  "n_eff_mean": 2.2488389113283134,
+  "max_lambda_mean": 0.7107031124911897,
+  "kappa_W": {
+   "mean_within_map_spearman": -0.011741682974559685,
+   "p_le": 0.4038,
+   "p_ge": 0.5968,
+   "attn_mean": -0.027777777777777773,
+   "mlp_mean": 0.019047619047619053,
+   "between_expert": -0.6605393025684932,
+   "within_expert": 0.009561564104585533,
+   "p_within_le": 0.5855,
+   "p_within_ge": 0.4145
+  },
+  "smin_W": {
+   "mean_within_map_spearman": 0.014677103718199608,
+   "p_le": 0.6418,
+   "p_ge": 0.359,
+   "attn_mean": 0.027777777777777773,
+   "mlp_mean": -0.010476190476190464,
+   "between_expert": 0.7048839459948646,
+   "within_expert": -0.011875683619412318,
+   "p_within_le": 0.3985,
+   "p_within_ge": 0.6015
+  },
+  "fro_D": {
+   "mean_within_map_spearman": -0.0375081539465101,
+   "p_le": 0.1876,
+   "p_ge": 0.813,
+   "attn_mean": 0.01736111111111111,
+   "mlp_mean": -0.14285714285714285,
+   "between_expert": -0.377057613167025,
+   "within_expert": 0.05333883162022247,
+   "p_within_le": 0.8805,
+   "p_within_ge": 0.1195
+  },
+  "stable_rank_D": {
+   "mean_within_map_spearman": -0.09980430528375733,
+   "p_le": 0.0126,
+   "p_ge": 0.9874,
+   "attn_mean": -0.17113095238095236,
+   "mlp_mean": 0.03714285714285715,
+   "between_expert": -0.6006326733830692,
+   "within_expert": -0.015441837456411294,
+   "p_within_le": 0.363,
+   "p_within_ge": 0.637
+  },
+  "entropy_rank_D": {
+   "mean_within_map_spearman": -0.10078277886497067,
+   "p_le": 0.0088,
+   "p_ge": 0.9914,
+   "attn_mean": -0.1810515873015873,
+   "mlp_mean": 0.053333333333333316,
+   "between_expert": -0.5377795520767763,
+   "within_expert": -0.034948307312206675,
+   "p_within_le": 0.221,
+   "p_within_ge": 0.779
+  }
+ },
+ "layerwise_alpha_seed1": {
+  "alpha": 1.9955344200134277,
+  "dev": 0.7867465768648678,
+  "test": 0.7726889063622812,
+  "expert_mean_lambda": {
+   "sun397": 0.0927,
+   "cars": 0.0677,
+   "resisc45": 0.1354,
+   "eurosat": 0.1156,
+   "svhn": 0.1556,
+   "gtsrb": 0.1551,
+   "mnist": 0.0855,
+   "dtd": 0.1925
+  },
+  "n_eff_mean": 2.287028765106286,
+  "max_lambda_mean": 0.6977482960648733,
+  "kappa_W": {
+   "mean_within_map_spearman": -0.019895629484670573,
+   "p_le": 0.315,
+   "p_ge": 0.6852,
+   "attn_mean": -0.03273809523809523,
+   "mlp_mean": 0.004761904761904764,
+   "between_expert": -0.7092360308913689,
+   "within_expert": 0.005322130216437756,
+   "p_within_le": 0.5285,
+   "p_within_ge": 0.4715
+  },
+  "smin_W": {
+   "mean_within_map_spearman": 0.026092628832354844,
+   "p_le": 0.7232,
+   "p_ge": 0.2768,
+   "attn_mean": 0.03273809523809523,
+   "mlp_mean": 0.013333333333333326,
+   "between_expert": 0.7003000308413339,
+   "within_expert": -0.0028146298879608714,
+   "p_within_le": 0.4895,
+   "p_within_ge": 0.5105
+  },
+  "fro_D": {
+   "mean_within_map_spearman": -0.03587736464448793,
+   "p_le": 0.2056,
+   "p_ge": 0.7948,
+   "attn_mean": 0.0004960317460317443,
+   "mlp_mean": -0.1057142857142857,
+   "between_expert": -0.40629281552845314,
+   "within_expert": 0.085371759405511,
+   "p_within_le": 0.969,
+   "p_within_ge": 0.031
+  },
+  "stable_rank_D": {
+   "mean_within_map_spearman": -0.11937377690802349,
+   "p_le": 0.0032,
+   "p_ge": 0.997,
+   "attn_mean": -0.19146825396825395,
+   "mlp_mean": 0.019047619047619063,
+   "between_expert": -0.6622188604086203,
+   "within_expert": -0.013195247855848188,
+   "p_within_le": 0.401,
+   "p_within_ge": 0.599
+  },
+  "entropy_rank_D": {
+   "mean_within_map_spearman": -0.11285061969993478,
+   "p_le": 0.0048,
+   "p_ge": 0.9952,
+   "attn_mean": -0.19295634920634921,
+   "mlp_mean": 0.040952380952380976,
+   "between_expert": -0.5676711412978093,
+   "within_expert": -0.02277194863569991,
+   "p_within_le": 0.2865,
+   "p_within_ge": 0.7135
+  }
+ },
+ "seed_agreement": {
+  "layerwise_alpha": {
+   "spearman_loglambda_all": 0.9843035400026869,
+   "mean_within_map_spearman": 0.942270058708415
+  },
+  "layerwise_a1": {
+   "spearman_loglambda_all": 0.9796470179256428,
+   "mean_within_map_spearman": 0.9344422700587085
+  }
+ }
+}
