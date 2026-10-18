@@ -314,7 +314,19 @@ The margin over existing shrinkage is small, and spectral filtering of the merge
 - RegMean with C-budget Grams is by far the strongest merge in this study: +12 to +15 pt over uniform on
   LoRA, above the per-layer λ oracle. That is an established method's strength, not the hypothesis's.
 
+**Frozen TEST** (`results/aa/lora/regmean_test.json`; C budget, N = 512, full solve, dev-best α frozen per
+config; paired bootstrap over test images within task):
+
+| bank | uniform | RegMean + shrink 0.95 | RegMean + κ-cap 1e4 | κ-cap − shrink (95% CI) |
+|---|---|---|---|---|
+| KnOTS | 51.2 | 63.5 | 64.3 | +0.83 [+0.71, +0.95] |
+| lora_c5a | 53.0 | 64.5 | 65.0 | +0.51 [+0.40, +0.62] |
+| vit20 | 66.7 | 81.9 | 82.1 | +0.20 [+0.10, +0.30] |
+
+The κ-cap edge replicates on untouched test data in 3/3 banks. The CI covers example sampling only, not
+calibration resampling; the dev seeds showed the same sign. A 2×2 decomposition (conditioning-adaptivity vs
+rotation invariance) is running.
+
 PENDING:
-- transfer to lora_c5a and vit20;
 - rank-16 compressed comparison;
 - frozen test.
