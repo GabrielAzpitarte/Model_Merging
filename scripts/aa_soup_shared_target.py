@@ -142,6 +142,9 @@ def main() -> None:
     ap.add_argument("--out", default=str(RESULTS / "aa" / "soup"))
     ap.add_argument("--levels", default="0.25,0.5,1,2", help="part A relative noise levels (x per-matrix rms of Delta)")
     ap.add_argument("--tag", default="", help="suffix for part A output files")
+    ap.add_argument("--norm-matched", action="store_true",
+                    help="part A: rescale every noisy copy's update to the clean update's Frobenius norm per map "
+                         "(norm-based rules become blind; tests spectral information beyond magnitude)")
     args = ap.parse_args()
     dev = "cuda"
     out = Path(args.out)
@@ -167,6 +170,9 @@ def main() -> None:
                     rms = d.pow(2).mean().sqrt()
                     noise = torch.randn((len(levels),) + d.shape, generator=g, device=dev)
                     deltas[p] = d.unsqueeze(0) + torch.as_tensor(levels, dtype=torch.float32, device=dev).view(-1, *[1] * d.ndim) * rms * noise
+                    if args.norm_matched:
+                        nrm = deltas[p].flatten(1).norm(dim=1).view(-1, *[1] * d.ndim)
+                        deltas[p] = deltas[p] * (d.norm() / nrm)
                 # non-linear params: the clean expert's values
                 extra = {k: ex[k].to(dev) for k in base if k not in deltas}
                 st = run_pool("A_noise", e, base, deltas, linear, data, model, dev, f,

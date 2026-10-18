@@ -47,13 +47,23 @@ def main() -> None:
     ap.add_argument("--per-task", type=int, default=128)
     ap.add_argument("--lr", type=float, default=0.1)
     ap.add_argument("--lr-alpha", type=float, default=0.02)
-    ap.add_argument("--out", default=str(RESULTS / "aa" / "oracle_lambda"))
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--bank", default="fullft", choices=("fullft", "lora"))
+    ap.add_argument("--alpha-grid", default=None, help="comma list; default master grid (full-FT) or LoRA grid")
     args = ap.parse_args()
+    if args.out is None:
+        args.out = str(RESULTS / "aa" / ("oracle_lambda" if args.bank == "fullft" else "oracle_lambda_lora"))
     dev = "cuda"
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
-    bank = Bank(TASKS8, dev)
+    if args.bank == "lora":
+        from condmerge.lora import LoRABank
+        bank = LoRABank(TASKS8, dev)
+    else:
+        bank = Bank(TASKS8, dev)
+    alpha_grid = tuple(float(a) for a in args.alpha_grid.split(",")) if args.alpha_grid else (
+        ALPHA_GRID if args.bank == "fullft" else (0.6, 0.8, 1.0, 1.3, 1.6))
     data = TaskData(TASKS8, ("dev", "test"), dev)
     model = new_model(dev)
     for p in model.parameters():
@@ -66,7 +76,7 @@ def main() -> None:
         grid = json.loads(grid_path.read_text())
     else:
         grid = {}
-        for a in ALPHA_GRID:
+        for a in alpha_grid:
             r = data.evaluate(model, "dev", params=bank.merged({}, a))
             grid[str(a)] = {"avg_acc": r["avg_acc"], "acc": r["acc"], "avg_ce": r["avg_ce"]}
             print(f"uniform alpha={a}: dev avg acc {r['avg_acc']:.4f}", flush=True)
