@@ -1,0 +1,289 @@
+[
+ {
+  "rule": "uniform",
+  "b": 0.0,
+  "alpha": 1.6,
+  "tag": "uniform|tuned",
+  "dev_metric": 0.7765138305639487
+ },
+ {
+  "rule": "uniform",
+  "b": 0.0,
+  "alpha": 1.0,
+  "tag": "uniform|alpha1",
+  "dev_metric": 0.7480107299467726
+ },
+ {
+  "rule": "metagpt",
+  "b": 0.0,
+  "alpha": 1.6,
+  "tag": "metagpt|tuned",
+  "dev_metric": 0.7698252294934927
+ },
+ {
+  "rule": "metagpt",
+  "b": 0.0,
+  "alpha": 1.0,
+  "tag": "metagpt|alpha1",
+  "dev_metric": 0.7455212590966804
+ },
+ {
+  "rule": "kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "kappa|tuned",
+  "dev_metric": 0.7773588895445671
+ },
+ {
+  "rule": "kappa",
+  "b": 4.0,
+  "alpha": 1.0,
+  "tag": "kappa|alpha1",
+  "dev_metric": 0.7480256271521206
+ },
+ {
+  "rule": "kappa_rev",
+  "b": 0.5,
+  "alpha": 1.6,
+  "tag": "kappa_rev|tuned",
+  "dev_metric": 0.7735431500348128
+ },
+ {
+  "rule": "kappa_rev",
+  "b": 64.0,
+  "alpha": 1.0,
+  "tag": "kappa_rev|alpha1",
+  "dev_metric": 0.7480844219373505
+ },
+ {
+  "rule": "logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "logkappa|tuned",
+  "dev_metric": 0.7771106234208991
+ },
+ {
+  "rule": "logkappa",
+  "b": 1.0,
+  "alpha": 1.0,
+  "tag": "logkappa|alpha1",
+  "dev_metric": 0.7488353337393252
+ },
+ {
+  "rule": "logkappa_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "logkappa_rev|tuned",
+  "dev_metric": 0.7758102015372053
+ },
+ {
+  "rule": "logkappa_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "logkappa_rev|alpha1",
+  "dev_metric": 0.7475959907783654
+ },
+ {
+  "rule": "kappa_strict",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "kappa_strict|tuned",
+  "dev_metric": 0.7752136987086637
+ },
+ {
+  "rule": "kappa_strict",
+  "b": 0.5,
+  "alpha": 1.0,
+  "tag": "kappa_strict|alpha1",
+  "dev_metric": 0.7487781769789503
+ },
+ {
+  "rule": "kappa_z",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "kappa_z|tuned",
+  "dev_metric": 0.7672710154352567
+ },
+ {
+  "rule": "kappa_z",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "kappa_z|alpha1",
+  "dev_metric": 0.7440099685490159
+ },
+ {
+  "rule": "kappa_z_rev",
+  "b": 0.25,
+  "alpha": 2.0,
+  "tag": "kappa_z_rev|tuned",
+  "dev_metric": 0.7788921526474508
+ },
+ {
+  "rule": "kappa_z_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "kappa_z_rev|alpha1",
+  "dev_metric": 0.7490072123201419
+ },
+ {
+  "rule": "global:kappa_z",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "global:kappa_z|tuned",
+  "dev_metric": 0.7665299789860602
+ },
+ {
+  "rule": "global:kappa_z",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "global:kappa_z|alpha1",
+  "dev_metric": 0.7460355367476341
+ },
+ {
+  "rule": "global:kappa_z_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "global:kappa_z_rev|tuned",
+  "dev_metric": 0.7596304889441361
+ },
+ {
+  "rule": "global:kappa_z_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "global:kappa_z_rev|alpha1",
+  "dev_metric": 0.7353907185367017
+ },
+ {
+  "rule": "dnorm",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "dnorm|tuned",
+  "dev_metric": 0.7725594739374002
+ },
+ {
+  "rule": "dnorm",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "dnorm|alpha1",
+  "dev_metric": 0.7399874131295163
+ },
+ {
+  "rule": "dnorm_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "dnorm_rev|tuned",
+  "dev_metric": 0.7677537396073224
+ },
+ {
+  "rule": "dnorm_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "dnorm_rev|alpha1",
+  "dev_metric": 0.7452181801451057
+ },
+ {
+  "rule": "logsmax",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "logsmax|tuned",
+  "dev_metric": 0.7718710869432345
+ },
+ {
+  "rule": "logsmax",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "logsmax|alpha1",
+  "dev_metric": 0.7437223639409021
+ },
+ {
+  "rule": "neglogsmin",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "neglogsmin|tuned",
+  "dev_metric": 0.7773814851372416
+ },
+ {
+  "rule": "neglogsmin",
+  "b": 1.0,
+  "alpha": 1.0,
+  "tag": "neglogsmin|alpha1",
+  "dev_metric": 0.7488926466244757
+ },
+ {
+  "rule": "shuf0:kappa",
+  "b": 0.5,
+  "alpha": 1.6,
+  "tag": "shuf0:kappa|tuned",
+  "dev_metric": 0.7810449795500825
+ },
+ {
+  "rule": "shuf0:kappa",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "shuf0:kappa|alpha1",
+  "dev_metric": 0.7503406815154556
+ },
+ {
+  "rule": "shuf1:kappa",
+  "b": 0.5,
+  "alpha": 1.6,
+  "tag": "shuf1:kappa|tuned",
+  "dev_metric": 0.7774403677359099
+ },
+ {
+  "rule": "shuf1:kappa",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "shuf1:kappa|alpha1",
+  "dev_metric": 0.7477980050033279
+ },
+ {
+  "rule": "shuf2:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "shuf2:kappa|tuned",
+  "dev_metric": 0.776823780176144
+ },
+ {
+  "rule": "shuf2:kappa",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "shuf2:kappa|alpha1",
+  "dev_metric": 0.7474951166771928
+ },
+ {
+  "rule": "shuf3:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "shuf3:kappa|tuned",
+  "dev_metric": 0.7753663795383448
+ },
+ {
+  "rule": "shuf3:kappa",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "shuf3:kappa|alpha1",
+  "dev_metric": 0.7464853584999751
+ },
+ {
+  "rule": "shuf4:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "shuf4:kappa|tuned",
+  "dev_metric": 0.776301499723673
+ },
+ {
+  "rule": "shuf4:kappa",
+  "b": 4.0,
+  "alpha": 1.0,
+  "tag": "shuf4:kappa|alpha1",
+  "dev_metric": 0.7485427534818494
+ },
+ {
+  "rule": "single:cars",
+  "b": 0,
+  "alpha": 1.0,
+  "tag": "best_single",
+  "dev_metric": 0.5481723300722067
+ }
+]
