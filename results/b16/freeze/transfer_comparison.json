@@ -1,0 +1,302 @@
+{
+ "ref": "b16xfer|uniform|tuned",
+ "results": {
+  "b16xfer|global:logkappa_rev|tuned": {
+   "test_mean_norm": 0.8155211287441246,
+   "test_mean_acc": 0.7561522190272916,
+   "test_min_norm": 0.6210526315789473,
+   "dev_metric": 0.7608056067221922,
+   "diff_vs_ref": -0.004627975461337546,
+   "ci95": [
+    -0.006711180253758195,
+    -0.0024345719992162813
+   ]
+  },
+  "b16xfer|global:logkappa|tuned": {
+   "test_mean_norm": 0.8203385080944763,
+   "test_mean_acc": 0.7593291434552691,
+   "test_min_norm": 0.6502024291497975,
+   "dev_metric": 0.7803134617271212,
+   "diff_vs_ref": 0.00018940388901403284,
+   "ci95": [
+    -0.001755998656962774,
+    0.002177118785643237
+   ]
+  },
+  "b16xfer|gshuf0:global:logkappa@global:logkappa|tuned": {
+   "test_mean_norm": 0.8193293803674961,
+   "test_mean_acc": 0.7599013760778195,
+   "test_min_norm": 0.6445344129554657,
+   "dev_metric": null,
+   "diff_vs_ref": -0.0008197238379661943,
+   "ci95": [
+    -0.002789670622689005,
+    0.0012829899836968557
+   ]
+  },
+  "b16xfer|gshuf1:global:logkappa@global:logkappa|tuned": {
+   "test_mean_norm": 0.8104531061194951,
+   "test_mean_acc": 0.7497889544432339,
+   "test_min_norm": 0.6412955465587044,
+   "dev_metric": null,
+   "diff_vs_ref": -0.009695998085967104,
+   "ci95": [
+    -0.011616287585379397,
+    -0.0076652105000156205
+   ]
+  },
+  "b16xfer|gshuf2:global:logkappa@global:logkappa|tuned": {
+   "test_mean_norm": 0.8097746910360519,
+   "test_mean_acc": 0.7491434685379765,
+   "test_min_norm": 0.671255060728745,
+   "dev_metric": null,
+   "diff_vs_ref": -0.01037441316941036,
+   "ci95": [
+    -0.012966881471021482,
+    -0.007746113701558374
+   ]
+  },
+  "b16xfer|gshuf3:global:logkappa@global:logkappa|tuned": {
+   "test_mean_norm": 0.8179097758727296,
+   "test_mean_acc": 0.7577226218500505,
+   "test_min_norm": 0.6582995951417003,
+   "dev_metric": null,
+   "diff_vs_ref": -0.00223932833273263,
+   "ci95": [
+    -0.004212906409923819,
+    -0.0001129523302880502
+   ]
+  },
+  "b16xfer|gshuf4:global:logkappa@global:logkappa|tuned": {
+   "test_mean_norm": 0.8183175700362,
+   "test_mean_acc": 0.7589365349911407,
+   "test_min_norm": 0.6129554655870445,
+   "dev_metric": null,
+   "diff_vs_ref": -0.0018315341692622306,
+   "ci95": [
+    -0.0035152187616316038,
+    -0.00011175494970078598
+   ]
+  },
+  "b16xfer|kappa_rev|tuned": {
+   "test_mean_norm": 0.7986611802593716,
+   "test_mean_acc": 0.7399048588800358,
+   "test_min_norm": 0.6307692307692307,
+   "dev_metric": 0.7735431500348128,
+   "diff_vs_ref": -0.02148792394609056,
+   "ci95": [
+    -0.02472052038510147,
+    -0.018344142597034478
+   ]
+  },
+  "b16xfer|kappa|alpha1": {
+   "test_mean_norm": 0.7800696622293029,
+   "test_mean_acc": 0.7209565154801608,
+   "test_min_norm": 0.6145748987854251,
+   "dev_metric": 0.7480256271521206,
+   "diff_vs_ref": -0.04007944197615929,
+   "ci95": [
+    -0.04305755009358937,
+    -0.0369742620545671
+   ]
+  },
+  "b16xfer|kappa|tuned": {
+   "test_mean_norm": 0.8190193605467744,
+   "test_mean_acc": 0.758727337090571,
+   "test_min_norm": 0.6396761133603238,
+   "dev_metric": 0.7773588895445671,
+   "diff_vs_ref": -0.0011297436586879808,
+   "ci95": [
+    -0.0029840116693042474,
+    0.0006914872122854402
+   ]
+  },
+  "b16xfer|logkappa_q90_rev|alpha1": {
+   "test_mean_norm": 0.7805005922422066,
+   "test_mean_acc": 0.7216468936668283,
+   "test_min_norm": 0.6032388663967612,
+   "dev_metric": 0.7524774137222667,
+   "diff_vs_ref": -0.0396485119632557,
+   "ci95": [
+    -0.042534329448208154,
+    -0.036702815668833044
+   ]
+  },
+  "b16xfer|logkappa_q90_rev|tuned": {
+   "test_mean_norm": 0.8100035266116505,
+   "test_mean_acc": 0.7503732119727973,
+   "test_min_norm": 0.6048582995951417,
+   "dev_metric": 0.7829174965889967,
+   "diff_vs_ref": -0.010145577593811718,
+   "ci95": [
+    -0.012630759606555863,
+    -0.007588614590575645
+   ]
+  },
+  "b16xfer|logkappa_q90|tuned": {
+   "test_mean_norm": 0.8192388595431201,
+   "test_mean_acc": 0.7590792849939398,
+   "test_min_norm": 0.6364372469635627,
+   "dev_metric": 0.7733734724393828,
+   "diff_vs_ref": -0.0009102446623420568,
+   "ci95": [
+    -0.001972526545442708,
+    0.0001366244018599394
+   ]
+  },
+  "b16xfer|logkappa|tuned": {
+   "test_mean_norm": 0.8198770258021699,
+   "test_mean_acc": 0.7594961192115233,
+   "test_min_norm": 0.6380566801619433,
+   "dev_metric": 0.7771106234208991,
+   "diff_vs_ref": -0.0002720784032923984,
+   "ci95": [
+    -0.0014287763818160745,
+    0.0008286705219647995
+   ]
+  },
+  "b16xfer|metagpt|tuned": {
+   "test_mean_norm": 0.8118599351060776,
+   "test_mean_acc": 0.7521595461800392,
+   "test_min_norm": 0.5975708502024292,
+   "dev_metric": 0.7698252294934927,
+   "diff_vs_ref": -0.008289169099384671,
+   "ci95": [
+    -0.010685635814944026,
+    -0.0058245952598755925
+   ]
+  },
+  "b16xfer|shuf0:kappa@kappa|tuned": {
+   "test_mean_norm": 0.8211961456115154,
+   "test_mean_acc": 0.7609615638834397,
+   "test_min_norm": 0.6388663967611335,
+   "dev_metric": null,
+   "diff_vs_ref": 0.0010470414060532176,
+   "ci95": [
+    -0.000826068698649834,
+    0.002992176826248792
+   ]
+  },
+  "b16xfer|shuf0:logkappa_q90_rev@logkappa_q90_rev|tuned": {
+   "test_mean_norm": 0.8233356833370954,
+   "test_mean_acc": 0.7630665455733818,
+   "test_min_norm": 0.6550607287449393,
+   "dev_metric": null,
+   "diff_vs_ref": 0.003186579131633154,
+   "ci95": [
+    0.0010051346998549197,
+    0.005355087643923853
+   ]
+  },
+  "b16xfer|shuf1:kappa@kappa|tuned": {
+   "test_mean_norm": 0.8225387843964465,
+   "test_mean_acc": 0.762421171126985,
+   "test_min_norm": 0.6283400809716599,
+   "dev_metric": null,
+   "diff_vs_ref": 0.0023896801909842093,
+   "ci95": [
+    0.0004010898732364361,
+    0.004442436315833855
+   ]
+  },
+  "b16xfer|shuf1:logkappa_q90_rev@logkappa_q90_rev|tuned": {
+   "test_mean_norm": 0.8133471028225221,
+   "test_mean_acc": 0.7529628546921717,
+   "test_min_norm": 0.6623481781376519,
+   "dev_metric": null,
+   "diff_vs_ref": -0.006802001382940173,
+   "ci95": [
+    -0.009237023147942397,
+    -0.00440385010468471
+   ]
+  },
+  "b16xfer|shuf2:kappa@kappa|tuned": {
+   "test_mean_norm": 0.8147656331877282,
+   "test_mean_acc": 0.7548218004820332,
+   "test_min_norm": 0.6323886639676113,
+   "dev_metric": null,
+   "diff_vs_ref": -0.005383471017734107,
+   "ci95": [
+    -0.007568618310615979,
+    -0.0032108231992271892
+   ]
+  },
+  "b16xfer|shuf2:logkappa_q90_rev@logkappa_q90_rev|tuned": {
+   "test_mean_norm": 0.8106475461312559,
+   "test_mean_acc": 0.7507110964956989,
+   "test_min_norm": 0.6226720647773278,
+   "dev_metric": null,
+   "diff_vs_ref": -0.009501558074206388,
+   "ci95": [
+    -0.011775289846841612,
+    -0.007260472332297958
+   ]
+  },
+  "b16xfer|shuf3:kappa@kappa|tuned": {
+   "test_mean_norm": 0.8194256942085817,
+   "test_mean_acc": 0.7591416856859465,
+   "test_min_norm": 0.6445344129554657,
+   "dev_metric": null,
+   "diff_vs_ref": -0.0007234099968805548,
+   "ci95": [
+    -0.002528781773729389,
+    0.0011812024830948808
+   ]
+  },
+  "b16xfer|shuf3:logkappa_q90_rev@logkappa_q90_rev|tuned": {
+   "test_mean_norm": 0.8156372958644957,
+   "test_mean_acc": 0.7560392082369007,
+   "test_min_norm": 0.6275303643724697,
+   "dev_metric": null,
+   "diff_vs_ref": -0.004511808340966535,
+   "ci95": [
+    -0.006901299319278053,
+    -0.002047987636358121
+   ]
+  },
+  "b16xfer|shuf4:kappa@kappa|tuned": {
+   "test_mean_norm": 0.8125837570659842,
+   "test_mean_acc": 0.7526935818975985,
+   "test_min_norm": 0.6348178137651822,
+   "dev_metric": null,
+   "diff_vs_ref": -0.007565347139478026,
+   "ci95": [
+    -0.009839838815901336,
+    -0.005296186725732905
+   ]
+  },
+  "b16xfer|shuf4:logkappa_q90_rev@logkappa_q90_rev|tuned": {
+   "test_mean_norm": 0.8173636576068859,
+   "test_mean_acc": 0.7574058433240638,
+   "test_min_norm": 0.6307692307692307,
+   "dev_metric": null,
+   "diff_vs_ref": -0.00278544659857641,
+   "ci95": [
+    -0.004938877814948345,
+    -0.0006453403999910092
+   ]
+  },
+  "b16xfer|uniform|alpha1": {
+   "test_mean_norm": 0.7816072040527828,
+   "test_mean_acc": 0.722723009484266,
+   "test_min_norm": 0.6137651821862349,
+   "dev_metric": 0.7480107299467726,
+   "diff_vs_ref": -0.038541900152679484,
+   "ci95": [
+    -0.041314732062369346,
+    -0.03571776587427755
+   ]
+  },
+  "b16xfer|uniform|tuned": {
+   "test_mean_norm": 0.8201491042054623,
+   "test_mean_acc": 0.7599243733025383,
+   "test_min_norm": 0.6340080971659919,
+   "dev_metric": 0.7765138305639487,
+   "diff_vs_ref": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ]
+  }
+ }
+}

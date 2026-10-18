@@ -1,0 +1,124 @@
+[
+ {
+  "rule": "uniform",
+  "b": 0.0,
+  "alpha": 1.6,
+  "tag": "b16xfer|uniform|tuned",
+  "dev_metric": 0.7765138305639487,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "metagpt",
+  "b": 0.0,
+  "alpha": 1.6,
+  "tag": "b16xfer|metagpt|tuned",
+  "dev_metric": 0.7698252294934927,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "kappa",
+  "b": 4.0,
+  "alpha": 1.0,
+  "tag": "b16xfer|kappa|alpha1",
+  "dev_metric": 0.7480256271521206,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "b16xfer|logkappa|tuned",
+  "dev_metric": 0.7771106234208991,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "logkappa_q90_rev",
+  "b": 1.0,
+  "alpha": 1.6,
+  "tag": "b16xfer|logkappa_q90_rev|tuned",
+  "dev_metric": 0.7829174965889967,
+  "abs_beta": false,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "global:logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "b16xfer|global:logkappa|tuned",
+  "dev_metric": 0.7803134617271212,
+  "abs_beta": false,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "shuf0:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf0:kappa@kappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of kappa|tuned"
+ },
+ {
+  "rule": "shuf2:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf2:kappa@kappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of kappa|tuned"
+ },
+ {
+  "rule": "shuf4:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf4:kappa@kappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of kappa|tuned"
+ },
+ {
+  "rule": "shuf1:logkappa_q90_rev",
+  "b": 1.0,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf1:logkappa_q90_rev@logkappa_q90_rev|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of logkappa_q90_rev|tuned"
+ },
+ {
+  "rule": "shuf3:logkappa_q90_rev",
+  "b": 1.0,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf3:logkappa_q90_rev@logkappa_q90_rev|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of logkappa_q90_rev|tuned"
+ },
+ {
+  "rule": "gshuf0:global:logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|gshuf0:global:logkappa@global:logkappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of global:logkappa|tuned"
+ },
+ {
+  "rule": "gshuf2:global:logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|gshuf2:global:logkappa@global:logkappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of global:logkappa|tuned"
+ },
+ {
+  "rule": "gshuf4:global:logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|gshuf4:global:logkappa@global:logkappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of global:logkappa|tuned"
+ }
+]

@@ -55,6 +55,24 @@ def base_table(rows: list[dict], stat: str) -> dict[str, float]:
     return {r["param"]: r[stat] for r in rows if r["kind"] == "base"}
 
 
+def _csv_table(path: Path, stat: str, experts=TASKS8) -> dict[str, np.ndarray]:
+    by: dict = {}
+    with path.open() as f:
+        for r in csv.DictReader(f):
+            by.setdefault(r["param"], {})[r["expert"]] = float(r[stat])
+    return {p: np.array([d[e] for e in experts]) for p, d in by.items()}
+
+
+def noise_table(stat: str, experts=TASKS8, path: Path | None = None) -> dict[str, np.ndarray]:
+    """Per-(param, expert) random-matrix noise estimates from results/spectra/noise_est.csv."""
+    path = path or RESULTS / "spectra" / "noise_est.csv"
+    by: dict = {}
+    with path.open() as f:
+        for r in csv.DictReader(f):
+            by.setdefault(r["param"], {})[r["expert"]] = float(r[stat])
+    return {p: np.array([d[e] for e in experts]) for p, d in by.items()}
+
+
 def zscore(table: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
     out = {}
     for p, v in table.items():
@@ -91,6 +109,11 @@ def build_rule(name: str, rows: list[dict], experts=TASKS8, sizes=None) -> dict[
         t = build_rule(base_rule, rows, experts, sizes)
         perm = np.random.default_rng(int(head[5:])).permutation(len(experts))
         return {p: v[perm] for p, v in t.items()}
+    if name.startswith("wc:"):  # within-expert centring: z within map, minus each expert's mean z over maps
+        z = zscore(build_rule(name[3:], rows, experts, sizes))
+        keys = sorted(z)
+        mu = np.mean(np.stack([z[k] for k in keys]), axis=0)
+        return {k: z[k] - mu for k in keys}
     if name.startswith("global:"):
         return global_table(build_rule(name[len("global:"):], rows, experts, sizes), sizes)
     table = {
@@ -124,6 +147,14 @@ def build_rule(name: str, rows: list[dict], experts=TASKS8, sizes=None) -> dict[
         "sdnorm_rev": lambda: neg(stat_table(rows, "update_sup", "fro", experts)),
         "sdlogkappa_q90": lambda: log(stat_table(rows, "update_sup", "kappa_q90", experts)),
         "sdlogkappa_q90_rev": lambda: neg(log(stat_table(rows, "update_sup", "kappa_q90", experts))),
+        # --- interaction-aware: d kappa2(W_merged)/d lambda_i at the uniform merge (alpha=1) ---
+        "mkgrad": lambda: _csv_table(RESULTS / "spectra" / "merged_kappa_grad_a1.csv", "grad", experts),
+        "mkgrad_rev": lambda: {p: -v for p, v in _csv_table(RESULTS / "spectra" / "merged_kappa_grad_a1.csv", "grad", experts).items()},
+        # --- random-matrix (Gavish-Donoho) noise level of the update: inverse-variance rule ---
+        # c = 2 log sigma_hat; at ABSOLUTE beta = 1 this is lambda proportional to sigma_hat^-2 (MATH_NOTES N7)
+        "gd_invvar": lambda: {p: 2 * np.log(v) for p, v in noise_table("sigma_hat", experts).items()},
+        "gd_invvar_rev": lambda: {p: -2 * np.log(v) for p, v in noise_table("sigma_hat", experts).items()},
+        "gd_noiseshare": lambda: {p: 1 - v for p, v in noise_table("signal_frac", experts).items()},
         # --- task-update spectra (refinements; separately named) ---
         "dlogkappa": lambda: log(upd("kappa2_raw")),
         "dlogkappa_plus_1e-3": lambda: log(upd("kappa_plus_0.001")),
