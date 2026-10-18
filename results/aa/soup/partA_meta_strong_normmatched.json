@@ -1,0 +1,50 @@
+{
+ "levels": [
+  1.0,
+  4.0,
+  8.0,
+  16.0
+ ],
+ "per_expert": {
+  "sun397": {
+   "mean_rank_corr_kappa_vs_noise": -0.24383561643835613,
+   "frac_kappa_decreasing_in_noise": 0.6986301369863014,
+   "mean_rank_corr_srank_vs_noise": 0.936986301369863
+  },
+  "cars": {
+   "mean_rank_corr_kappa_vs_noise": -0.2191780821917808,
+   "frac_kappa_decreasing_in_noise": 0.6301369863013698,
+   "mean_rank_corr_srank_vs_noise": 0.9726027397260274
+  },
+  "resisc45": {
+   "mean_rank_corr_kappa_vs_noise": -0.273972602739726,
+   "frac_kappa_decreasing_in_noise": 0.6712328767123288,
+   "mean_rank_corr_srank_vs_noise": 0.9643835616438357
+  },
+  "eurosat": {
+   "mean_rank_corr_kappa_vs_noise": -0.2465753424657534,
+   "frac_kappa_decreasing_in_noise": 0.6712328767123288,
+   "mean_rank_corr_srank_vs_noise": 0.9945205479452054
+  },
+  "svhn": {
+   "mean_rank_corr_kappa_vs_noise": -0.19452054794520549,
+   "frac_kappa_decreasing_in_noise": 0.6712328767123288,
+   "mean_rank_corr_srank_vs_noise": 0.9917808219178083
+  },
+  "gtsrb": {
+   "mean_rank_corr_kappa_vs_noise": -0.136986301369863,
+   "frac_kappa_decreasing_in_noise": 0.5753424657534246,
+   "mean_rank_corr_srank_vs_noise": 0.9808219178082191
+  },
+  "mnist": {
+   "mean_rank_corr_kappa_vs_noise": -0.20821917808219176,
+   "frac_kappa_decreasing_in_noise": 0.6164383561643836,
+   "mean_rank_corr_srank_vs_noise": 0.9945205479452054
+  },
+  "dtd": {
+   "mean_rank_corr_kappa_vs_noise": -0.10136986301369863,
+   "frac_kappa_decreasing_in_noise": 0.547945205479452,
+   "mean_rank_corr_srank_vs_noise": 0.9616438356164382
+  }
+ }
+}
