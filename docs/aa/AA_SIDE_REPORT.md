@@ -197,6 +197,13 @@ KnOTS release:
 Verdict: **NOT REPLICATED.** The KnOTS-bank advantage is a favourable draw from a high-variance selection
 lottery. On the well-behaved vit20 bank, any hard per-map selection loses badly to averaging.
 
+Per-map marginal values (`results/aa/lora/single_map_swap_summary.json`; uniform base, α = 1; each of the
+48 × 8 single-map hand-overs evaluated on dev):
+- The argmin-κ choice ranks 4.27 of 8 on average (random 4.5). It is the best choice in 10% of maps and the
+  worst in 10%.
+- Within-map ρ(−κ, gain) = −0.08.
+- κ does not identify good per-map owners even one map at a time.
+
 ## 7. Variant ledger
 
 | variant | problem addressed | assumption | discriminating experiment | closest prior | status |
