@@ -124,14 +124,129 @@ uniform best 52.3 (alpha 0.8); uniform alpha 1.3: 50.0
 - per-map kappa(G) Bp/full: median 1.19e+05, min 4.96e+03, max inf
 - per-map kappa(G) Bp/sub: median 2.48e+02, min 1.16e+02, max 1.83e+03
 
+## knots_release_n16_s1
+
+uniform best 52.3 (alpha 0.8); uniform alpha 1.3: 50.0
+
+| budget | solve | regulariser | best dev acc (alpha) | acc at alpha 1.3 | median kappa(G) | median kappa(solve) |
+|---|---|---|---|---|---|---|
+| C | full | shrink 1.0 | 4.1 (0.8) | 4.1 | 1.86e+05 | 1.86e+05 |
+| C | full | kappa<= 1e+04 ridge->mean | 64.0 (0.8) | 47.6 | 1.86e+05 | 1.00e+04 |
+| C | full | kappa<= 1e+04 ridge->zero | 64.1 (0.8) | 47.9 | 1.86e+05 | 1.00e+04 |
+| C | full | shrink 0.95 | 63.2 (0.8) | 47.1 | 3.82e+03 | 3.82e+03 |
+
+- per-map kappa(G) C/full: median 1.86e+05, min 1.82e+04, max inf
+
+## knots_release_n16_s2
+
+uniform best 52.3 (alpha 0.8); uniform alpha 1.3: 50.0
+
+| budget | solve | regulariser | best dev acc (alpha) | acc at alpha 1.3 | median kappa(G) | median kappa(solve) |
+|---|---|---|---|---|---|---|
+| C | full | shrink 1.0 | 4.1 (0.8) | 4.1 | 1.91e+05 | 1.91e+05 |
+| C | full | kappa<= 1e+04 ridge->mean | 64.4 (0.8) | 49.5 | 1.91e+05 | 1.00e+04 |
+| C | full | kappa<= 1e+04 ridge->zero | 64.5 (0.8) | 49.7 | 1.91e+05 | 1.00e+04 |
+| C | full | shrink 0.95 | 63.8 (0.8) | 49.1 | 3.90e+03 | 3.90e+03 |
+
+- per-map kappa(G) C/full: median 1.91e+05, min 1.67e+04, max 1.33e+18
+
 ## knots_release_n64
 
 uniform best 52.3 (alpha 0.8); uniform alpha 1.3: 50.0
 
 | budget | solve | regulariser | best dev acc (alpha) | acc at alpha 1.3 | median kappa(G) | median kappa(solve) |
 |---|---|---|---|---|---|---|
+| Bp | full | shrink 1.0 | 51.7 (0.8) | 38.0 | 9.57e+04 | 9.57e+04 |
+| Bp | full | kappa<= 1e+02 ridge->mean | 51.2 (0.8) | 41.2 | 9.57e+04 | 1.00e+02 |
+| Bp | full | kappa<= 1e+02 ridge->zero | 51.7 (0.8) | 47.7 | 9.57e+04 | 1.00e+02 |
+| Bp | full | kappa<= 1e+03 ridge->mean | 51.5 (0.8) | 38.3 | 9.57e+04 | 1.00e+03 |
+| Bp | full | kappa<= 1e+03 ridge->zero | 51.5 (0.8) | 39.7 | 9.57e+04 | 1.00e+03 |
+| Bp | full | kappa<= 1e+04 ridge->mean | 51.6 (0.8) | 37.7 | 9.57e+04 | 1.00e+04 |
+| Bp | full | kappa<= 1e+04 ridge->zero | 51.6 (0.8) | 37.7 | 9.57e+04 | 1.00e+04 |
+| Bp | full | shrink 0.95 | 51.6 (0.8) | 37.8 | 3.20e+03 | 3.20e+03 |
+| Bp | full | shrink 0.9 | 51.6 (0.8) | 38.0 | 1.86e+03 | 1.86e+03 |
+| Bp | full | shrink 0.5 | 51.2 (0.8) | 39.9 | 4.23e+02 | 4.23e+02 |
+| Bp | sub | shrink 1.0 | 50.9 (0.8) | 37.9 | 2.12e+02 | 2.12e+02 |
+| Bp | sub | kappa<= 1e+02 ridge->mean | 50.9 (0.8) | 38.3 | 2.12e+02 | 1.00e+02 |
+| Bp | sub | kappa<= 1e+02 ridge->zero | 51.2 (0.8) | 40.7 | 2.12e+02 | 1.00e+02 |
+| Bp | sub | kappa<= 1e+03 ridge->mean | 50.9 (0.8) | 37.9 | 2.12e+02 | 2.12e+02 |
+| Bp | sub | kappa<= 1e+03 ridge->zero | 50.9 (0.8) | 37.9 | 2.12e+02 | 2.12e+02 |
+| Bp | sub | kappa<= 1e+04 ridge->mean | 50.9 (0.8) | 37.9 | 2.12e+02 | 2.12e+02 |
+| Bp | sub | kappa<= 1e+04 ridge->zero | 50.9 (0.8) | 37.9 | 2.12e+02 | 2.12e+02 |
+| Bp | sub | shrink 0.95 | 50.9 (0.8) | 38.1 | 1.80e+02 | 1.80e+02 |
+| Bp | sub | shrink 0.9 | 50.9 (0.8) | 38.2 | 1.55e+02 | 1.55e+02 |
+| Bp | sub | shrink 0.5 | 50.8 (0.8) | 39.1 | 5.77e+01 | 5.77e+01 |
 | C | full | shrink 1.0 | 4.1 (0.8) | 4.1 | 1.13e+05 | 1.13e+05 |
+| C | full | kappa<= 1e+02 ridge->mean | 59.7 (0.8) | 43.0 | 1.13e+05 | 1.00e+02 |
+| C | full | kappa<= 1e+02 ridge->zero | 60.7 (1.0) | 53.3 | 1.13e+05 | 1.00e+02 |
+| C | full | kappa<= 1e+03 ridge->mean | 63.0 (0.8) | 47.5 | 1.13e+05 | 1.00e+03 |
+| C | full | kappa<= 1e+03 ridge->zero | 63.4 (0.8) | 49.2 | 1.13e+05 | 1.00e+03 |
+| C | full | kappa<= 1e+04 ridge->mean | 64.6 (0.8) | 49.6 | 1.13e+05 | 1.00e+04 |
+| C | full | kappa<= 1e+04 ridge->zero | 64.7 (0.8) | 49.7 | 1.13e+05 | 1.00e+04 |
 | C | full | shrink 0.95 | 63.9 (0.8) | 49.9 | 3.63e+03 | 3.63e+03 |
 | C | full | shrink 0.9 | 63.3 (0.8) | 49.5 | 2.06e+03 | 2.06e+03 |
-| C | full | shrink 0.5 | 59.9 (0.8) | nan | 4.30e+02 | 4.30e+02 |
+| C | full | shrink 0.5 | 59.9 (0.8) | 43.3 | 4.30e+02 | 4.30e+02 |
+| C | sub | shrink 1.0 | 58.4 (0.8) | 36.7 | 2.28e+02 | 2.28e+02 |
+| C | sub | kappa<= 1e+02 ridge->mean | 56.3 (0.8) | 34.2 | 2.28e+02 | 1.00e+02 |
+| C | sub | kappa<= 1e+02 ridge->zero | 57.8 (0.8) | 38.2 | 2.28e+02 | 1.00e+02 |
+| C | sub | kappa<= 1e+03 ridge->mean | 58.4 (0.8) | 36.3 | 2.28e+02 | 2.28e+02 |
+| C | sub | kappa<= 1e+03 ridge->zero | 58.4 (0.8) | 36.3 | 2.28e+02 | 2.28e+02 |
+| C | sub | kappa<= 1e+04 ridge->mean | 58.4 (0.8) | 36.7 | 2.28e+02 | 2.28e+02 |
+| C | sub | kappa<= 1e+04 ridge->zero | 58.4 (0.8) | 36.7 | 2.28e+02 | 2.28e+02 |
+| C | sub | shrink 0.95 | 58.3 (0.8) | 36.3 | 1.89e+02 | 1.89e+02 |
+| C | sub | shrink 0.9 | 57.9 (0.8) | 36.0 | 1.63e+02 | 1.63e+02 |
+| C | sub | shrink 0.5 | 55.6 (0.8) | 36.0 | 6.01e+01 | 6.01e+01 |
+
+- per-map kappa(G) C/full: median 1.13e+05, min 6.73e+03, max inf
+- per-map kappa(G) C/sub: median 2.28e+02, min 1.16e+02, max 1.97e+03
+- per-map kappa(G) Bp/full: median 9.57e+04, min 2.18e+03, max inf
+- per-map kappa(G) Bp/sub: median 2.12e+02, min 9.74e+01, max 1.91e+03
+
+## lora_c5a
+
+uniform best 53.5 (alpha 0.8); uniform alpha 1.3: 48.1
+
+| budget | solve | regulariser | best dev acc (alpha) | acc at alpha 1.3 | median kappa(G) | median kappa(solve) |
+|---|---|---|---|---|---|---|
+| Bp | full | shrink 1.0 | 54.0 (0.8) | 49.6 | 6.52e+04 | 6.52e+04 |
+| Bp | full | kappa<= 1e+02 ridge->mean | 54.5 (0.8) | 50.8 | 6.52e+04 | 1.00e+02 |
+| Bp | full | kappa<= 1e+02 ridge->zero | 54.1 (1.0) | 53.1 | 6.52e+04 | 1.00e+02 |
+| Bp | full | kappa<= 1e+03 ridge->mean | 54.3 (0.8) | 49.6 | 6.52e+04 | 1.00e+03 |
+| Bp | full | kappa<= 1e+03 ridge->zero | 54.2 (0.8) | 50.0 | 6.52e+04 | 1.00e+03 |
+| Bp | full | kappa<= 1e+04 ridge->mean | 53.9 (0.8) | 49.5 | 6.52e+04 | 1.00e+04 |
+| Bp | full | kappa<= 1e+04 ridge->zero | 53.9 (0.8) | 49.5 | 6.52e+04 | 1.00e+04 |
+| Bp | full | shrink 0.95 | 54.0 (0.8) | 49.4 | 2.64e+03 | 2.64e+03 |
+| Bp | full | shrink 0.9 | 54.0 (0.8) | 49.3 | 1.41e+03 | 1.41e+03 |
+| Bp | full | shrink 0.5 | 54.1 (0.8) | 49.8 | 2.79e+02 | 2.79e+02 |
+| C | full | shrink 1.0 | 4.1 (0.8) | 4.1 | 6.57e+04 | 6.57e+04 |
+| C | full | kappa<= 1e+02 ridge->mean | 63.1 (0.8) | 56.6 | 6.57e+04 | 1.00e+02 |
+| C | full | kappa<= 1e+02 ridge->zero | 64.9 (1.0) | 61.2 | 6.57e+04 | 1.00e+02 |
+| C | full | kappa<= 1e+03 ridge->mean | 65.4 (0.8) | 59.7 | 6.57e+04 | 1.00e+03 |
+| C | full | kappa<= 1e+03 ridge->zero | 66.2 (0.8) | 60.4 | 6.57e+04 | 1.00e+03 |
+| C | full | kappa<= 1e+04 ridge->mean | 65.6 (0.8) | 60.9 | 6.57e+04 | 1.00e+04 |
+| C | full | kappa<= 1e+04 ridge->zero | 65.6 (0.8) | 60.9 | 6.57e+04 | 1.00e+04 |
+| C | full | shrink 0.95 | 65.1 (0.8) | 60.3 | 2.56e+03 | 2.56e+03 |
+| C | full | shrink 0.9 | 64.7 (0.8) | 59.7 | 1.36e+03 | 1.36e+03 |
+| C | full | shrink 0.5 | 62.4 (0.8) | 56.5 | 2.63e+02 | 2.63e+02 |
+
+- per-map kappa(G) C/full: median 6.57e+04, min 6.85e+02, max inf
+- per-map kappa(G) Bp/full: median 6.52e+04, min 6.42e+02, max inf
+
+## lora
+
+uniform best 67.5 (alpha 1.3); uniform alpha 1.3: 67.5
+
+| budget | solve | regulariser | best dev acc (alpha) | acc at alpha 1.3 | median kappa(G) | median kappa(solve) |
+|---|---|---|---|---|---|---|
+| Bp | full | shrink 1.0 | 69.4 (1.3) | 69.4 | 7.45e+04 | 7.45e+04 |
+| C | full | shrink 1.0 | 4.1 (0.8) | 4.1 | 8.85e+04 | 8.85e+04 |
+| C | full | kappa<= 1e+02 ridge->mean | 79.9 (1.3) | 79.9 | 8.85e+04 | 1.00e+02 |
+| C | full | kappa<= 1e+02 ridge->zero | 79.4 (1.3) | 79.4 | 8.85e+04 | 1.00e+02 |
+| C | full | kappa<= 1e+03 ridge->mean | 82.0 (1.0) | 80.2 | 8.85e+04 | 1.00e+03 |
+| C | full | kappa<= 1e+03 ridge->zero | 81.7 (1.0) | 80.3 | 8.85e+04 | 1.00e+03 |
+| C | full | kappa<= 1e+04 ridge->mean | 82.6 (1.0) | 80.3 | 8.85e+04 | 1.00e+04 |
+| C | full | kappa<= 1e+04 ridge->zero | 82.6 (1.0) | 80.3 | 8.85e+04 | 1.00e+04 |
+| C | full | shrink 0.95 | 82.4 (1.0) | 80.7 | 2.20e+03 | 2.20e+03 |
+| C | full | shrink 0.9 | 82.0 (1.0) | 80.7 | 1.29e+03 | 1.29e+03 |
+| C | full | shrink 0.5 | 80.3 (1.3) | 80.3 | 2.92e+02 | 2.92e+02 |
 
