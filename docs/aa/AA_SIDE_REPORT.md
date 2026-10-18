@@ -245,7 +245,7 @@ Novelty check (2026-10-18): no prior paper uses Marchenko–Pastur / Gavish–Do
 checkpoints. The closest are Model Stock (ECCV'24), MonoSoup (arXiv 2602.09689), Fisher merging, and
 TSV / STAR. The negative real-variant result limits the practical value of that direction anyway.
 
-## 9. Phase 2: "the instability lies in the solve" (review hypothesis row 3), RegMean on LoRA, IN PROGRESS
+## 9. Phase 2: "the instability lies in the solve" (review hypothesis row 3), RegMean on LoRA
 
 Conditioning enters a merge directly when the merger inverts a Gram matrix (review §3.6). Per adapted map:
 D = (Σ D_i G̃_i)(Σ G̃_i + ρI)^{-1}, with RegMean's off-diagonal shrinkage G̃ = aG + (1−a)diag(G). The
@@ -328,8 +328,26 @@ RegMean plain 61.4; shrink 0.95 61.2; κ-cap 1e4 61.7. Extra rank accounts for a
 but at matched rank it is still about +10 pt over uniform, and the κ-cap still edges shrinkage.
 
 The κ-cap edge replicates on untouched test data in 3/3 banks. The CI covers example sampling only, not
-calibration resampling; the dev seeds showed the same sign. A 2×2 decomposition (conditioning-adaptivity vs
-rotation invariance) is running.
+calibration resampling; the dev seeds showed the same sign.
+
+**2×2 decomposition of the edge** (`results/aa/lora/regmean_2x2_dev.jsonl`; KnOTS, C, full, α 0.8, dev;
+strength matched to κ_t = 1e4 / c = 0.0136; mean of the three N = 16 subsets, N = 512 in brackets):
+
+| | κ-adaptive strength | fixed strength | adaptivity effect |
+|---|---|---|---|
+| isotropic ridge | 63.60 (65.52) | 63.47 (65.29) | +0.13 (+0.23) |
+| diagonal shrinkage | 62.58 (64.53) | 62.86 (64.76) | −0.28 (−0.23) |
+| **isotropy effect** | **+1.02 (+0.99)** | **+0.61 (+0.53)** | |
+
+The edge over RegMean's shrinkage is **isotropy**: a rotation-invariant ridge beats axis-aligned diagonal
+shrinkage. κ-adaptive strength adds at most about 0.2, and only for the ridge. The κ-capped shrinkage cannot
+even reach its target in 12–17% of maps, because κ(diag G) > κ_t there.
+
+**Row-3 verdict (LoRA, agreeing with master's full-FT):** mechanism SUPPORTED. Weak Gram eigen-directions
+amplify estimation noise, so regularization is essential at small N. The best regularizer is an isotropic
+ridge whose strength can come from a κ cap or from a fixed relative level, with nearly identical results.
+Conditioning explains why regularization is needed; it is not the source of the gain. Given SWUDI's spectral
+filtering of merge solves, there is no conditioning-specific novelty here.
 
 PENDING:
 - rank-16 compressed comparison;
