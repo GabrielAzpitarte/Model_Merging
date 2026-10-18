@@ -117,7 +117,20 @@ PENDING:
 - Sweep in progress: literal κ best so far 54.3 at b = 128, n_eff 1.35 (per-map selection). The shuffled
   rows at high b are pending.
 
-## 6. Verdict so far (per the kill-only-proven-dead-ends standard)
+## 6. Variant ledger (this track)
+
+| variant | observed problem it addresses | proposed explanation | assumptions | smallest discriminating experiment | closest prior | status |
+|---|---|---|---|---|---|---|
+| literal κ₂(W_i), layerwise softmax | the professor's rule | ill-conditioned experts are unreliable | κ tracks reliability | within-map Spearman vs gradient preference and oracle λ; shared-target noisy soups | (none exact); SADA, CT, AMM (exp weights) | **DEAD END**: blind per layer; anti-inverse-variance under noise |
+| log κ (power law κ^-β) | raw κ spans 1e1–1e8 across maps | variance route λ ∝ κ^-2 (review eq. 22) | design-matrix model applies to W | same as above | review §3.3 | dead with κ: same ranks; collapses faster under noise |
+| data-weighted κ(W C^{1/2}) (budget B) | κ is dominated by base directions the data may not excite | condition only on data-supported directions | pooled C is representative | score-vs-targets (§2) | PAVE, ESM, NSC | **FAILED**: equally blind (within ≈ 0) |
+| update spread (stable / entropy rank, κ₊ of Δ) | κ(W) is a σ_min probe, not a property of the update | concentration = signal | the spike/bulk model | expert-identity decomposition | STAR, SADA, TSV, LARV | multi-task: expert identity only, sign flips with α; **shared target: SUPPORTED** (norm-matched pending) |
+| MP / Gavish–Donoho inverse variance λ ∝ σ̂^-2 (tuning-free) | free temperature; κ moves the wrong way under noise | bulk of the update spectrum = noise level | copies = common signal + independent bulk noise | controlled noise (strong and norm-matched) and real variants | Model Stock (ECCV'24, geometric SNR across checkpoints), MonoSoup (2026, single-update spectral reweighting), Fisher merging (inverse variance via Fisher) | PENDING (A3, B-v2, test freeze) |
+| functional update energy tr(ΔCΔᵀ), positive sign | where should an expert get weight? | experts matter where they act on data | pooled C | within-expert decomposition | ESM (activation importance), MetaGPT (norms) | weak per-layer signal (+0.12..0.16), full-FT only; LoRA sign differs; not conditioning |
+| factor κ(A), κ(B) (LoRA) | LoRA κ₂(Δ) = ∞ | — | a canonical gauge exists | gauge test | — | **INVALID**: changes ×10³ under exact reparameterisation |
+| κ₊(Δ; τ) (LoRA) | finite substitute for κ₂(Δ) | — | threshold choice | threshold sweep; rule sweep | — | τ = 0.1 caps κ₊ at 10 (80 % truncated); τ ≤ 1e-3 gives σ1/σ16; sweep PENDING |
+
+## 7. Verdict so far (per the kill-only-proven-dead-ends standard)
 
 The literal full-weight rule meets every DEAD END criterion:
 1. **Accuracy-level evidence:** the master sweep on the full dev set (test freeze pending).

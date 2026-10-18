@@ -45,6 +45,17 @@ VIT20_NAME = {"cars": "cars", "dtd": "dtd", "eurosat": "eurosat", "gtsrb": "gtsr
               "resisc45": "resisc45", "sun397": "sun397", "svhn": "svhn"}
 
 
+_REF_MED: dict = {}
+
+
+def ref_median(m: int, n: int) -> float:
+    """Median singular value of one m x n unit-variance Gaussian matrix (seed 0); ~22.40 (768^2), ~53.0 (768x3072)."""
+    if (m, n) not in _REF_MED:
+        g = np.random.default_rng(0).standard_normal((m, n))
+        _REF_MED[(m, n)] = float(np.median(np.linalg.svd(g, compute_uv=False)))
+    return _REF_MED[(m, n)]
+
+
 def svals_np(m: torch.Tensor) -> np.ndarray:
     return np.linalg.svd(m.double().cpu().numpy(), compute_uv=False)
 
@@ -72,7 +83,9 @@ def stats_for(base: dict, deltas: dict[str, torch.Tensor], names: list[str]) -> 
 
     def one(p):
         w0 = base[p].reshape(base[p].shape[0], -1).double().cpu()
-        ks, fr, sr = [], [], []
+        ks, fr, sr, md, sh, ns = [], [], [], [], [], []
+        mm, nn = w0.shape
+        ref = ref_median(mm, nn)
         for j in range(deltas[p].shape[0]):
             d = deltas[p][j].reshape(w0.shape).double().cpu()
             s = svals_np(w0 + d)
@@ -80,12 +93,18 @@ def stats_for(base: dict, deltas: dict[str, torch.Tensor], names: list[str]) -> 
             ks.append(s[0] / s[-1])
             fr.append(np.sqrt(np.sum(sd ** 2)))
             sr.append(np.sum(sd ** 2) / sd[0] ** 2)
-        return p, np.array(ks), np.array(fr), np.array(sr)
+            md.append(np.median(sd))
+            sig = np.median(sd) / ref
+            edge = sig * (np.sqrt(mm) + np.sqrt(nn))
+            sh.append(sig)
+            ns.append(1.0 - float(np.sum(sd[sd > edge] ** 2) / np.sum(sd ** 2)))
+        return p, np.array(ks), np.array(fr), np.array(sr), np.array(md), np.array(sh), np.array(ns), mm * nn
 
     with ThreadPoolExecutor(16) as ex:
         res = list(ex.map(one, names))
-    return {"kappa": {p: k for p, k, _, _ in res}, "fro": {p: f for p, _, f, _ in res},
-            "srank": {p: s for p, _, _, s in res}}
+    return {"kappa": {r[0]: r[1] for r in res}, "fro": {r[0]: r[2] for r in res}, "srank": {r[0]: r[3] for r in res},
+            "medsv": {r[0]: r[4] for r in res}, "sighat": {r[0]: r[5] for r in res}, "noiseshare": {r[0]: r[6] for r in res},
+            "size": {r[0]: r[7] for r in res}}
 
 
 def rule_tables(st: dict) -> dict[str, dict[str, np.ndarray]]:
@@ -95,7 +114,11 @@ def rule_tables(st: dict) -> dict[str, dict[str, np.ndarray]]:
     g = np.mean(np.stack(list(lk.values())), 0)
     return {"kappa": st["kappa"], "logkappa": lk, "kappa_rev": neg(st["kappa"]),
             "global:logkappa": {p: g for p in lk}, "dsrank": st["srank"], "dsrank_rev": neg(st["srank"]),
-            "dnorm": st["fro"], "dnorm_rev": neg(st["fro"])}
+            "dnorm": st["fro"], "dnorm_rev": neg(st["fro"]),
+            # Marchenko-Pastur bulk noise estimate: s_hat ~ median singular value of Delta (the MP constant cancels
+            # across copies of one map); score 2*log(s_hat) so that raw beta = 1 gives lambda ~ s_hat^-2
+            "dmedsv": {p: 2 * np.log(v) for p, v in st["medsv"].items()},
+            "dnoiseshare": st["noiseshare"]}
 
 
 def merged_params(base: dict, deltas: dict, lam: dict[str, np.ndarray], default: np.ndarray, alpha: float,
@@ -123,6 +146,12 @@ def run_pool(tag, task, base, deltas, names, data, model, device, f, oracle_rule
         for b in BETA_MULTS:
             beta = b / sc if math.isfinite(b) else math.inf
             jobs.append((r, b, {p: softmax_coeffs(tab[p], beta) for p in names}))
+    # tuning-free inverse-variance rule from the update spectrum's bulk (raw beta = 1 on 2 log s_hat)
+    jobs.append(("mp_invvar", 1.0, {p: softmax_coeffs(tables["dmedsv"][p], 1.0) for p in names}))
+    # global Gavish-Donoho inverse variance: lambda_j ~ 1 / sum_p sigma_hat_jp^2 * m_p * n_p (total noise energy)
+    tot = np.sum(np.stack([st["sighat"][p] ** 2 * st["size"][p] for p in names]), 0)
+    gl = (1 / tot) / np.sum(1 / tot)
+    jobs.append(("global:mp_invvar", 1.0, {p: gl for p in names}))
     for r, lam in oracle_rules.items():
         jobs.append((r, math.nan, {p: lam for p in names}))
     for rule, b, co in jobs:
@@ -191,7 +220,7 @@ def main() -> None:
 
     if "B" in args.parts:
         meta = {}
-        with (out / "partB_lora_variants.jsonl").open("w") as f:
+        with (out / f"partB_lora_variants{args.tag}.jsonl").open("w") as f:
             for t in TASKS8:
                 avail = [v for v in LORA_VARIANTS if (MOLOHIO / v / f"{VIT20_NAME[t]}.npz").exists()]
                 facs = [np.load(MOLOHIO / v / f"{VIT20_NAME[t]}.npz") for v in avail]
@@ -227,7 +256,7 @@ def main() -> None:
                       f"{meta[t]['spearman_quality_vs_global_logkappa']:+.2f}, rho(q, mean srank) {meta[t]['spearman_quality_vs_global_srank']:+.2f} ({time.time() - t0:.0f}s)", flush=True)
                 del deltas
                 torch.cuda.empty_cache()
-        (out / "partB_meta.json").write_text(json.dumps(meta, indent=1))
+        (out / f"partB_meta{args.tag}.json").write_text(json.dumps(meta, indent=1))
     print(f"DONE {time.time() - t0:.0f}s", flush=True)
 
 
