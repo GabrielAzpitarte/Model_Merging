@@ -10,7 +10,7 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from condmerge.regmean import gram_kappa, kappa_ridge, regmean_solve  # noqa: E402
+from condmerge.regmean import gram_kappa, kappa_ridge, kappa_shrink, regmean_solve, shrink_gram  # noqa: E402
 
 
 def _spd(d: int, seed: int, scale: float = 1.0) -> torch.Tensor:
@@ -56,3 +56,23 @@ def test_shrink_zero_is_coordinatewise_weighting():
     w = torch.stack([torch.diagonal(g) for g in gs])  # (K, din)
     ref = sum(d * w[i][None, :] for i, d in enumerate(ds)) / w.sum(0)[None, :]
     assert torch.allclose(out, ref, atol=1e-10)
+
+
+def test_kappa_shrink_meets_target():
+    g = _spd(20, 7)
+    g[3, 3] *= 1e-7
+    g[:, 3] *= 1.0
+    g = 0.5 * (g + g.T)
+    a, ka = kappa_shrink(g, 1e3)
+    assert 0.0 <= a <= 1.0
+    if a > 0:
+        assert ka <= 1e3 * (1 + 1e-6)
+        assert gram_kappa(shrink_gram(g, min(1.0, a + 1e-3))) > 1e3 * 0.999 or a == 1.0
+
+
+def test_rel_ridge_equals_absolute_ridge():
+    gs = [_spd(9, s) for s in range(2)]
+    ds = [torch.randn(3, 9, dtype=torch.float64, generator=torch.Generator().manual_seed(30 + i)) for i in range(2)]
+    c = 1e-2
+    rho = c * float(torch.trace(gs[0] + gs[1])) / 9
+    assert torch.allclose(regmean_solve(ds, gs, rel_ridge=c), regmean_solve(ds, gs, ridge=rho), atol=1e-12)

@@ -96,3 +96,25 @@ Primary test comparisons were fixed from dev before any test evaluation. All oth
   * dev-best fixed shrinkage: a = 0.99, alpha = 1.2.
 * Budget B (pooled, no task ids): dev-best is the diagonal solve (a = 0, alpha = 1.6), compared with uniform-tuned (76.68 test).
 * Instability: n = 16 per task, seeds 0/1/2, alpha = 1. Plain vs shrink 0.95 vs kappa cap 1e5.
+
+## 2026-10-18 16:35: 2x2 mechanism check (pre-declared)
+
+* RegMean test results:
+
+  | budget | method | test |
+  |---|---|---|
+  | C, n = 512 | plain | 91.39 |
+  | C, n = 512 | kappa cap 1e5 | 91.34 |
+  | C, n = 512 | shrinkage 0.99 | 91.24 |
+  | B | diagonal solve | 77.35 (uniform 76.68) |
+
+* At n = 16 on test, kappa cap minus shrinkage 0.95 is +0.19 / +0.43 / +0.27 (3/3 positive). The peer finds 7/7 positive on LoRA (+0.6 mean).
+* 2x2 cells:
+  1. kappa-capped isotropic ridge;
+  2. kappa-capped diagonal shrinkage;
+  3. fixed shrinkage;
+  4. fixed relative isotropic ridge, with strength matched to cell 1 via c = median lambda_max/(tr/d) / kappa_t.
+* Primary matched comparison: kappa_t = 1e5 (cells 1, 2, 4) vs a = 0.95 (cell 3), alpha = 1, at n = 16 (3 subsets) and n = 512, on dev AND test.
+* Verdict rule:
+  * if cell 2 keeps the edge and cell 4 loses it, the edge is due to conditioning;
+  * if the reverse, it is due to isotropy.
