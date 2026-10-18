@@ -51,6 +51,8 @@ def main() -> None:
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="base", help="'base' or an expert task name")
+    ap.add_argument("--data", default="pool", help="'pool' (8 calib splits, no task ids; budget B) or "
+                    "'task:<name>' (one task's calib split; budget C)")
     ap.add_argument("--device", default="cuda:0")
     ap.add_argument("--batch", type=int, default=256)
     args = ap.parse_args()
@@ -84,7 +86,8 @@ def main() -> None:
     mean = torch.tensor(CLIP_MEAN, device=dev).view(1, 3, 1, 1)
     std = torch.tensor(CLIP_STD, device=dev).view(1, 3, 1, 1)
     n_img = 0
-    for task in TASKS8:
+    data_tasks = TASKS8 if args.data == "pool" else [args.data.split(":", 1)[1]]
+    for task in data_tasks:
         x, _ = load_cache(task, "calib", mmap=True)  # labels deliberately unused
         for i in range(0, x.shape[0], args.batch):
             px = (torch.from_numpy(np.ascontiguousarray(x[i:i + args.batch])).to(dev).float() / 255 - mean) / std
@@ -100,14 +103,16 @@ def main() -> None:
     n_patches = (224 // model.config.patch_size) ** 2
     n_tokens = n_img * (n_patches + 1)
     out = {"grams": {}, "n_images": n_img, "n_tokens_per_input": {}, "inputs_of": inputs_of, "model": args.model,
-           "budget": "B: pooled unlabelled calib, no task ids"}
+           "data": args.data,
+           "budget": "B: pooled unlabelled calib, no task ids" if args.data == "pool" else "C: one task's unlabelled calib"}
     for k, g in grams.items():
         n = n_img * n_patches if k == "patches" else n_tokens
         out["grams"][k] = (g / n).float().cpu()
         out["n_tokens_per_input"][k] = n
     d = CACHE_ARCH / "grams"
     d.mkdir(parents=True, exist_ok=True)
-    torch.save(out, d / f"{args.model}.pt")
+    name = f"{args.model}.pt" if (args.model == "base" and args.data == "pool") else f"{args.model}__{args.data.replace(':', '-')}.pt"
+    torch.save(out, d / name)
     print(f"saved {len(out['grams'])} grams for {args.model} from {n_img} images in {time.time() - t0:.0f}s", flush=True)
 
 
