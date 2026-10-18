@@ -295,8 +295,26 @@ regularization fixes it.
 The margin over existing shrinkage is small, and spectral filtering of the merge solve is close prior work
 (SWUDI [03]). So any novelty claim would be narrow.
 
+**All LoRA settings, matched single configs** (κ-cap 1e4 → zero vs shrink 0.95; C budget, full solve, best
+α):
+
+| setting | plain | shrink 0.95 | κ-cap 1e4 | difference |
+|---|---|---|---|---|
+| KnOTS, N = 512 | 65.3 (4.1 at α 1.3) | 64.8 | 65.5 | +0.7 |
+| KnOTS, N = 64 | 4.1 | 63.9 | 64.7 | +0.8 |
+| KnOTS, N = 16 (3 calibration subsets) | 4.1 | 61.7 / 63.2 / 63.8 | 62.2 / 64.1 / 64.5 | +0.5 / +0.9 / +0.7 |
+| lora_c5a, N = 512 | 4.1 | 65.1 | 65.6 | +0.5 |
+| vit20, N = 512 (uniform 67.5) | 4.1 | 82.4 | 82.6 | +0.2 |
+
+- Positive in 7/7 settings, mean +0.6; the settings share banks, so they are not independent.
+- The edge does not grow as N shrinks.
+- Master's full-FT result has the same sign but is smaller: +0.2 to +0.3 at N = 16 / 64 / 512 over 3 seeds.
+- Candidate mechanism: RegMean's off-diagonal shrinkage depends on the coordinate basis, whereas the
+  κ-capped isotropic ridge is rotation-invariant and acts only on the weak eigen-directions.
+- RegMean with C-budget Grams is by far the strongest merge in this study: +12 to +15 pt over uniform on
+  LoRA, above the per-layer λ oracle. That is an established method's strength, not the hypothesis's.
+
 PENDING:
-- 64 images per task;
 - transfer to lora_c5a and vit20;
 - rank-16 compressed comparison;
 - frozen test.
