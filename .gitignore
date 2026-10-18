@@ -1,0 +1,13 @@
+artifacts
+artifacts/
+__pycache__/
+*.pyc
+*.safetensors
+*.pt
+*.npy
+*.npz
+logs/*.log
+.pytest_cache/
+.ruff_cache/
+results/**/*.npy
+results/**/*.pt
