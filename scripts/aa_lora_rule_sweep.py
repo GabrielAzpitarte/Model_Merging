@@ -42,7 +42,7 @@ import torch  # noqa: E402
 from condmerge.aa_common import TaskData, new_model  # noqa: E402
 from condmerge.lora import LoRABank, core_svals, gauge, load_knots_lora  # noqa: E402
 
-BETA_MULTS = (0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128, math.inf)
+BETA_MULTS = (0.25, 1, 4, 16, 64, math.inf)  # pruned from master's 11-point grid for compute (same for every rule)
 ALPHAS = (0.6, 0.8, 1.0, 1.3, 1.6)  # LoRA bank: uniform optimum at alpha<=1 (full-FT grid wasted; same grid for every rule)
 
 
@@ -140,7 +140,9 @@ def main() -> None:
     dev = "cuda"
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    done = {json.loads(l)["chash"] for l in out.read_text().splitlines()} if out.exists() else set()
+    done = set()
+    for fp in out.parent.glob("rule_sweep_dev_shard*.jsonl"):  # dedupe across shards and earlier launches
+        done |= {json.loads(l)["chash"] for l in fp.read_text().splitlines() if l.strip()}
     t0 = time.time()
     bank = LoRABank(TASKS8, dev)
     data = TaskData(TASKS8, (args.split,), dev)
