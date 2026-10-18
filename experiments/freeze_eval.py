@@ -57,23 +57,25 @@ def main() -> None:
         idx = [TASKS8.index(e) for e in experts]
         sub = bank if len(idx) == 8 else bank.subset(idx)
         cfg = {"rule": c["rule"], "b": c["b"], "alpha": c["alpha"], "experts": experts, "split": args.split,
-               "bias_policy": c.get("bias_policy", "tied"), "tag": c.get("tag", "")}
+               "bias_policy": c.get("bias_policy", "tied"), "tag": c.get("tag", ""),
+               **({"abs_beta": True} if c.get("abs_beta") else {})}
         if config_key(cfg) in done:
             continue
         default = None
         coeffs: dict = {}
-        if c["rule"] == "uniform" or c["b"] == 0:
-            pass
-        elif c["rule"] == "metagpt":
+        if c["rule"] == "metagpt":
             default = global_norm_coeffs(sub, 2.0)
         elif c["rule"].startswith("single:"):
             e = c["rule"].split(":", 1)[1]
             default = np.array([1.0 if x == e else 0.0 for x in experts])
+        elif c["rule"] == "uniform" or float(c["b"]) == 0:
+            pass
         else:
             rows = rows if rows is not None else load_stats()
             table = {p: v[idx] for p, v in build_rule(c["rule"], rows, TASKS8, sizes).items()}
             b = float(c["b"])
-            coeffs = argmin_coeffs(table) if math.isinf(b) else layerwise_coeffs(table, b / scale_of(table))
+            beta = b if c.get("abs_beta") else b / scale_of(table)
+            coeffs = argmin_coeffs(table) if math.isinf(b) else layerwise_coeffs(table, beta)
         sd = sub.merge(coeffs, float(c["alpha"]), default=default, bias_policy=cfg["bias_policy"])
         tasks = experts if c.get("eval_on_subset", True) else TASKS8
         ev.load(sd)

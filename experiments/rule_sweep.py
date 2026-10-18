@@ -70,6 +70,8 @@ def main() -> None:
     ap.add_argument("--experts", default=",".join(TASKS8))
     ap.add_argument("--split", default="dev")
     ap.add_argument("--bias-policy", default="tied")
+    ap.add_argument("--abs-beta", action="store_true",
+                    help="interpret --betas as absolute beta values (derived temperatures) instead of b multipliers")
     ap.add_argument("--device", default="cuda:0")
     ap.add_argument("--out", default=str(RESULTS / "sweeps" / "rule_sweep_dev.jsonl"))
     args = ap.parse_args()
@@ -131,10 +133,10 @@ def main() -> None:
             if math.isinf(b):
                 coeffs, beta = argmin_coeffs(table), math.inf
             else:
-                beta = b / scale
+                beta = b if args.abs_beta else b / scale
                 coeffs = layerwise_coeffs(table, beta)
             for a in alphas:
-                run(rule, b, beta, coeffs, a, extra_cfg={"scale": scale})
+                run(rule, b, beta, coeffs, a, extra_cfg={"scale": scale, **({"abs_beta": True} if args.abs_beta else {})})
     print(f"ALL DONE {time.time() - t0:.0f}s", flush=True)
 
 

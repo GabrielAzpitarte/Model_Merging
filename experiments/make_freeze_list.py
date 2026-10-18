@@ -35,12 +35,12 @@ def main() -> None:
         d = by[rule]
         best = max(d.values(), key=lambda r: r["metrics"]["mean_norm"])
         cfgs.append({"rule": rule, "b": best["cfg"]["b"], "alpha": best["cfg"]["alpha"], "tag": f"{rule}|tuned",
-                     "dev_metric": best["metrics"]["mean_norm"]})
+                     "dev_metric": best["metrics"]["mean_norm"], "abs_beta": bool(best["cfg"].get("abs_beta", False))})
         a1 = [r for (b, a), r in d.items() if a == 1.0]
         if a1:
             b1 = max(a1, key=lambda r: r["metrics"]["mean_norm"])
             cfgs.append({"rule": rule, "b": b1["cfg"]["b"], "alpha": 1.0, "tag": f"{rule}|alpha1",
-                         "dev_metric": b1["metrics"]["mean_norm"]})
+                         "dev_metric": b1["metrics"]["mean_norm"], "abs_beta": bool(b1["cfg"].get("abs_beta", False))})
     exp = json.loads((RESULTS / "experts" / "expert_accuracy.json").read_text())
     ref, cross = exp["expert"]["dev"], exp["cross"]["dev"]
     single = {e: float(np.mean([cross[e][t] / ref[t] for t in TASKS8])) for e in TASKS8}
