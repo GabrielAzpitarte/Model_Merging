@@ -70,8 +70,33 @@ def test_shrinkage_moves_toward_diagonal_weighting():
     assert kappa_sym(grams.sum(0)) == i1["kappa_G"]
 
 
+def test_2x2_cells():
+    from condmerge.regmean_lora import kappa_capped_shrink, regmean_2x2
+    deltas, _, _ = _bank()
+    # strongly correlated Grams: random rotation of a 1e-4..1 spectrum, so diag(G) is well conditioned
+    g = torch.Generator().manual_seed(1)
+    grams = []
+    for _ in range(deltas.shape[0]):
+        q = torch.linalg.qr(torch.randn(20, 20, generator=g, dtype=torch.float64))[0]
+        grams.append(q @ torch.diag(torch.logspace(-4, 0, 20, dtype=torch.float64)) @ q.T)
+    grams = torch.stack(grams)
+    gsum = grams.sum(0)
+    assert kappa_sym(torch.diag(torch.diagonal(gsum))) < 10.0 < kappa_sym(gsum)
+    a, ok = kappa_capped_shrink(gsum, 10.0)
+    assert ok and 0.0 <= a < 1.0
+    sh = a * gsum + (1 - a) * torch.diag(torch.diagonal(gsum))
+    assert kappa_sym(sh) <= 10.0 * (1 + 1e-6)
+    out_ks, info = regmean_2x2(deltas, grams, "kcap_shrink", 10.0)
+    ref, _ = regmean_full(deltas, grams, a=a)
+    assert torch.allclose(out_ks, ref) and info["shrink_a"] == a
+    c = 0.05
+    out_rr, info_rr = regmean_2x2(deltas, grams, "rel_ridge", c)
+    ref_rr, _ = regmean_full(deltas, grams, ridge=c * float(torch.diagonal(gsum).mean()))
+    assert torch.allclose(out_rr, ref_rr)
+
+
 if __name__ == "__main__":
     for fn in [test_identical_grams_reduce_to_average, test_full_solution_satisfies_normal_equations, test_kappa_ridge_hits_target,
-               test_subspace_is_exact_for_each_expert_and_low_rank, test_shrinkage_moves_toward_diagonal_weighting]:
+               test_subspace_is_exact_for_each_expert_and_low_rank, test_shrinkage_moves_toward_diagonal_weighting, test_2x2_cells]:
         fn()
         print("PASS", fn.__name__)

@@ -72,3 +72,48 @@ def regmean_subspace(deltas: torch.Tensor, grams: torch.Tensor, basis: torch.Ten
     lhs = gsum + rho * torch.eye(gsum.shape[0], dtype=gsum.dtype, device=gsum.device)
     m = torch.linalg.solve(lhs, rhs.T).T
     return (m @ p.T).float(), {"kappa_G": kappa_sym(gsum), "kappa_solve": kappa_sym(lhs), "rho": rho, "dim": int(p.shape[1])}
+
+
+def kappa_capped_shrink(gsum: torch.Tensor, kappa_target: float, iters: int = 25) -> tuple[float, bool]:
+    """Largest a in [0, 1] with kappa(a G + (1-a) diag G) <= kappa_target (bisection on the system matrix).
+
+    Returns (a, reachable). If even the diagonal (a = 0) violates the cap, returns (0.0, False).
+    """
+    g = gsum.double()
+    dg = torch.diag(torch.diagonal(g))
+    if kappa_sym(g) <= kappa_target:
+        return 1.0, True
+    if kappa_sym(dg) > kappa_target:
+        return 0.0, False
+    lo, hi = 0.0, 1.0  # kappa(lo) <= target < kappa(hi)
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        if kappa_sym(mid * g + (1 - mid) * dg) <= kappa_target:
+            lo = mid
+        else:
+            hi = mid
+    return lo, True
+
+
+def regmean_2x2(deltas: torch.Tensor, grams: torch.Tensor, cell: str, param: float, ridge_to: str = "zero"):
+    """The four regulariser cells: (isotropic ridge | diagonal shrink) x (kappa-adaptive | fixed strength).
+
+    kcap_ridge   rho = smallest ridge with kappa(G + rho I) <= param            (param = kappa_target)
+    kcap_shrink  a   = largest a with kappa(a G + (1-a) diag G) <= param         (param = kappa_target)
+    fixed_shrink a   = param
+    rel_ridge    rho = param * tr(G) / d                                          (param = c)
+    """
+    gsum = grams.double().sum(0)
+    if cell == "kcap_ridge":
+        return regmean_full(deltas, grams, a=1.0, kappa_target=param, ridge_to=ridge_to)
+    if cell == "kcap_shrink":
+        a, ok = kappa_capped_shrink(gsum, param)
+        out, info = regmean_full(deltas, grams, a=a)
+        info.update({"shrink_a": a, "cap_reachable": ok})
+        return out, info
+    if cell == "fixed_shrink":
+        return regmean_full(deltas, grams, a=param)
+    if cell == "rel_ridge":
+        rho = param * float(torch.diagonal(gsum).mean())
+        return regmean_full(deltas, grams, a=1.0, ridge=rho, ridge_to=ridge_to)
+    raise ValueError(cell)
