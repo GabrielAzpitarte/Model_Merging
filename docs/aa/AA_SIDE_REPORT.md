@@ -51,6 +51,31 @@ Tables: `results/aa/score_vs_targets.md`, `results/aa/grad_pref/`, `results/aa/o
 
 Two independent κ implementations (this track's NumPy and master's torch) agree to 1e-13 median.
 
+### 2b. Check of master's dev-best rule `logkappa_q90_rev` (requested by the peer)
+
+The rule weights maps by the tail-robust bulk ratio σ1/σ_{⌈0.9q⌉} of the full weight, giving more weight to
+higher values. Master's numbers: dev-best of about 45 rules, frozen full-FT TEST +0.47 [+0.24, +0.70] over
+tuned uniform.
+
+Per-map association with log κ_q90 (positive = supports the rule):
+
+| target | within-map ρ (p) | within-expert (p) |
+|---|---|---|
+| gradient pref, α = 1 | +0.076 (0.09) | +0.070 (0.11) |
+| gradient pref, α = 2.4 | +0.076 (0.10); attention +0.18, MLP −0.12 | +0.059 (0.19) |
+| oracle layerwise + α (2 seeds) | +0.09 (0.046) | +0.075 (≈ 0.08) |
+| oracle, α = 1 | +0.03 (0.48) | — |
+
+The median ratio κ_q50 carries nothing.
+
+Reading: a small, consistently positive, attention-concentrated signal, in the REVERSE direction of the
+professor's hypothesis. It is TENTATIVE because it was selected among about 45 rules; master's pre-registered
+ViT-B/16 transfer is the settling test.
+
+Bound on global rules: the global oracle (one weight per expert) reaches 69.8 absolute on test vs 69.3 for
+tuned uniform. So no global rule can gain more than about +0.5 there; `global:logkappa`'s +0.27 lies inside its
+shuffled-null range.
+
 ## 3. The oracle allocation: ESTABLISHED (budget D, absolute accuracy)
 
 | bank | uniform (best α) | global oracle (λ per expert + α) | layerwise oracle, α = 1 | layerwise oracle + α |
