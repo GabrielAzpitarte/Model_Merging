@@ -22,7 +22,7 @@ import torch
 from safetensors.torch import load_file
 
 from .data import CLIP_MEAN, CLIP_STD, load_cache
-from .paths import BASE_MODEL, CACHE, TASKS8, fusionbench_dir
+from .paths import ARCH, BASE_MODEL, CACHE_ARCH, TASKS8, fusionbench_dir
 
 _BASE_CACHE: dict = {}
 
@@ -54,7 +54,8 @@ def load_experts(tasks=TASKS8) -> dict[str, dict[str, torch.Tensor]]:
 
 def build_heads(device: str = "cuda") -> dict:
     """Zero-shot heads + visual projection; cached to ``artifacts/cache/heads_vitb32.pt``."""
-    path = CACHE / "heads_vitb32.pt"
+    path = CACHE_ARCH / ("heads_vitb32.pt" if ARCH == "b32" else f"heads_{ARCH}.pt")
+    path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists():
         return torch.load(path, map_location="cpu")
     from transformers import CLIPModel, CLIPTokenizer

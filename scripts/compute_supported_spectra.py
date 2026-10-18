@@ -23,7 +23,7 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from condmerge.paths import CACHE, RESULTS, TASKS8, offline_env  # noqa: E402
+from condmerge.paths import CACHE_ARCH, RESULTS, TASKS8, offline_env  # noqa: E402
 
 offline_env()
 
@@ -34,7 +34,7 @@ from condmerge.spectra import as_matrix, layer_index, linear_map_names, module_t
 def main() -> None:
     torch.set_num_threads(16)
     t0 = time.time()
-    g = torch.load(CACHE / "grams" / "base.pt", weights_only=False)
+    g = torch.load(CACHE_ARCH / "grams" / "base.pt", weights_only=False)
     base = load_base_state()
     experts = load_experts(TASKS8)
     rows = []

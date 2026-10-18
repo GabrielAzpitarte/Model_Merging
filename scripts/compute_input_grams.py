@@ -19,7 +19,7 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from condmerge.paths import CACHE, TASKS8, offline_env  # noqa: E402
+from condmerge.paths import CACHE_ARCH, TASKS8, offline_env  # noqa: E402
 
 offline_env()
 
@@ -89,21 +89,23 @@ def main() -> None:
         for i in range(0, x.shape[0], args.batch):
             px = (torch.from_numpy(np.ascontiguousarray(x[i:i + args.batch])).to(dev).float() / 255 - mean) / std
             # patch-embedding input = non-overlapping 32x32 patches flattened (3*32*32), conv weight order
-            pt = px.unfold(2, 32, 32).unfold(3, 32, 32)  # (B, 3, 7, 7, 32, 32)
-            pt = pt.permute(0, 2, 3, 1, 4, 5).reshape(-1, 3 * 32 * 32).double()
+            ps = model.config.patch_size
+            pt = px.unfold(2, ps, ps).unfold(3, ps, ps)  # (B, 3, g, g, ps, ps)
+            pt = pt.permute(0, 2, 3, 1, 4, 5).reshape(-1, 3 * ps * ps).double()
             grams["patches"] = grams.get("patches", 0) + pt.T @ pt
             model(pixel_values=px)
             n_img += px.shape[0]
     for h in hooks:
         h.remove()
-    n_tokens = n_img * 50
+    n_patches = (224 // model.config.patch_size) ** 2
+    n_tokens = n_img * (n_patches + 1)
     out = {"grams": {}, "n_images": n_img, "n_tokens_per_input": {}, "inputs_of": inputs_of, "model": args.model,
            "budget": "B: pooled unlabelled calib, no task ids"}
     for k, g in grams.items():
-        n = n_img * 49 if k == "patches" else n_tokens
+        n = n_img * n_patches if k == "patches" else n_tokens
         out["grams"][k] = (g / n).float().cpu()
         out["n_tokens_per_input"][k] = n
-    d = CACHE / "grams"
+    d = CACHE_ARCH / "grams"
     d.mkdir(parents=True, exist_ok=True)
     torch.save(out, d / f"{args.model}.pt")
     print(f"saved {len(out['grams'])} grams for {args.model} from {n_img} images in {time.time() - t0:.0f}s", flush=True)

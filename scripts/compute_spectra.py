@@ -21,7 +21,7 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from condmerge.paths import CACHE, RESULTS, TASKS8, offline_env  # noqa: E402
+from condmerge.paths import CACHE_ARCH, RESULTS, TASKS8, offline_env  # noqa: E402
 
 offline_env()
 
@@ -105,7 +105,7 @@ def main() -> None:
                                 "a": TASKS8[i], "b": TASKS8[j], "cos": float(cos[i, j]),
                                 f"left_overlap_k{args.overlap_k}": left, f"right_overlap_k{args.overlap_k}": right})
         print(f"{name} done {time.time() - t0:.0f}s kappa0={fo['kappa0']:.1f}", flush=True)
-    out = CACHE / "spectra"
+    out = CACHE_ARCH / "spectra"
     out.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(out / "svals.npz", **svals)
     write_csv(RESULTS / "spectra" / "stats.csv", rows)
