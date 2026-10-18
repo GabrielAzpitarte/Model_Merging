@@ -130,4 +130,8 @@ uniform best 52.3 (alpha 0.8); uniform alpha 1.3: 50.0
 
 | budget | solve | regulariser | best dev acc (alpha) | acc at alpha 1.3 | median kappa(G) | median kappa(solve) |
 |---|---|---|---|---|---|---|
+| C | full | shrink 1.0 | 4.1 (0.8) | 4.1 | 1.13e+05 | 1.13e+05 |
+| C | full | shrink 0.95 | 63.9 (0.8) | 49.9 | 3.63e+03 | 3.63e+03 |
+| C | full | shrink 0.9 | 63.3 (0.8) | 49.5 | 2.06e+03 | 2.06e+03 |
+| C | full | shrink 0.5 | 59.9 (0.8) | nan | 4.30e+02 | 4.30e+02 |
 

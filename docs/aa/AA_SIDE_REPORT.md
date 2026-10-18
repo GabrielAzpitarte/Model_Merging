@@ -280,8 +280,23 @@ Reading:
 - It needs budget C. The label-free pooled Grams carry no task information for rank-16 adapters.
 - Part of the gain is extra rank (the subspace solve gives 57.9).
 
+**Calibration-size test (C budget, full solve):**
+
+| images per task | plain | shrink a = 0.95 | κ-cap 1e4 | median κ(G) |
+|---|---|---|---|---|
+| 512 | 65.3 (collapses at α = 1.3) | 64.8 | **65.5** | 1.05e5 |
+| 16 | **4.1 at every α** | 61.7 | **62.2** | 2.2e5 |
+
+Noisier Gram estimates are worse conditioned, and the plain solve then fails completely. Conditioning-based
+regularization rescues it and stays slightly ahead of RegMean's fixed shrinkage (+0.5 to +0.7). This
+SUPPORTS review hypothesis row 3: weak Gram eigen-directions amplify estimation noise, and stable
+regularization fixes it.
+
+The margin over existing shrinkage is small, and spectral filtering of the merge solve is close prior work
+(SWUDI [03]). So any novelty claim would be narrow.
+
 PENDING:
-- a calibration-size sweep (16 / 64 / 512 images per task), the discriminating test;
+- 64 images per task;
 - transfer to lora_c5a and vit20;
 - rank-16 compressed comparison;
 - frozen test.
