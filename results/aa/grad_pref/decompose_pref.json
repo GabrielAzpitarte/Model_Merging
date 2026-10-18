@@ -1,0 +1,242 @@
+{
+ "1": {
+  "expert_mean_pref_rank": {
+   "sun397": 2.562,
+   "cars": 2.438,
+   "resisc45": 4.329,
+   "eurosat": 4.384,
+   "svhn": 5.945,
+   "gtsrb": 6.26,
+   "mnist": 5.699,
+   "dtd": 4.384
+  },
+  "kappa_W": {
+   "between_expert_corr": -0.2843459917264253,
+   "within_expert_corr": 0.09535688898466195,
+   "p_within_le": 0.9834,
+   "p_within_ge": 0.0166,
+   "null_sd": 0.04431996215155879,
+   "expert_mean_score_rank": {
+    "sun397": 5.219,
+    "cars": 4.068,
+    "resisc45": 4.534,
+    "eurosat": 4.411,
+    "svhn": 4.205,
+    "gtsrb": 3.959,
+    "mnist": 5.014,
+    "dtd": 4.589
+   },
+   "mean_per_expert_spearman_over_maps": 0.013627555307775478
+  },
+  "fro_D": {
+   "between_expert_corr": 0.15436205820779067,
+   "within_expert_corr": 0.09909770076659669,
+   "p_within_le": 0.9862,
+   "p_within_ge": 0.0138,
+   "null_sd": 0.044053105918285665,
+   "expert_mean_score_rank": {
+    "sun397": 7.548,
+    "cars": 2.63,
+    "resisc45": 4.836,
+    "eurosat": 3.233,
+    "svhn": 7.055,
+    "gtsrb": 5.753,
+    "mnist": 3.781,
+    "dtd": 1.164
+   },
+   "mean_per_expert_spearman_over_maps": 0.0778056408282746
+  },
+  "stable_rank_D": {
+   "between_expert_corr": -0.8483768991647695,
+   "within_expert_corr": 0.025267152898373307,
+   "p_within_le": 0.709,
+   "p_within_ge": 0.291,
+   "null_sd": 0.043699860974079026,
+   "expert_mean_score_rank": {
+    "sun397": 7.849,
+    "cars": 6.37,
+    "resisc45": 5.726,
+    "eurosat": 2.973,
+    "svhn": 2.151,
+    "gtsrb": 3.685,
+    "mnist": 1.945,
+    "dtd": 5.301
+   },
+   "mean_per_expert_spearman_over_maps": -0.00840259733304502
+  },
+  "entropy_rank_D": {
+   "between_expert_corr": -0.849974816009923,
+   "within_expert_corr": 0.026457517329234743,
+   "p_within_le": 0.7316,
+   "p_within_ge": 0.2684,
+   "null_sd": 0.043153770717971274,
+   "expert_mean_score_rank": {
+    "sun397": 7.945,
+    "cars": 6.603,
+    "resisc45": 5.452,
+    "eurosat": 3.247,
+    "svhn": 1.877,
+    "gtsrb": 3.726,
+    "mnist": 1.288,
+    "dtd": 5.863
+   },
+   "mean_per_expert_spearman_over_maps": -0.0005604394408542518
+  },
+  "smin_W": {
+   "between_expert_corr": 0.5774081452647226,
+   "within_expert_corr": -0.09009115408035168,
+   "p_within_le": 0.0214,
+   "p_within_ge": 0.9786,
+   "null_sd": 0.04411588510815057,
+   "expert_mean_score_rank": {
+    "sun397": 3.726,
+    "cars": 4.589,
+    "resisc45": 4.562,
+    "eurosat": 4.562,
+    "svhn": 5.055,
+    "gtsrb": 5.288,
+    "mnist": 4.068,
+    "dtd": 4.151
+   },
+   "mean_per_expert_spearman_over_maps": -0.012277299988887436
+  },
+  "kplus_D_0.01": {
+   "between_expert_corr": 0.7762054005221025,
+   "within_expert_corr": 0.02203114913977723,
+   "p_within_le": 0.7046,
+   "p_within_ge": 0.2954,
+   "null_sd": 0.0436348721668921,
+   "expert_mean_score_rank": {
+    "sun397": 3.014,
+    "cars": 3.411,
+    "resisc45": 3.658,
+    "eurosat": 5.808,
+    "svhn": 5.63,
+    "gtsrb": 4.932,
+    "mnist": 5.753,
+    "dtd": 3.795
+   },
+   "mean_per_expert_spearman_over_maps": -0.0040463254195025
+  }
+ },
+ "2.4": {
+  "expert_mean_pref_rank": {
+   "sun397": 4.562,
+   "cars": 4.836,
+   "resisc45": 5.466,
+   "eurosat": 4.658,
+   "svhn": 3.151,
+   "gtsrb": 5.301,
+   "mnist": 2.644,
+   "dtd": 5.384
+  },
+  "kappa_W": {
+   "between_expert_corr": -0.3050238829366414,
+   "within_expert_corr": 0.07765756020050814,
+   "p_within_le": 0.9538,
+   "p_within_ge": 0.0462,
+   "null_sd": 0.045069167871618764,
+   "expert_mean_score_rank": {
+    "sun397": 5.219,
+    "cars": 4.068,
+    "resisc45": 4.534,
+    "eurosat": 4.411,
+    "svhn": 4.205,
+    "gtsrb": 3.959,
+    "mnist": 5.014,
+    "dtd": 4.589
+   },
+   "mean_per_expert_spearman_over_maps": -0.0016633113792033395
+  },
+  "fro_D": {
+   "between_expert_corr": -0.26803377548460516,
+   "within_expert_corr": 0.12277363502307892,
+   "p_within_le": 0.9976,
+   "p_within_ge": 0.0024,
+   "null_sd": 0.044658848023933516,
+   "expert_mean_score_rank": {
+    "sun397": 7.548,
+    "cars": 2.63,
+    "resisc45": 4.836,
+    "eurosat": 3.233,
+    "svhn": 7.055,
+    "gtsrb": 5.753,
+    "mnist": 3.781,
+    "dtd": 1.164
+   },
+   "mean_per_expert_spearman_over_maps": 0.022845548720493943
+  },
+  "stable_rank_D": {
+   "between_expert_corr": 0.6191980009121046,
+   "within_expert_corr": 0.02258774076044771,
+   "p_within_le": 0.6944,
+   "p_within_ge": 0.3056,
+   "null_sd": 0.04433631039707391,
+   "expert_mean_score_rank": {
+    "sun397": 7.849,
+    "cars": 6.37,
+    "resisc45": 5.726,
+    "eurosat": 2.973,
+    "svhn": 2.151,
+    "gtsrb": 3.685,
+    "mnist": 1.945,
+    "dtd": 5.301
+   },
+   "mean_per_expert_spearman_over_maps": 0.0180587638238197
+  },
+  "entropy_rank_D": {
+   "between_expert_corr": 0.6789581037899198,
+   "within_expert_corr": 0.022256661012922327,
+   "p_within_le": 0.694,
+   "p_within_ge": 0.306,
+   "null_sd": 0.04479901978862332,
+   "expert_mean_score_rank": {
+    "sun397": 7.945,
+    "cars": 6.603,
+    "resisc45": 5.452,
+    "eurosat": 3.247,
+    "svhn": 1.877,
+    "gtsrb": 3.726,
+    "mnist": 1.288,
+    "dtd": 5.863
+   },
+   "mean_per_expert_spearman_over_maps": 0.017897003145021302
+  },
+  "smin_W": {
+   "between_expert_corr": 0.11247332465639188,
+   "within_expert_corr": -0.12751608954523097,
+   "p_within_le": 0.002,
+   "p_within_ge": 0.998,
+   "null_sd": 0.043871673593425836,
+   "expert_mean_score_rank": {
+    "sun397": 3.726,
+    "cars": 4.589,
+    "resisc45": 4.562,
+    "eurosat": 4.562,
+    "svhn": 5.055,
+    "gtsrb": 5.288,
+    "mnist": 4.068,
+    "dtd": 4.151
+   },
+   "mean_per_expert_spearman_over_maps": -0.002483695466348558
+  },
+  "kplus_D_0.01": {
+   "between_expert_corr": -0.6096682901083263,
+   "within_expert_corr": -0.07164308212187151,
+   "p_within_le": 0.0524,
+   "p_within_ge": 0.9476,
+   "null_sd": 0.04422285365823142,
+   "expert_mean_score_rank": {
+    "sun397": 3.014,
+    "cars": 3.411,
+    "resisc45": 3.658,
+    "eurosat": 5.808,
+    "svhn": 5.63,
+    "gtsrb": 4.932,
+    "mnist": 5.753,
+    "dtd": 3.795
+   },
+   "mean_per_expert_spearman_over_maps": -0.04322158329844383
+  }
+ }
+}

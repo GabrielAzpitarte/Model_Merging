@@ -1,0 +1,972 @@
+{
+ "core_vs_dense_max_rel_err": 8.97199096588805e-10,
+ "gauge": [
+  {
+   "param": "encoder.layers.0.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.42499054774948e-16,
+   "core_spectrum_rel_err": 5.082316707170995e-16,
+   "kappa_A_before": 1.3562835507919226,
+   "kappa_A_after": 10.426301014258817,
+   "kappa_B_before": 8.672589298361418,
+   "kappa_B_after": 23.242582899200062
+  },
+  {
+   "param": "encoder.layers.0.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.913528298156565e-13,
+   "core_spectrum_rel_err": 1.3485080329693705e-13,
+   "kappa_A_before": 1.3562835507919226,
+   "kappa_A_after": 10255.212920226233,
+   "kappa_B_before": 8.672589298361418,
+   "kappa_B_after": 24216.526004436564
+  },
+  {
+   "param": "encoder.layers.0.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.664467840181199e-16,
+   "core_spectrum_rel_err": 3.9734617762318924e-16,
+   "kappa_A_before": 1.660119448488839,
+   "kappa_A_after": 10.590757643102844,
+   "kappa_B_before": 3.5091803032704014,
+   "kappa_B_after": 16.021557233645076
+  },
+  {
+   "param": "encoder.layers.0.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.287217656458462e-13,
+   "core_spectrum_rel_err": 6.407207114173927e-14,
+   "kappa_A_before": 1.660119448488839,
+   "kappa_A_after": 10837.551654360448,
+   "kappa_B_before": 3.5091803032704014,
+   "kappa_B_after": 11052.843154362712
+  },
+  {
+   "param": "encoder.layers.0.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 7.729494089268238e-16,
+   "core_spectrum_rel_err": 2.8971446187749853e-16,
+   "kappa_A_before": 1.315536028378525,
+   "kappa_A_after": 10.317340519420709,
+   "kappa_B_before": 5.5842088064327005,
+   "kappa_B_after": 21.2029630359801
+  },
+  {
+   "param": "encoder.layers.0.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.6358476731463746e-13,
+   "core_spectrum_rel_err": 7.05454714671709e-14,
+   "kappa_A_before": 1.315536028378525,
+   "kappa_A_after": 10169.785809894049,
+   "kappa_B_before": 5.5842088064327005,
+   "kappa_B_after": 13582.762045230102
+  },
+  {
+   "param": "encoder.layers.0.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.928941528204148e-16,
+   "core_spectrum_rel_err": 7.011818854617562e-16,
+   "kappa_A_before": 1.6099110749338936,
+   "kappa_A_after": 10.855385134005418,
+   "kappa_B_before": 5.9976352490081695,
+   "kappa_B_after": 20.510004412381004
+  },
+  {
+   "param": "encoder.layers.0.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.3663640652057783e-13,
+   "core_spectrum_rel_err": 8.217851697611783e-14,
+   "kappa_A_before": 1.6099110749338936,
+   "kappa_A_after": 11302.546825067035,
+   "kappa_B_before": 5.9976352490081695,
+   "kappa_B_after": 10342.523652881315
+  },
+  {
+   "param": "encoder.layers.1.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.200841063265995e-16,
+   "core_spectrum_rel_err": 7.136251271754393e-16,
+   "kappa_A_before": 1.4404556789143708,
+   "kappa_A_after": 11.08793548959666,
+   "kappa_B_before": 6.8473816416526345,
+   "kappa_B_after": 18.44216508425112
+  },
+  {
+   "param": "encoder.layers.1.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.465438340941974e-13,
+   "core_spectrum_rel_err": 2.854500508701757e-14,
+   "kappa_A_before": 1.4404556789143708,
+   "kappa_A_after": 9695.25172067691,
+   "kappa_B_before": 6.8473816416526345,
+   "kappa_B_after": 18903.30620999334
+  },
+  {
+   "param": "encoder.layers.1.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.16196397810072e-16,
+   "core_spectrum_rel_err": 4.7199168749856e-16,
+   "kappa_A_before": 1.870456233245369,
+   "kappa_A_after": 10.347693655380775,
+   "kappa_B_before": 5.517202219611209,
+   "kappa_B_after": 25.81295888747326
+  },
+  {
+   "param": "encoder.layers.1.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.6769314411249258e-13,
+   "core_spectrum_rel_err": 2.562914863117181e-13,
+   "kappa_A_before": 1.870456233245369,
+   "kappa_A_after": 11888.418291567965,
+   "kappa_B_before": 5.517202219611209,
+   "kappa_B_after": 16067.86112833007
+  },
+  {
+   "param": "encoder.layers.1.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.484186807337331e-16,
+   "core_spectrum_rel_err": 1.1325224272653082e-15,
+   "kappa_A_before": 1.2794523880086293,
+   "kappa_A_after": 9.710910829846087,
+   "kappa_B_before": 3.535415104665696,
+   "kappa_B_after": 16.94006149040613
+  },
+  {
+   "param": "encoder.layers.1.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.3303866196994133e-13,
+   "core_spectrum_rel_err": 9.272527373234711e-14,
+   "kappa_A_before": 1.2794523880086293,
+   "kappa_A_after": 10134.934331865812,
+   "kappa_B_before": 3.535415104665696,
+   "kappa_B_after": 13848.344464563228
+  },
+  {
+   "param": "encoder.layers.1.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 3.623394664983315e-16,
+   "core_spectrum_rel_err": 4.2883141389103576e-16,
+   "kappa_A_before": 2.3031498309514316,
+   "kappa_A_after": 11.783314417773534,
+   "kappa_B_before": 15.16056232770786,
+   "kappa_B_after": 34.238225370744885
+  },
+  {
+   "param": "encoder.layers.1.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.3802114061994377e-13,
+   "core_spectrum_rel_err": 1.067790220588679e-13,
+   "kappa_A_before": 2.3031498309514316,
+   "kappa_A_after": 9542.703883304303,
+   "kappa_B_before": 15.16056232770786,
+   "kappa_B_after": 49319.43980409139
+  },
+  {
+   "param": "encoder.layers.10.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.71493734971414e-16,
+   "core_spectrum_rel_err": 5.589260018910441e-16,
+   "kappa_A_before": 2.166909901690268,
+   "kappa_A_after": 11.19562019855909,
+   "kappa_B_before": 18.549503352789483,
+   "kappa_B_after": 43.820362571888786
+  },
+  {
+   "param": "encoder.layers.10.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 8.982290701506909e-14,
+   "core_spectrum_rel_err": 7.769071426285512e-14,
+   "kappa_A_before": 2.166909901690268,
+   "kappa_A_after": 10182.810522429487,
+   "kappa_B_before": 18.549503352789483,
+   "kappa_B_after": 38558.475950582164
+  },
+  {
+   "param": "encoder.layers.10.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.031002684570454e-16,
+   "core_spectrum_rel_err": 7.791193452195542e-16,
+   "kappa_A_before": 1.8506882766770838,
+   "kappa_A_after": 10.147836675533638,
+   "kappa_B_before": 8.665172915414558,
+   "kappa_B_after": 35.02397754152386
+  },
+  {
+   "param": "encoder.layers.10.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 9.68439193762636e-14,
+   "core_spectrum_rel_err": 4.3922853086752367e-14,
+   "kappa_A_before": 1.8506882766770838,
+   "kappa_A_after": 10173.231226667567,
+   "kappa_B_before": 8.665172915414558,
+   "kappa_B_after": 17183.681892166194
+  },
+  {
+   "param": "encoder.layers.10.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.30421546934299e-16,
+   "core_spectrum_rel_err": 3.7361476310348367e-16,
+   "kappa_A_before": 2.2434442430736707,
+   "kappa_A_after": 14.607846279439114,
+   "kappa_B_before": 16.499357435173525,
+   "kappa_B_after": 40.9604397752865
+  },
+  {
+   "param": "encoder.layers.10.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 8.200051570935739e-14,
+   "core_spectrum_rel_err": 2.6277571671611687e-14,
+   "kappa_A_before": 2.2434442430736707,
+   "kappa_A_after": 10949.687106127109,
+   "kappa_B_before": 16.499357435173525,
+   "kappa_B_after": 23245.895337093072
+  },
+  {
+   "param": "encoder.layers.10.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.678131451843959e-16,
+   "core_spectrum_rel_err": 3.102426548696796e-16,
+   "kappa_A_before": 2.149355113379073,
+   "kappa_A_after": 12.28571852824173,
+   "kappa_B_before": 16.36384310406132,
+   "kappa_B_after": 50.709080779848165
+  },
+  {
+   "param": "encoder.layers.10.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.6316696942254673e-13,
+   "core_spectrum_rel_err": 2.364049030106959e-13,
+   "kappa_A_before": 2.149355113379073,
+   "kappa_A_after": 10135.972894799032,
+   "kappa_B_before": 16.36384310406132,
+   "kappa_B_after": 50615.832501410936
+  },
+  {
+   "param": "encoder.layers.11.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 3.9625132418717965e-16,
+   "core_spectrum_rel_err": 1.1527452089723993e-15,
+   "kappa_A_before": 1.9907401028032854,
+   "kappa_A_after": 11.024184297393656,
+   "kappa_B_before": 29.11559332071312,
+   "kappa_B_after": 57.870314161604455
+  },
+  {
+   "param": "encoder.layers.11.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 9.25438996309462e-14,
+   "core_spectrum_rel_err": 8.6620568559926e-14,
+   "kappa_A_before": 1.9907401028032854,
+   "kappa_A_after": 10547.19274522354,
+   "kappa_B_before": 29.11559332071312,
+   "kappa_B_after": 68948.36219713386
+  },
+  {
+   "param": "encoder.layers.11.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 2.6835615922681306e-16,
+   "core_spectrum_rel_err": 7.728510529498813e-16,
+   "kappa_A_before": 4.101698421319822,
+   "kappa_A_after": 17.692993685594047,
+   "kappa_B_before": 50.20992066441537,
+   "kappa_B_after": 155.21849086049954
+  },
+  {
+   "param": "encoder.layers.11.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 3.1143960710492586e-14,
+   "core_spectrum_rel_err": 9.171568354928669e-15,
+   "kappa_A_before": 4.101698421319822,
+   "kappa_A_after": 9819.46020702543,
+   "kappa_B_before": 50.20992066441537,
+   "kappa_B_after": 46179.4991475369
+  },
+  {
+   "param": "encoder.layers.11.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 3.945667652103479e-16,
+   "core_spectrum_rel_err": 5.601758229742714e-16,
+   "kappa_A_before": 2.624075294002936,
+   "kappa_A_after": 15.08605134907645,
+   "kappa_B_before": 59.92770389249077,
+   "kappa_B_after": 202.72303916618088
+  },
+  {
+   "param": "encoder.layers.11.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 5.017986139372741e-14,
+   "core_spectrum_rel_err": 2.408756038789367e-14,
+   "kappa_A_before": 2.624075294002936,
+   "kappa_A_after": 14273.946202351852,
+   "kappa_B_before": 59.92770389249077,
+   "kappa_B_after": 55566.44188975249
+  },
+  {
+   "param": "encoder.layers.11.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 3.4261972940416984e-16,
+   "core_spectrum_rel_err": 1.6262469096213407e-16,
+   "kappa_A_before": 2.8640839285607327,
+   "kappa_A_after": 11.07782786936004,
+   "kappa_B_before": 36.223284967775875,
+   "kappa_B_after": 118.65594606096452
+  },
+  {
+   "param": "encoder.layers.11.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 8.385386232804607e-14,
+   "core_spectrum_rel_err": 7.122961464141472e-14,
+   "kappa_A_before": 2.8640839285607327,
+   "kappa_A_after": 11405.084213020478,
+   "kappa_B_before": 36.223284967775875,
+   "kappa_B_after": 97829.01448821666
+  },
+  {
+   "param": "encoder.layers.2.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.882765071261777e-16,
+   "core_spectrum_rel_err": 3.4318031247373205e-16,
+   "kappa_A_before": 1.3421288470737167,
+   "kappa_A_after": 11.039791984084003,
+   "kappa_B_before": 6.349053006954865,
+   "kappa_B_after": 21.359849576444464
+  },
+  {
+   "param": "encoder.layers.2.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 2.0112935470206026e-13,
+   "core_spectrum_rel_err": 4.780011495169839e-14,
+   "kappa_A_before": 1.3421288470737167,
+   "kappa_A_after": 10049.027843894453,
+   "kappa_B_before": 6.349053006954865,
+   "kappa_B_after": 27755.074280773046
+  },
+  {
+   "param": "encoder.layers.2.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.645652721273335e-16,
+   "core_spectrum_rel_err": 2.2595443667390653e-16,
+   "kappa_A_before": 1.479502386748102,
+   "kappa_A_after": 11.085903791192303,
+   "kappa_B_before": 5.815996877520231,
+   "kappa_B_after": 18.32105589129258
+  },
+  {
+   "param": "encoder.layers.2.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.1719983385477e-13,
+   "core_spectrum_rel_err": 1.007756787565623e-13,
+   "kappa_A_before": 1.479502386748102,
+   "kappa_A_after": 10189.998867771461,
+   "kappa_B_before": 5.815996877520231,
+   "kappa_B_after": 14911.808930604691
+  },
+  {
+   "param": "encoder.layers.2.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 7.394298390373474e-16,
+   "core_spectrum_rel_err": 3.515618284807553e-16,
+   "kappa_A_before": 1.3223706027495938,
+   "kappa_A_after": 10.070988311950948,
+   "kappa_B_before": 3.487995784219052,
+   "kappa_B_after": 18.80519317576587
+  },
+  {
+   "param": "encoder.layers.2.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.798792455791177e-13,
+   "core_spectrum_rel_err": 1.390778593469868e-13,
+   "kappa_A_before": 1.3223706027495938,
+   "kappa_A_after": 10618.279260392857,
+   "kappa_B_before": 3.487995784219052,
+   "kappa_B_after": 10470.626637273837
+  },
+  {
+   "param": "encoder.layers.2.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.955208177970667e-16,
+   "core_spectrum_rel_err": 3.6287460198516736e-16,
+   "kappa_A_before": 1.9859247535448166,
+   "kappa_A_after": 10.980265063239305,
+   "kappa_B_before": 14.975547523650205,
+   "kappa_B_after": 59.53921435434941
+  },
+  {
+   "param": "encoder.layers.2.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.0195571516951279e-13,
+   "core_spectrum_rel_err": 3.631769974868217e-14,
+   "kappa_A_before": 1.9859247535448166,
+   "kappa_A_after": 10597.603808766356,
+   "kappa_B_before": 14.975547523650205,
+   "kappa_B_after": 25494.221890249508
+  },
+  {
+   "param": "encoder.layers.3.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.396730559188508e-16,
+   "core_spectrum_rel_err": 1.4923470984800556e-16,
+   "kappa_A_before": 1.5872783996913364,
+   "kappa_A_after": 10.319982410516134,
+   "kappa_B_before": 9.150348204911182,
+   "kappa_B_after": 40.01200736209311
+  },
+  {
+   "param": "encoder.layers.3.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.6272696969466308e-13,
+   "core_spectrum_rel_err": 1.25158176659194e-13,
+   "kappa_A_before": 1.5872783996913364,
+   "kappa_A_after": 9971.20043885201,
+   "kappa_B_before": 9.150348204911182,
+   "kappa_B_after": 31677.626717219366
+  },
+  {
+   "param": "encoder.layers.3.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.458073038970693e-16,
+   "core_spectrum_rel_err": 5.283232490079868e-16,
+   "kappa_A_before": 1.4964510845575514,
+   "kappa_A_after": 10.126638740361926,
+   "kappa_B_before": 5.724765231060409,
+   "kappa_B_after": 24.730069603177306
+  },
+  {
+   "param": "encoder.layers.3.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.5643468838364485e-13,
+   "core_spectrum_rel_err": 3.611466780718881e-13,
+   "kappa_A_before": 1.4964510845575514,
+   "kappa_A_after": 9582.580744669502,
+   "kappa_B_before": 5.724765231060409,
+   "kappa_B_after": 18749.38030457122
+  },
+  {
+   "param": "encoder.layers.3.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.709433377037705e-16,
+   "core_spectrum_rel_err": 2.3156586260906346e-16,
+   "kappa_A_before": 1.5127261651764217,
+   "kappa_A_after": 11.299536799935067,
+   "kappa_B_before": 7.380592143232625,
+   "kappa_B_after": 22.768578294245483
+  },
+  {
+   "param": "encoder.layers.3.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.3528077223636647e-13,
+   "core_spectrum_rel_err": 6.964343317967585e-14,
+   "kappa_A_before": 1.5127261651764217,
+   "kappa_A_after": 10324.427207392477,
+   "kappa_B_before": 7.380592143232625,
+   "kappa_B_after": 10964.648276851503
+  },
+  {
+   "param": "encoder.layers.3.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.39572099783521e-16,
+   "core_spectrum_rel_err": 1.7030560943343561e-16,
+   "kappa_A_before": 1.7382819215941756,
+   "kappa_A_after": 10.788893303566391,
+   "kappa_B_before": 10.48825775652886,
+   "kappa_B_after": 38.87433816864575
+  },
+  {
+   "param": "encoder.layers.3.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 9.723955608954032e-14,
+   "core_spectrum_rel_err": 8.906983373368683e-14,
+   "kappa_A_before": 1.7382819215941756,
+   "kappa_A_after": 10057.260410222507,
+   "kappa_B_before": 10.48825775652886,
+   "kappa_B_after": 23505.07545684406
+  },
+  {
+   "param": "encoder.layers.4.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.165535271177384e-16,
+   "core_spectrum_rel_err": 1.8497164824944113e-16,
+   "kappa_A_before": 1.6570257366735164,
+   "kappa_A_after": 10.72688477243218,
+   "kappa_B_before": 11.872078197573336,
+   "kappa_B_after": 30.46079777390666
+  },
+  {
+   "param": "encoder.layers.4.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.8924049693597316e-13,
+   "core_spectrum_rel_err": 1.6314499375600709e-13,
+   "kappa_A_before": 1.6570257366735164,
+   "kappa_A_after": 10764.519045399706,
+   "kappa_B_before": 11.872078197573336,
+   "kappa_B_after": 22168.3264584408
+  },
+  {
+   "param": "encoder.layers.4.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.110837184014734e-16,
+   "core_spectrum_rel_err": 3.6051961904100577e-16,
+   "kappa_A_before": 1.8580001294401631,
+   "kappa_A_after": 11.680609162145233,
+   "kappa_B_before": 7.165855195073734,
+   "kappa_B_after": 29.014667895027056
+  },
+  {
+   "param": "encoder.layers.4.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.595461337033307e-13,
+   "core_spectrum_rel_err": 5.4708852189472626e-14,
+   "kappa_A_before": 1.8580001294401631,
+   "kappa_A_after": 9361.374948757408,
+   "kappa_B_before": 7.165855195073734,
+   "kappa_B_after": 17942.99387857853
+  },
+  {
+   "param": "encoder.layers.4.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.111083381163923e-16,
+   "core_spectrum_rel_err": 3.2166660778120804e-16,
+   "kappa_A_before": 1.4256321024092455,
+   "kappa_A_after": 9.925409412315398,
+   "kappa_B_before": 5.058056440526095,
+   "kappa_B_after": 17.58944064896449
+  },
+  {
+   "param": "encoder.layers.4.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.4228564771671802e-13,
+   "core_spectrum_rel_err": 1.1664435364666057e-13,
+   "kappa_A_before": 1.4256321024092455,
+   "kappa_A_after": 9969.427462443615,
+   "kappa_B_before": 5.058056440526095,
+   "kappa_B_after": 13394.806814218759
+  },
+  {
+   "param": "encoder.layers.4.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.327965165818319e-16,
+   "core_spectrum_rel_err": 5.325362900448547e-16,
+   "kappa_A_before": 1.7385403866816038,
+   "kappa_A_after": 9.523247869283168,
+   "kappa_B_before": 8.929750847613331,
+   "kappa_B_after": 39.95982064654418
+  },
+  {
+   "param": "encoder.layers.4.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.5850223786396458e-13,
+   "core_spectrum_rel_err": 4.027910848339264e-14,
+   "kappa_A_before": 1.7385403866816038,
+   "kappa_A_after": 9292.320765999366,
+   "kappa_B_before": 8.929750847613331,
+   "kappa_B_after": 28812.73678125885
+  },
+  {
+   "param": "encoder.layers.5.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.946709740967277e-16,
+   "core_spectrum_rel_err": 4.480893383519227e-16,
+   "kappa_A_before": 1.8228195552406885,
+   "kappa_A_after": 10.096575170947073,
+   "kappa_B_before": 9.410272450656537,
+   "kappa_B_after": 31.29535034409415
+  },
+  {
+   "param": "encoder.layers.5.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.1403864480502675e-13,
+   "core_spectrum_rel_err": 1.0186564291867043e-13,
+   "kappa_A_before": 1.8228195552406885,
+   "kappa_A_after": 10408.07151282231,
+   "kappa_B_before": 9.410272450656537,
+   "kappa_B_after": 18991.458603083196
+  },
+  {
+   "param": "encoder.layers.5.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.336156922264386e-16,
+   "core_spectrum_rel_err": 2.6761958739337744e-16,
+   "kappa_A_before": 2.114982823048152,
+   "kappa_A_after": 10.679587245682452,
+   "kappa_B_before": 8.9170074086641,
+   "kappa_B_after": 35.31143699777356
+  },
+  {
+   "param": "encoder.layers.5.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.2720108718090978e-13,
+   "core_spectrum_rel_err": 1.114635581493417e-13,
+   "kappa_A_before": 2.114982823048152,
+   "kappa_A_after": 10295.614604035993,
+   "kappa_B_before": 8.9170074086641,
+   "kappa_B_after": 19098.414593034075
+  },
+  {
+   "param": "encoder.layers.5.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.765627585450867e-16,
+   "core_spectrum_rel_err": 3.9481996741910254e-16,
+   "kappa_A_before": 1.5694615042540354,
+   "kappa_A_after": 10.675562597856812,
+   "kappa_B_before": 5.092528471333019,
+   "kappa_B_after": 20.29424009067119
+  },
+  {
+   "param": "encoder.layers.5.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.464174895168914e-13,
+   "core_spectrum_rel_err": 1.0146873162670935e-13,
+   "kappa_A_before": 1.5694615042540354,
+   "kappa_A_after": 10491.642504286909,
+   "kappa_B_before": 5.092528471333019,
+   "kappa_B_after": 18172.297819482457
+  },
+  {
+   "param": "encoder.layers.5.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.445011750805977e-16,
+   "core_spectrum_rel_err": 3.053479407848135e-16,
+   "kappa_A_before": 1.8312460665050059,
+   "kappa_A_after": 11.120654956579715,
+   "kappa_B_before": 9.326558144331905,
+   "kappa_B_after": 33.4412115355731
+  },
+  {
+   "param": "encoder.layers.5.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.004248119582601e-13,
+   "core_spectrum_rel_err": 2.2023220229104674e-14,
+   "kappa_A_before": 1.8312460665050059,
+   "kappa_A_after": 9911.038402843626,
+   "kappa_B_before": 9.326558144331905,
+   "kappa_B_after": 17026.676802950456
+  },
+  {
+   "param": "encoder.layers.6.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.634212875089402e-16,
+   "core_spectrum_rel_err": 1.1176795458631517e-16,
+   "kappa_A_before": 2.08634104741392,
+   "kappa_A_after": 11.64185293187489,
+   "kappa_B_before": 11.145738337546236,
+   "kappa_B_after": 31.806024945266948
+  },
+  {
+   "param": "encoder.layers.6.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.2183406407561806e-13,
+   "core_spectrum_rel_err": 2.1012375462227253e-14,
+   "kappa_A_before": 2.08634104741392,
+   "kappa_A_after": 10130.440668303605,
+   "kappa_B_before": 11.145738337546236,
+   "kappa_B_after": 11803.620939845807
+  },
+  {
+   "param": "encoder.layers.6.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.248422795196486e-16,
+   "core_spectrum_rel_err": 4.51281746974393e-16,
+   "kappa_A_before": 1.7896315501926787,
+   "kappa_A_after": 11.86963886130201,
+   "kappa_B_before": 7.151220188002168,
+   "kappa_B_after": 27.876070883465633
+  },
+  {
+   "param": "encoder.layers.6.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 9.341662050124384e-14,
+   "core_spectrum_rel_err": 3.188305542374086e-14,
+   "kappa_A_before": 1.7896315501926787,
+   "kappa_A_after": 9941.142193487382,
+   "kappa_B_before": 7.151220188002168,
+   "kappa_B_after": 16704.453321900157
+  },
+  {
+   "param": "encoder.layers.6.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.290425687310519e-16,
+   "core_spectrum_rel_err": 5.729179048917106e-16,
+   "kappa_A_before": 1.595273138256752,
+   "kappa_A_after": 10.543257129749607,
+   "kappa_B_before": 6.418081802689426,
+   "kappa_B_after": 19.779167653706015
+  },
+  {
+   "param": "encoder.layers.6.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.181364511704435e-13,
+   "core_spectrum_rel_err": 4.755218610601198e-14,
+   "kappa_A_before": 1.595273138256752,
+   "kappa_A_after": 9882.891112155754,
+   "kappa_B_before": 6.418081802689426,
+   "kappa_B_after": 18679.441391935765
+  },
+  {
+   "param": "encoder.layers.6.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.686825563406619e-16,
+   "core_spectrum_rel_err": 3.3804139678236176e-16,
+   "kappa_A_before": 1.8408901366435952,
+   "kappa_A_after": 11.34850394174457,
+   "kappa_B_before": 9.719832397666298,
+   "kappa_B_after": 29.059017935784063
+  },
+  {
+   "param": "encoder.layers.6.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.1959342505934095e-13,
+   "core_spectrum_rel_err": 1.14934074906003e-13,
+   "kappa_A_before": 1.8408901366435952,
+   "kappa_A_after": 11862.08318070211,
+   "kappa_B_before": 9.719832397666298,
+   "kappa_B_after": 13831.423340933467
+  },
+  {
+   "param": "encoder.layers.7.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.730654245002135e-16,
+   "core_spectrum_rel_err": 5.473778784368315e-17,
+   "kappa_A_before": 2.3536214036269265,
+   "kappa_A_after": 11.615815542979403,
+   "kappa_B_before": 13.70962013555682,
+   "kappa_B_after": 61.133783660499574
+  },
+  {
+   "param": "encoder.layers.7.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 7.683064019880855e-14,
+   "core_spectrum_rel_err": 2.2916887177222014e-14,
+   "kappa_A_before": 2.3536214036269265,
+   "kappa_A_after": 10528.06366457186,
+   "kappa_B_before": 13.70962013555682,
+   "kappa_B_after": 33673.280470708996
+  },
+  {
+   "param": "encoder.layers.7.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.29850369865106e-16,
+   "core_spectrum_rel_err": 2.706947849042615e-16,
+   "kappa_A_before": 1.996664307536991,
+   "kappa_A_after": 10.111321676437385,
+   "kappa_B_before": 10.795475687072058,
+   "kappa_B_after": 55.92137209551023
+  },
+  {
+   "param": "encoder.layers.7.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.3749838349704007e-13,
+   "core_spectrum_rel_err": 8.702837334672009e-14,
+   "kappa_A_before": 1.996664307536991,
+   "kappa_A_after": 10035.04699245282,
+   "kappa_B_before": 10.795475687072058,
+   "kappa_B_after": 33345.47393753615
+  },
+  {
+   "param": "encoder.layers.7.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.665841880659222e-16,
+   "core_spectrum_rel_err": 1.61967220756041e-16,
+   "kappa_A_before": 2.0238113754806064,
+   "kappa_A_after": 10.646031889509809,
+   "kappa_B_before": 10.524025968118384,
+   "kappa_B_after": 42.11157805319166
+  },
+  {
+   "param": "encoder.layers.7.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.428236687086653e-13,
+   "core_spectrum_rel_err": 8.832612438562769e-14,
+   "kappa_A_before": 2.0238113754806064,
+   "kappa_A_after": 9674.598006794855,
+   "kappa_B_before": 10.524025968118384,
+   "kappa_B_after": 34157.50658944986
+  },
+  {
+   "param": "encoder.layers.7.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.723573870534635e-16,
+   "core_spectrum_rel_err": 1.1993397498234702e-15,
+   "kappa_A_before": 1.9129098615943108,
+   "kappa_A_after": 10.481971673027312,
+   "kappa_B_before": 13.756423173012836,
+   "kappa_B_after": 56.3747311196552
+  },
+  {
+   "param": "encoder.layers.7.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.2518729357931004e-13,
+   "core_spectrum_rel_err": 4.407573580601253e-14,
+   "kappa_A_before": 1.9129098615943108,
+   "kappa_A_after": 10260.521669860256,
+   "kappa_B_before": 13.756423173012836,
+   "kappa_B_after": 27193.59324433644
+  },
+  {
+   "param": "encoder.layers.8.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.119170691609701e-16,
+   "core_spectrum_rel_err": 1.2403735327719698e-16,
+   "kappa_A_before": 1.8982321078950075,
+   "kappa_A_after": 10.429438230379745,
+   "kappa_B_before": 9.466968169331375,
+   "kappa_B_after": 32.19851899247198
+  },
+  {
+   "param": "encoder.layers.8.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 9.542083137380614e-14,
+   "core_spectrum_rel_err": 4.9118791897770007e-14,
+   "kappa_A_before": 1.8982321078950075,
+   "kappa_A_after": 13989.485450651957,
+   "kappa_B_before": 9.466968169331375,
+   "kappa_B_after": 9013.746440825174
+  },
+  {
+   "param": "encoder.layers.8.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.653674060912622e-16,
+   "core_spectrum_rel_err": 5.75953821216278e-16,
+   "kappa_A_before": 1.8490388840237548,
+   "kappa_A_after": 10.834653372922999,
+   "kappa_B_before": 9.690706625380683,
+   "kappa_B_after": 34.3250408020646
+  },
+  {
+   "param": "encoder.layers.8.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 8.791445980871821e-14,
+   "core_spectrum_rel_err": 4.3628501957133056e-14,
+   "kappa_A_before": 1.8490388840237548,
+   "kappa_A_after": 9618.626442124181,
+   "kappa_B_before": 9.690706625380683,
+   "kappa_B_after": 20215.40329139231
+  },
+  {
+   "param": "encoder.layers.8.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.375696236973185e-16,
+   "core_spectrum_rel_err": 3.6503693645569254e-16,
+   "kappa_A_before": 1.7224481752490763,
+   "kappa_A_after": 11.196437448759323,
+   "kappa_B_before": 6.913594600232041,
+   "kappa_B_after": 22.743449717273304
+  },
+  {
+   "param": "encoder.layers.8.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.5000457982172524e-13,
+   "core_spectrum_rel_err": 9.947256518417622e-14,
+   "kappa_A_before": 1.7224481752490763,
+   "kappa_A_after": 11154.595575263274,
+   "kappa_B_before": 6.913594600232041,
+   "kappa_B_after": 10066.128935841285
+  },
+  {
+   "param": "encoder.layers.8.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.164233463251791e-16,
+   "core_spectrum_rel_err": 8.539885180473061e-16,
+   "kappa_A_before": 1.9331232863514987,
+   "kappa_A_after": 13.376777287541831,
+   "kappa_B_before": 12.461659221219799,
+   "kappa_B_after": 21.18798232230022
+  },
+  {
+   "param": "encoder.layers.8.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 2.005707968448451e-13,
+   "core_spectrum_rel_err": 1.1891790113808737e-13,
+   "kappa_A_before": 1.9331232863514987,
+   "kappa_A_after": 9863.940850184106,
+   "kappa_B_before": 12.461659221219799,
+   "kappa_B_after": 32429.09254546964
+  },
+  {
+   "param": "encoder.layers.9.self_attn.k_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 5.250334162885833e-16,
+   "core_spectrum_rel_err": 1.919755088103982e-16,
+   "kappa_A_before": 1.9032006119520428,
+   "kappa_A_after": 10.460312569745835,
+   "kappa_B_before": 13.028695071110004,
+   "kappa_B_after": 37.542801913182565
+  },
+  {
+   "param": "encoder.layers.9.self_attn.k_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.105577586876779e-13,
+   "core_spectrum_rel_err": 4.8569803729030746e-14,
+   "kappa_A_before": 1.9032006119520428,
+   "kappa_A_after": 9418.15268871177,
+   "kappa_B_before": 13.028695071110004,
+   "kappa_B_after": 41570.49122292527
+  },
+  {
+   "param": "encoder.layers.9.self_attn.out_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.726890686194118e-16,
+   "core_spectrum_rel_err": 3.840980917259005e-16,
+   "kappa_A_before": 2.049316549398358,
+   "kappa_A_after": 10.720947462407786,
+   "kappa_B_before": 11.29459556291335,
+   "kappa_B_after": 35.337582043118644
+  },
+  {
+   "param": "encoder.layers.9.self_attn.out_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.3337050487035774e-13,
+   "core_spectrum_rel_err": 1.0024960194046003e-13,
+   "kappa_A_before": 2.049316549398358,
+   "kappa_A_after": 9469.479283337301,
+   "kappa_B_before": 11.29459556291335,
+   "kappa_B_after": 35042.97903773672
+  },
+  {
+   "param": "encoder.layers.9.self_attn.q_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 6.265976589983149e-16,
+   "core_spectrum_rel_err": 1.9047730828122748e-16,
+   "kappa_A_before": 2.2118563570439225,
+   "kappa_A_after": 10.50636818674551,
+   "kappa_B_before": 15.971413598626933,
+   "kappa_B_after": 51.01743314392719
+  },
+  {
+   "param": "encoder.layers.9.self_attn.q_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 1.5207250351467195e-13,
+   "core_spectrum_rel_err": 3.7790697962995535e-14,
+   "kappa_A_before": 2.2118563570439225,
+   "kappa_A_after": 11020.734668440025,
+   "kappa_B_before": 15.971413598626933,
+   "kappa_B_after": 38123.05136683392
+  },
+  {
+   "param": "encoder.layers.9.self_attn.v_proj.weight",
+   "R_cond": 10.0,
+   "prod_rel_err": 4.0861404527816543e-16,
+   "core_spectrum_rel_err": 5.259185856134e-16,
+   "kappa_A_before": 2.1266949904711265,
+   "kappa_A_after": 12.98529726655485,
+   "kappa_B_before": 16.833911660097993,
+   "kappa_B_after": 71.10464796498051
+  },
+  {
+   "param": "encoder.layers.9.self_attn.v_proj.weight",
+   "R_cond": 10000.0,
+   "prod_rel_err": 7.20222200740467e-14,
+   "core_spectrum_rel_err": 9.181661973833942e-15,
+   "kappa_A_before": 2.1266949904711265,
+   "kappa_A_after": 10208.55817997236,
+   "kappa_B_before": 16.833911660097993,
+   "kappa_B_after": 20787.79878083283
+  }
+ ],
+ "interlacing_violations": 0,
+ "gauge_summary": {
+  "max_prod_rel_err": 2.0112935470206026e-13,
+  "max_core_spectrum_rel_err": 3.611466780718881e-13,
+  "median_kappaA_ratio_cond1e4": 5468.304396000829,
+  "median_kappaB_ratio_cond1e4": 2444.2655304764385
+ }
+}
