@@ -1,0 +1,52 @@
+{
+ "preregistered": "2026-10-18 13:50, before any rule results; rng seed 20261018",
+ "purpose": "Stage 3: literal rule vs controls on expert subsets (representative + random)",
+ "subsets": {
+  "natural4": [
+   "sun397",
+   "cars",
+   "resisc45",
+   "dtd"
+  ],
+  "synthetic4": [
+   "eurosat",
+   "svhn",
+   "gtsrb",
+   "mnist"
+  ],
+  "rand4_0": [
+   "eurosat",
+   "gtsrb",
+   "mnist",
+   "dtd"
+  ],
+  "rand4_1": [
+   "sun397",
+   "eurosat",
+   "mnist",
+   "dtd"
+  ],
+  "rand4_2": [
+   "sun397",
+   "eurosat",
+   "svhn",
+   "dtd"
+  ],
+  "rand6_0": [
+   "sun397",
+   "cars",
+   "resisc45",
+   "eurosat",
+   "gtsrb",
+   "dtd"
+  ],
+  "rand6_1": [
+   "sun397",
+   "cars",
+   "resisc45",
+   "eurosat",
+   "svhn",
+   "mnist"
+  ]
+ }
+}

@@ -1,0 +1,116 @@
+[
+ {
+  "rule": "uniform",
+  "b": 0.0,
+  "alpha": 1.0,
+  "tag": "b16xfer|uniform|alpha1",
+  "dev_metric": 0.7480107299467726,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "b16xfer|kappa|tuned",
+  "dev_metric": 0.7773588895445671,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "kappa_rev",
+  "b": 0.5,
+  "alpha": 1.6,
+  "tag": "b16xfer|kappa_rev|tuned",
+  "dev_metric": 0.7735431500348128,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "logkappa_q90",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "b16xfer|logkappa_q90|tuned",
+  "dev_metric": 0.7733734724393828,
+  "abs_beta": false,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "logkappa_q90_rev",
+  "b": 0.5,
+  "alpha": 1.0,
+  "tag": "b16xfer|logkappa_q90_rev|alpha1",
+  "dev_metric": 0.7524774137222667,
+  "abs_beta": false,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "global:logkappa_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "b16xfer|global:logkappa_rev|tuned",
+  "dev_metric": 0.7608056067221922,
+  "abs_beta": false,
+  "source": "frozen on ViT-B/32 dev"
+ },
+ {
+  "rule": "shuf1:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf1:kappa@kappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of kappa|tuned"
+ },
+ {
+  "rule": "shuf3:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf3:kappa@kappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of kappa|tuned"
+ },
+ {
+  "rule": "shuf0:logkappa_q90_rev",
+  "b": 1.0,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf0:logkappa_q90_rev@logkappa_q90_rev|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of logkappa_q90_rev|tuned"
+ },
+ {
+  "rule": "shuf2:logkappa_q90_rev",
+  "b": 1.0,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf2:logkappa_q90_rev@logkappa_q90_rev|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of logkappa_q90_rev|tuned"
+ },
+ {
+  "rule": "shuf4:logkappa_q90_rev",
+  "b": 1.0,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|shuf4:logkappa_q90_rev@logkappa_q90_rev|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of logkappa_q90_rev|tuned"
+ },
+ {
+  "rule": "gshuf1:global:logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|gshuf1:global:logkappa@global:logkappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of global:logkappa|tuned"
+ },
+ {
+  "rule": "gshuf3:global:logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "abs_beta": false,
+  "tag": "b16xfer|gshuf3:global:logkappa@global:logkappa|tuned",
+  "dev_metric": null,
+  "source": "null at the frozen config of global:logkappa|tuned"
+ }
+]

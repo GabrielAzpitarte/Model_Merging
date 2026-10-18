@@ -1,0 +1,418 @@
+[
+ {
+  "rule": "logkappa_q90",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "logkappa_q90|tuned",
+  "dev_metric": 0.7733734724393828,
+  "abs_beta": false
+ },
+ {
+  "rule": "logkappa_q90",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "logkappa_q90|alpha1",
+  "dev_metric": 0.745752971433505,
+  "abs_beta": false
+ },
+ {
+  "rule": "logkappa_q90_rev",
+  "b": 1.0,
+  "alpha": 1.6,
+  "tag": "logkappa_q90_rev|tuned",
+  "dev_metric": 0.7829174965889967,
+  "abs_beta": false
+ },
+ {
+  "rule": "logkappa_q90_rev",
+  "b": 0.5,
+  "alpha": 1.0,
+  "tag": "logkappa_q90_rev|alpha1",
+  "dev_metric": 0.7524774137222667,
+  "abs_beta": false
+ },
+ {
+  "rule": "kappa_rel",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "kappa_rel|tuned",
+  "dev_metric": 0.7768292887945558,
+  "abs_beta": false
+ },
+ {
+  "rule": "kappa_rel",
+  "b": 2.0,
+  "alpha": 1.0,
+  "tag": "kappa_rel|alpha1",
+  "dev_metric": 0.7500547304300588,
+  "abs_beta": false
+ },
+ {
+  "rule": "slogkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "slogkappa|tuned",
+  "dev_metric": 0.7791575078247603,
+  "abs_beta": false
+ },
+ {
+  "rule": "slogkappa",
+  "b": 0.5,
+  "alpha": 1.0,
+  "tag": "slogkappa|alpha1",
+  "dev_metric": 0.7477140781647753,
+  "abs_beta": false
+ },
+ {
+  "rule": "slogkappa_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "slogkappa_rev|tuned",
+  "dev_metric": 0.7741530276410924,
+  "abs_beta": false
+ },
+ {
+  "rule": "slogkappa_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "slogkappa_rev|alpha1",
+  "dev_metric": 0.7469477635533992,
+  "abs_beta": false
+ },
+ {
+  "rule": "slogkappa_plus_1e-3",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "slogkappa_plus_1e-3|tuned",
+  "dev_metric": 0.7750101867959308,
+  "abs_beta": false
+ },
+ {
+  "rule": "slogkappa_plus_1e-3",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "slogkappa_plus_1e-3|alpha1",
+  "dev_metric": 0.743386920986299,
+  "abs_beta": false
+ },
+ {
+  "rule": "slogkappa_plus_1e-3_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "slogkappa_plus_1e-3_rev|tuned",
+  "dev_metric": 0.7744685993745261,
+  "abs_beta": false
+ },
+ {
+  "rule": "slogkappa_plus_1e-3_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "slogkappa_plus_1e-3_rev|alpha1",
+  "dev_metric": 0.747675041928558,
+  "abs_beta": false
+ },
+ {
+  "rule": "global:logkappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "global:logkappa|tuned",
+  "dev_metric": 0.7803134617271212,
+  "abs_beta": false
+ },
+ {
+  "rule": "global:logkappa",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "global:logkappa|alpha1",
+  "dev_metric": 0.7517395789780159,
+  "abs_beta": false
+ },
+ {
+  "rule": "global:logkappa_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "global:logkappa_rev|tuned",
+  "dev_metric": 0.7608056067221922,
+  "abs_beta": false
+ },
+ {
+  "rule": "global:logkappa_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "global:logkappa_rev|alpha1",
+  "dev_metric": 0.7353737378427765,
+  "abs_beta": false
+ },
+ {
+  "rule": "gshuf0:global:kappa_z",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "gshuf0:global:kappa_z|tuned",
+  "dev_metric": 0.7661048564027685,
+  "abs_beta": false
+ },
+ {
+  "rule": "gshuf0:global:kappa_z",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "gshuf0:global:kappa_z|alpha1",
+  "dev_metric": 0.7403329706902146,
+  "abs_beta": false
+ },
+ {
+  "rule": "gshuf1:global:kappa_z",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "gshuf1:global:kappa_z|tuned",
+  "dev_metric": 0.768542813751739,
+  "abs_beta": false
+ },
+ {
+  "rule": "gshuf1:global:kappa_z",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "gshuf1:global:kappa_z|alpha1",
+  "dev_metric": 0.7443399010177084,
+  "abs_beta": false
+ },
+ {
+  "rule": "gshuf2:global:kappa_z",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "gshuf2:global:kappa_z|tuned",
+  "dev_metric": 0.7757922627780971,
+  "abs_beta": false
+ },
+ {
+  "rule": "gshuf2:global:kappa_z",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "gshuf2:global:kappa_z|alpha1",
+  "dev_metric": 0.7443845537887908,
+  "abs_beta": false
+ },
+ {
+  "rule": "dentropy_rank",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "dentropy_rank|tuned",
+  "dev_metric": 0.7662161123629985,
+  "abs_beta": false
+ },
+ {
+  "rule": "dentropy_rank",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "dentropy_rank|alpha1",
+  "dev_metric": 0.754501764911383,
+  "abs_beta": false
+ },
+ {
+  "rule": "dentropy_rank_rev",
+  "b": 0.25,
+  "alpha": 2.0,
+  "tag": "dentropy_rank_rev|tuned",
+  "dev_metric": 0.7602660752396749,
+  "abs_beta": false
+ },
+ {
+  "rule": "dentropy_rank_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "dentropy_rank_rev|alpha1",
+  "dev_metric": 0.7216332831776561,
+  "abs_beta": false
+ },
+ {
+  "rule": "dstable_rank",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "dstable_rank|tuned",
+  "dev_metric": 0.773856969987514,
+  "abs_beta": false
+ },
+ {
+  "rule": "dstable_rank",
+  "b": 0.5,
+  "alpha": 1.0,
+  "tag": "dstable_rank|alpha1",
+  "dev_metric": 0.7553475145099866,
+  "abs_beta": false
+ },
+ {
+  "rule": "dstable_rank_rev",
+  "b": 0.25,
+  "alpha": 2.0,
+  "tag": "dstable_rank_rev|tuned",
+  "dev_metric": 0.7573672078934157,
+  "abs_beta": false
+ },
+ {
+  "rule": "dstable_rank_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "dstable_rank_rev|alpha1",
+  "dev_metric": 0.7243753292731334,
+  "abs_beta": false
+ },
+ {
+  "rule": "dlogkappa_q90",
+  "b": 0.25,
+  "alpha": 2.0,
+  "tag": "dlogkappa_q90|tuned",
+  "dev_metric": 0.7743700107264517,
+  "abs_beta": false
+ },
+ {
+  "rule": "dlogkappa_q90",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "dlogkappa_q90|alpha1",
+  "dev_metric": 0.7312650139553212,
+  "abs_beta": false
+ },
+ {
+  "rule": "dlogkappa_q90_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "dlogkappa_q90_rev|tuned",
+  "dev_metric": 0.7622782655647475,
+  "abs_beta": false
+ },
+ {
+  "rule": "dlogkappa_q90_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "dlogkappa_q90_rev|alpha1",
+  "dev_metric": 0.7505016427245428,
+  "abs_beta": false
+ },
+ {
+  "rule": "sdnorm",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "sdnorm|tuned",
+  "dev_metric": 0.7513996033422561,
+  "abs_beta": false
+ },
+ {
+  "rule": "sdnorm",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "sdnorm|alpha1",
+  "dev_metric": 0.7216714731340641,
+  "abs_beta": false
+ },
+ {
+  "rule": "sdnorm_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "sdnorm_rev|tuned",
+  "dev_metric": 0.7398842691943474,
+  "abs_beta": false
+ },
+ {
+  "rule": "sdnorm_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "sdnorm_rev|alpha1",
+  "dev_metric": 0.7372787999821449,
+  "abs_beta": false
+ },
+ {
+  "rule": "sdlogkappa_q90",
+  "b": 0.25,
+  "alpha": 2.0,
+  "tag": "sdlogkappa_q90|tuned",
+  "dev_metric": 0.7703091426930408,
+  "abs_beta": false
+ },
+ {
+  "rule": "sdlogkappa_q90",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "sdlogkappa_q90|alpha1",
+  "dev_metric": 0.7311097708649439,
+  "abs_beta": false
+ },
+ {
+  "rule": "sdlogkappa_q90_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "sdlogkappa_q90_rev|tuned",
+  "dev_metric": 0.763677297883951,
+  "abs_beta": false
+ },
+ {
+  "rule": "sdlogkappa_q90_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "sdlogkappa_q90_rev|alpha1",
+  "dev_metric": 0.7498035095839368,
+  "abs_beta": false
+ },
+ {
+  "rule": "gd_invvar",
+  "b": 0.5,
+  "alpha": 1.6,
+  "tag": "gd_invvar|tuned",
+  "dev_metric": 0.7546040402546539,
+  "abs_beta": true
+ },
+ {
+  "rule": "gd_invvar",
+  "b": 0.5,
+  "alpha": 1.0,
+  "tag": "gd_invvar|alpha1",
+  "dev_metric": 0.7448577197765269,
+  "abs_beta": true
+ },
+ {
+  "rule": "global:gd_invvar",
+  "b": 0.5,
+  "alpha": 1.6,
+  "tag": "global:gd_invvar|tuned",
+  "dev_metric": 0.7630336857600407,
+  "abs_beta": true
+ },
+ {
+  "rule": "global:gd_invvar",
+  "b": 0.5,
+  "alpha": 1.0,
+  "tag": "global:gd_invvar|alpha1",
+  "dev_metric": 0.7527602584958941,
+  "abs_beta": true
+ },
+ {
+  "rule": "mkgrad",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "mkgrad|tuned",
+  "dev_metric": 0.7649901684564864,
+  "abs_beta": false
+ },
+ {
+  "rule": "mkgrad",
+  "b": 2.0,
+  "alpha": 1.0,
+  "tag": "mkgrad|alpha1",
+  "dev_metric": 0.7380693346441003,
+  "abs_beta": false
+ },
+ {
+  "rule": "mkgrad_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "mkgrad_rev|tuned",
+  "dev_metric": 0.7640252210897851,
+  "abs_beta": false
+ },
+ {
+  "rule": "mkgrad_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "mkgrad_rev|alpha1",
+  "dev_metric": 0.7389805925297306,
+  "abs_beta": false
+ }
+]

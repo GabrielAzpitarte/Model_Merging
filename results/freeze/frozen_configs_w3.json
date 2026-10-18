@@ -1,0 +1,98 @@
+[
+ {
+  "rule": "mkgrad",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "mkgrad|tuned",
+  "dev_metric": 0.7649901684564864,
+  "abs_beta": false
+ },
+ {
+  "rule": "mkgrad",
+  "b": 2.0,
+  "alpha": 1.0,
+  "tag": "mkgrad|alpha1",
+  "dev_metric": 0.7380693346441003,
+  "abs_beta": false
+ },
+ {
+  "rule": "mkgrad_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "mkgrad_rev|tuned",
+  "dev_metric": 0.7640252210897851,
+  "abs_beta": false
+ },
+ {
+  "rule": "mkgrad_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "mkgrad_rev|alpha1",
+  "dev_metric": 0.7389805925297306,
+  "abs_beta": false
+ },
+ {
+  "rule": "wc:sdnorm_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "wc:sdnorm_rev|tuned",
+  "dev_metric": 0.7653818332584574,
+  "abs_beta": false
+ },
+ {
+  "rule": "wc:sdnorm_rev",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "wc:sdnorm_rev|alpha1",
+  "dev_metric": 0.7468217176230032,
+  "abs_beta": false
+ },
+ {
+  "rule": "wc:sdnorm",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "wc:sdnorm|tuned",
+  "dev_metric": 0.7661115920378957,
+  "abs_beta": false
+ },
+ {
+  "rule": "wc:sdnorm",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "wc:sdnorm|alpha1",
+  "dev_metric": 0.7403877874775421,
+  "abs_beta": false
+ },
+ {
+  "rule": "wc:kappa_rev",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "wc:kappa_rev|tuned",
+  "dev_metric": 0.7809661394236379,
+  "abs_beta": false
+ },
+ {
+  "rule": "wc:kappa_rev",
+  "b": 0.5,
+  "alpha": 1.0,
+  "tag": "wc:kappa_rev|alpha1",
+  "dev_metric": 0.751078108157973,
+  "abs_beta": false
+ },
+ {
+  "rule": "wc:kappa",
+  "b": 0.25,
+  "alpha": 1.6,
+  "tag": "wc:kappa|tuned",
+  "dev_metric": 0.7676170767784262,
+  "abs_beta": false
+ },
+ {
+  "rule": "wc:kappa",
+  "b": 0.25,
+  "alpha": 1.0,
+  "tag": "wc:kappa|alpha1",
+  "dev_metric": 0.7429921495581144,
+  "abs_beta": false
+ }
+]

@@ -1,0 +1,4 @@
+{
+ "preregistered": "2026-10-18 ~15:25, before any ViT-B/16 merge was evaluated",
+ "protocol": "transfer: rules AND (b, alpha) frozen from ViT-B/32 dev; evaluated once on ViT-B/16 test; matched-config shuffled nulls (5 seeds)"
+}

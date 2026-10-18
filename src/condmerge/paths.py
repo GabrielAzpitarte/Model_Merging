@@ -12,11 +12,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 ARTIFACTS = ROOT / "artifacts"  # symlink to /data/home/azpitarte/condmerge_data (outside git)
-CACHE = ARTIFACTS / "cache"
+CACHE = ARTIFACTS / "cache"  # pixel caches are shared by all backbones (same 224 px CLIP preprocessing)
 CKPT = ARTIFACTS / "checkpoints"
-RESULTS = ROOT / "results"
 
-BASE_MODEL = "openai/clip-vit-base-patch32"
+# Backbone switch (env CONDMERGE_ARCH): b32 is the main bench; others write to results/<arch>/ and
+# cache/<arch>/ so nothing of the main bench is touched.
+ARCH = os.environ.get("CONDMERGE_ARCH", "b32")
+_ARCHS = {"b32": ("openai/clip-vit-base-patch32", "basepatch32"),
+          "b16": ("openai/clip-vit-base-patch16", "basepatch16")}
+BASE_MODEL, _FB_ARCH = _ARCHS[ARCH]
+RESULTS = ROOT / "results" if ARCH == "b32" else ROOT / "results" / ARCH
+CACHE_ARCH = CACHE if ARCH == "b32" else CACHE / ARCH  # heads, spectra, grams
 
 TASKS8 = ["sun397", "cars", "resisc45", "eurosat", "svhn", "gtsrb", "mnist", "dtd"]
 
@@ -49,8 +55,8 @@ DATASETS = {
 KNOTS_LORA_ROOT = Path("/data/home/azpitarte/lora_merging_ica/checkpoints/vitb32")
 
 
-def fusionbench_dir(task: str, arch: str = "basepatch32") -> Path:
-    return CKPT / f"fusionbench_{arch}" / FUSIONBENCH_NAME[task]
+def fusionbench_dir(task: str, arch: str | None = None) -> Path:
+    return CKPT / f"fusionbench_{arch or _FB_ARCH}" / FUSIONBENCH_NAME[task]
 
 
 def git_commit() -> str:
