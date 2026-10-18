@@ -1,0 +1,133 @@
+{
+ "A_strong": {
+  "uniform": {
+   "mean": 0.8942438863266329,
+   "beats_uniform": 0,
+   "n": 8
+  },
+  "kappa b=1": {
+   "mean": 0.8902798570594381,
+   "beats_uniform": 0,
+   "n": 8
+  },
+  "kappa b=4": {
+   "mean": 0.8867669395029967,
+   "beats_uniform": 0,
+   "n": 8
+  },
+  "dsrank b=4": {
+   "mean": 0.9025247082923803,
+   "beats_uniform": 7,
+   "n": 8
+  },
+  "mp_invvar": {
+   "mean": 0.9027164002209094,
+   "beats_uniform": 7,
+   "n": 8
+  },
+  "global:mp_invvar": {
+   "mean": 0.9027289000118084,
+   "beats_uniform": 7,
+   "n": 8
+  },
+  "oracle_invvar": {
+   "mean": 0.9027981211256545,
+   "beats_uniform": 7,
+   "n": 8
+  },
+  "cleanest_only": {
+   "mean": 0.9024195024882317,
+   "beats_uniform": 7,
+   "n": 8
+  },
+  "noisiest_only": {
+   "mean": 0.5254182505828815,
+   "beats_uniform": 0,
+   "n": 8
+  }
+ },
+ "A_strong_normmatched": {
+  "uniform": {
+   "mean": 0.8055536795571769,
+   "beats_uniform": 0,
+   "n": 8
+  },
+  "kappa b=1": {
+   "mean": 0.8050427647227216,
+   "beats_uniform": 4,
+   "n": 8
+  },
+  "kappa b=4": {
+   "mean": 0.8048660586601328,
+   "beats_uniform": 2,
+   "n": 8
+  },
+  "dsrank b=4": {
+   "mean": 0.899818361012602,
+   "beats_uniform": 8,
+   "n": 8
+  },
+  "mp_invvar": {
+   "mean": 0.8331710489343112,
+   "beats_uniform": 8,
+   "n": 8
+  },
+  "global:mp_invvar": {
+   "mean": 0.8335811662441774,
+   "beats_uniform": 8,
+   "n": 8
+  },
+  "oracle_invvar": {
+   "mean": 0.8972551191297167,
+   "beats_uniform": 8,
+   "n": 8
+  },
+  "cleanest_only": {
+   "mean": 0.8994881658616417,
+   "beats_uniform": 8,
+   "n": 8
+  },
+  "noisiest_only": {
+   "mean": 0.584597613319937,
+   "beats_uniform": 0,
+   "n": 8
+  }
+ },
+ "B": {
+  "uniform": {
+   "mean": 0.9057054054279488,
+   "beats_uniform": 0,
+   "n": 8
+  },
+  "kappa b=1": {
+   "mean": 0.9053371280258418,
+   "beats_uniform": 1,
+   "n": 8
+  },
+  "kappa b=4": {
+   "mean": 0.9051925392822611,
+   "beats_uniform": 1,
+   "n": 8
+  },
+  "dsrank b=4": {
+   "mean": 0.8823311809800529,
+   "beats_uniform": 0,
+   "n": 8
+  },
+  "mp_invvar": {
+   "mean": 0.8956913477283763,
+   "beats_uniform": 0,
+   "n": 8
+  },
+  "global:mp_invvar": {
+   "mean": 0.8986855845044157,
+   "beats_uniform": 0,
+   "n": 8
+  },
+  "oracle_best_single_by_dev": {
+   "mean": 0.8990819218642923,
+   "beats_uniform": 2,
+   "n": 8
+  }
+ }
+}

@@ -128,7 +128,17 @@ Findings:
   uniform). Variant quality correlates with update spread at +0.5, so diffuse means better, and with mean
   log κ inconsistently (−0.31 … +0.60). The isotropic-noise model does not describe real checkpoint
   variation, and the uniform soup is already near the D-oracle (+0.6).
-- PENDING: frozen-rule TEST evaluation (`scripts/aa_soup_test_freeze.py`).
+- **Frozen TEST** (rules fixed before any test look; `results/aa/soup/test_freeze_summary.json`):
+
+  | rule | A | A-nm | B |
+  |---|---|---|---|
+  | uniform | 89.4 | 80.6 | 90.6 |
+  | literal κ, b = 1 / 4 | 89.0 / 88.7 (0/8 tasks above uniform) | 80.5 / 80.5 | 90.5 / 90.5 |
+  | update stable rank, b = 4 | 90.3 (7/8) | 90.0 (8/8) | 88.2 (0/8) |
+  | GD/MP inverse variance | 90.3 | 83.3 | 89.6 (0/8) |
+  | oracle | 90.3 | 89.7 | 89.9 (best single by dev) |
+
+  This replicates dev exactly.
 
 ## 5. Weak-tail stress test: ESTABLISHED (`results/aa/tail_stress_*.json`)
 
