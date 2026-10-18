@@ -20,7 +20,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from condmerge.paths import RESULTS, TASKS8, offline_env  # noqa: E402
+from condmerge.paths import ARTIFACTS, RESULTS, TASKS8, offline_env  # noqa: E402
 
 offline_env()
 
@@ -76,7 +76,12 @@ def main() -> None:
             coeffs = argmin_coeffs(table) if math.isinf(b) else layerwise_coeffs(table, b / scale_of(table))
         sd = sub.merge(coeffs, float(c["alpha"]), default=default, bias_policy=cfg["bias_policy"])
         tasks = experts if c.get("eval_on_subset", True) else TASKS8
-        acc = ev.evaluate(sd, args.split, tasks=tasks)
+        ev.load(sd)
+        corr = {t: ev.correct(t, args.split) for t in tasks}
+        acc = {t: float(v.mean()) for t, v in corr.items()}
+        cdir = ARTIFACTS / "runs" / "freeze_correct"
+        cdir.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(cdir / f"{config_key(cfg)}.npz", **corr)
         ref = {t: ref_all[t] for t in tasks}
         m = summarize(acc, ref)
         append_record(out, cfg, {**m, "acc": acc}, {"dev_metric": c.get("dev_metric")})

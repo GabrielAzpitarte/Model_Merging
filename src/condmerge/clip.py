@@ -124,13 +124,18 @@ class Evaluator:
         return f / f.norm(dim=-1, keepdim=True)
 
     @torch.no_grad()
-    def accuracy(self, task: str, split: str) -> float:
+    def correct(self, task: str, split: str) -> np.ndarray:
+        """Per-example correctness (bool), for paired bootstrap / McNemar comparisons."""
         x, y = self.data[(task, split)]
-        correct = 0
+        out = []
         for i in range(0, x.shape[0], self.batch):
             f = self.features(x[i:i + self.batch])
-            correct += int((f @ self.heads[task].T).argmax(-1).eq(y[i:i + self.batch]).sum())
-        return correct / x.shape[0]
+            out.append((f @ self.heads[task].T).argmax(-1).eq(y[i:i + self.batch]))
+        return torch.cat(out).cpu().numpy()
+
+    @torch.no_grad()
+    def accuracy(self, task: str, split: str) -> float:
+        return float(self.correct(task, split).mean())
 
     def evaluate(self, sd: dict[str, torch.Tensor] | None, split: str = "dev", tasks=None) -> dict[str, float]:
         if sd is not None:

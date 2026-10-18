@@ -22,10 +22,15 @@ import numpy as np
 from .paths import RESULTS, TASKS8
 
 
-def load_stats(path: Path | None = None) -> list[dict]:
+def load_stats(path: Path | None = None, include_supported: bool = True) -> list[dict]:
+    """Rows of stats.csv (+ supported_stats.csv, kinds '*_sup', when present)."""
     path = path or RESULTS / "spectra" / "stats.csv"
     with path.open() as f:
         rows = list(csv.DictReader(f))
+    sup = path.parent / "supported_stats.csv"
+    if include_supported and sup.exists():
+        with sup.open() as f:
+            rows += list(csv.DictReader(f))
     for r in rows:
         for k, v in r.items():
             if k in ("param", "kind", "expert", "module"):
@@ -78,9 +83,14 @@ def build_rule(name: str, rows: list[dict], experts=TASKS8, sizes=None) -> dict[
     upd = lambda s: stat_table(rows, "update", s, experts)  # noqa: E731
     neg = lambda t: {p: -v for p, v in t.items()}  # noqa: E731
     log = lambda t: {p: np.log(v) for p, v in t.items()}  # noqa: E731
-    if name.startswith("shuf"):  # shuf<seed>:<base rule>
+    if name.startswith("shuf"):  # shuf<seed>:<base rule> -- independent permutation per map
         head, base_rule = name.split(":", 1)
         return shuffle_table(build_rule(base_rule, rows, experts, sizes), int(head[4:]))
+    if name.startswith("gshuf"):  # gshuf<seed>:<base rule> -- ONE permutation of experts for all maps
+        head, base_rule = name.split(":", 1)
+        t = build_rule(base_rule, rows, experts, sizes)
+        perm = np.random.default_rng(int(head[5:])).permutation(len(experts))
+        return {p: v[perm] for p, v in t.items()}
     if name.startswith("global:"):
         return global_table(build_rule(name[len("global:"):], rows, experts, sizes), sizes)
     table = {
@@ -92,6 +102,11 @@ def build_rule(name: str, rows: list[dict], experts=TASKS8, sizes=None) -> dict[
         "logkappa_rev": lambda: neg(log(full("kappa2_raw"))),
         "kappa_z": lambda: zscore(full("kappa2_raw")),
         "kappa_z_rev": lambda: neg(zscore(full("kappa2_raw"))),
+        # --- robust / base-relative variants of the full-weight score (separately named) ---
+        "kappa_q90": lambda: full("kappa_q90"),
+        "logkappa_q90": lambda: log(full("kappa_q90")),
+        "logkappa_q90_rev": lambda: neg(log(full("kappa_q90"))),
+        "kappa_rel": lambda: {p: v / base_table(rows, "kappa2_raw")[p] for p, v in full("kappa2_raw").items()},
         # --- decomposition of log kappa = log s1 - log sq ---
         "logsmax": lambda: log(full("smax")),
         "neglogsmin": lambda: neg(log(full("smin"))),
@@ -100,12 +115,24 @@ def build_rule(name: str, rows: list[dict], experts=TASKS8, sizes=None) -> dict[
         "dnorm_rev": lambda: neg(upd("fro")),
         "dnorm_z": lambda: zscore(upd("fro")),
         "dnorm_z_rev": lambda: neg(zscore(upd("fro"))),
+        # --- data-supported statistics, budget (B): spectra of M C^{1/2}, C = pooled calib 2nd moment ---
+        "slogkappa": lambda: log(stat_table(rows, "full_sup", "kappa2_raw", experts)),
+        "slogkappa_rev": lambda: neg(log(stat_table(rows, "full_sup", "kappa2_raw", experts))),
+        "slogkappa_plus_1e-3": lambda: log(stat_table(rows, "full_sup", "kappa_plus_0.001", experts)),
+        "slogkappa_plus_1e-3_rev": lambda: neg(log(stat_table(rows, "full_sup", "kappa_plus_0.001", experts))),
+        "sdnorm": lambda: stat_table(rows, "update_sup", "fro", experts),
+        "sdnorm_rev": lambda: neg(stat_table(rows, "update_sup", "fro", experts)),
+        "sdlogkappa_q90": lambda: log(stat_table(rows, "update_sup", "kappa_q90", experts)),
+        "sdlogkappa_q90_rev": lambda: neg(log(stat_table(rows, "update_sup", "kappa_q90", experts))),
         # --- task-update spectra (refinements; separately named) ---
         "dlogkappa": lambda: log(upd("kappa2_raw")),
         "dlogkappa_plus_1e-3": lambda: log(upd("kappa_plus_0.001")),
         "dlogkappa_q90": lambda: log(upd("kappa_q90")),
         "dstable_rank": lambda: upd("stable_rank"),
+        "dstable_rank_rev": lambda: neg(upd("stable_rank")),
         "dentropy_rank": lambda: upd("entropy_rank"),
+        "dentropy_rank_rev": lambda: neg(upd("entropy_rank")),
+        "dlogkappa_q90_rev": lambda: neg(log(upd("kappa_q90"))),
     }
     if name not in table:
         raise KeyError(f"unknown rule {name!r}")

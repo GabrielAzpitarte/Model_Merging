@@ -24,7 +24,9 @@ from condmerge.runlog import read_jsonl  # noqa: E402
 
 
 def load(path: Path, experts_len: int | None = 8) -> list[dict]:
-    recs = read_jsonl(path)
+    """Read one JSONL, or every ``<stem>*.jsonl`` next to it (per-GPU shards)."""
+    files = sorted(path.parent.glob(path.stem + "*.jsonl")) or [path]
+    recs = [r for f in files for r in read_jsonl(f)]
     if experts_len:
         recs = [r for r in recs if len(r["cfg"]["experts"]) == experts_len]
     return recs
