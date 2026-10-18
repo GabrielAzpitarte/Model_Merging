@@ -25,3 +25,63 @@ mathematical argument made here; **[assumption]** = not yet verified.
 | H2 | kappa only proxies update magnitude (peer C11: in near-singular maps, larger updates lift sigma_min) | within-map corr(kappa2(W_i), \|\|D_i\|\|); `kappa` vs `dnorm_rev` |
 | H3 | Apparent gains at alpha = 1 come from concentration raising the update scale | `kappa` vs shuffled at identical concentration; fixed-alpha vs tuned-alpha |
 | H4 | Variance route (lambda prop. to kappa^-2) | `logkappa` at its variance-implied temperature (beta = 2 on log kappa) |
+
+## 2026-10-18 13:57-15:30: pilot results
+
+### Wave 1: literal rule and controls (8 experts, dev, shared 66-config grid)  [established]
+* The literal `kappa` rule is indistinguishable from uniform and from the shuffled-score null.
+  * dev-best: 77.74, against 77.74 +- 0.19 for the shuffled null (5 seeds, range 77.54-78.10) and 77.65 for uniform-tuned.
+  * At alpha = 1 it is flat at 74.6-74.8 for every finite b; the argmin limit collapses to 65.0.
+* `kappa_rev`, `logkappa`, `logkappa_rev` and `kappa_strict` all fall inside the null.
+* Concentrating every map destroys coherence: `kappa_z` at b = 4 gives 66; per-map largest-update selection gives 36.
+* MetaGPT gives 76.98 and the best single expert 54.8. The best single expert is below zero-shot (55.0).
+
+### Frozen TEST (configs frozen in edbdcf5 / ee218d2 before evaluation; paired task-stratified bootstrap vs uniform-tuned 76.68)  [established]
+* The literal rule is `kappa|tuned` 76.61, -0.08 [-0.20, +0.04]; at alpha = 1 it gives 73.29 vs 73.39.
+* The 5 shuffled-kappa nulls range from -0.13 to +0.15.
+* Reversed and variant rules, all at or below uniform:
+
+  | rule | diff vs uniform |
+  |---|---|
+  | `kappa_rev` | -0.23 |
+  | `logkappa` | -0.02 |
+  | `kappa_strict` | -0.30 |
+  | `kappa_z` | -0.69 |
+  | `global:kappa_z` | -0.93 |
+  | MetaGPT | -0.97 |
+  | `dnorm` | -0.21 |
+  | best single | -22.7 |
+
+* Two rules sit above the null. They are candidates only, because each was selected from about 45 rules on dev:
+  * `logkappa_q90_rev`, a reversed tail-robust bulk ratio s1/s_{0.9q}: +0.47 [+0.24, +0.70].
+  * `global:logkappa`: +0.27, with its reverse at -1.35. The gshuf global nulls give -0.76 / -0.68 / +0.01.
+  * Both go to a pre-registered ViT-B/16 transfer test (configs/b16_transfer_configs.json, 75b4237).
+
+### Spectra, pairs, subsets  [established]
+* Spectra fall into two regimes (MATH_NOTES N1-N2):
+  * MLP maps: kappa varies by about 0.1 % across experts, and the first-order rank-2 probe holds (r about 0.95).
+  * Attention maps: near-singular, with about 100 % spread. 27 of 73 base maps are fp32-singular; L0/L1 q/k are rounding-dominated.
+* Pairs: worth model R^2 0.91. kappa does not predict it (rho -0.02). The larger update deserves less weight (rho -0.49, p 0.008).
+* The 7 pre-registered subsets on dev show nothing either:
+
+  | rule | mean diff vs uniform | subsets positive |
+  |---|---|---|
+  | `kappa` | -0.05 | 3/7 |
+  | shuffled mean | -0.29 | 0/7 |
+  | `kappa_rev` | -0.82 | 1/7 |
+
+### Wave 2/3: nearby interpretations, bounded  [established on dev; test numbers in results/freeze/test.jsonl]
+* Robust and base-relative full-weight scores (`logkappa_q90`, `kappa_rel`): within the null, except the candidate above.
+* Data-supported scores (B), using kappa(W_i C^{1/2}) and kappa_+: within the null. The peer finds them blind to per-map targets.
+* Update-domain scores (entropy/stable rank, kappa_q90 of D, data-supported norms): none beat uniform. The spread statistics encode expert identity (peer).
+* Inverse-variance random-matrix rule (Gavish-Donoho sigma_hat, derived beta = 1): hurts on the distinct-task bank (75.5 dev), as predicted.
+* Interaction-aware rules:
+  * Merged-kappa gradient (`mkgrad`, both signs): about 1 pt below uniform.
+  * Within-expert-centred rules (`wc:*`): harmless at small b, collapse when they concentrate.
+
+### Peer track (docs/aa/AA_SIDE_REPORT.md, merged 4099e6d)  [established unless marked]
+* kappa is blind to the per-layer gradient preference and to the oracle allocation.
+* The oracle headroom is +8 pt (full FT) / +12 pt (LoRA), all in per-map attention routing; global weights give at most +0.4.
+* Tail stress: a function-null edit (0.5 % of ||D||) swings lambda_expert from 0.13 to 0.69 and costs up to 8 pt.
+* Shared-target noise: the literal rule is anti-inverse-variance, because noise lowers kappa. The update spectrum shape works under isotropic noise only and fails on real recipe variants.
+* LoRA: the hard-kappa-selection effect did not replicate across 4 banks (2 positive, 2 at chance). Dead end.
