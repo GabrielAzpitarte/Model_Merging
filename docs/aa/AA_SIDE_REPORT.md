@@ -32,7 +32,7 @@ Conventions, shared with master:
 | Is there headroom in the rule's own family? | **Large, all per-layer.** | Oracle (D): full-FT +8 pt dev (test 77.2); LoRA +12 pt (test 64.1); global per-expert weights ≤ +0.4 pt (§3). |
 | Where should a κ-decreasing rule work in principle? | Noisy estimates of one target (review §3.3). | The literal rule is **anti-inverse-variance** there: noise improves conditioning (§4). |
 | Is there a conditioning-connected signal that works? | The update spectrum's **shape**, under isotropic noise only. | It reaches the inverse-variance oracle even with norms matched (+9 pt), but fails on real same-task variants (§4). |
-| LoRA? | Small, tentative positive for hard κ selection, below the best single expert. | §6. |
+| LoRA? | **No reliable effect.** Hard κ selection beat random per-map selection on 2 of 4 independent 8-task banks and was at or below chance on the other 2. It never beat the best single expert. | §6 |
 
 ## 2. Per-layer diagnostics on full-FT: ESTABLISHED (budget D targets)
 
@@ -106,7 +106,7 @@ Edit: in the 47 maps with κ0 > 1e3, floor one expert's singular values at 10 σ
 
 The rule's coefficients are controlled by function-irrelevant spectral tails.
 
-## 6. LoRA (KnOTS r16): checks ESTABLISHED, κ-selection effect TENTATIVE
+## 6. LoRA: checks ESTABLISHED; the κ-selection effect did NOT replicate
 
 Checks:
 - The QR-core spectrum is exact (9e-10).
@@ -114,41 +114,40 @@ Checks:
 - Factor κ changes by about 5000× under an exact gauge change.
 - 5/5 merge-correctness tests pass (`tests/test_aa_lora.py`).
 - κ₊(Δ; τ = 0.1) is capped at 10 (80% of updates truncated), so it is a threshold artifact.
-- Bank caveat: the KnOTS SUN397 adapter is weak.
+- In LoRA, κ is σ_min only (argmin-κ = argmax-σ_min in 100% of maps).
 
-**Dev sweep:** κ best 54.3 (b = 128, n_eff 1.35, near per-map selection). Free shuffles best 52.5–53.2,
-uniform 52.3, best single expert 54.9.
+KnOTS release:
+- Dev: κ best 54.3 (b = 128, near per-map selection); uniform 52.3; best single expert 54.9.
+- Argmin-κ is at the 95th percentile of a 20-seed random-selection null (count-preserving and free; p ≈ 0.05).
+- Frozen TEST: κ 53.3, uniform 51.2 (rank-16 compressed: κ 53.2, uniform 50.2), shuffles 46.8 / 51.3 / 50.2,
+  best single expert 54.4.
 
-**20-seed null (dev):** argmin-κ selection sits at the 95th percentile of count-preserving and of free random
-per-map selections at α 0.8 and 1.0 (p ≈ 0.05). It is also robust to α, where random selections are not.
+**Cross-bank replication** (`results/aa/lora/replicate_banks.jsonl`; 20 free random per-map selections per
+α; dev):
 
-**Frozen TEST:**
+| bank | argmin-κ percentile, α 0.8 / 1.0 | κ b128 vs best uniform |
+|---|---|---|
+| KnOTS release | 95 / 95 | 54.3 vs 52.3 |
+| KnOTS recipe, seed 0 (lora_c5a) | 95 / 100 | 55.3 vs 53.5 |
+| KnOTS recipe, seed 1 (lora_c5a_seed1) | 55 / 45 | 51.8 vs 54.1 |
+| vit20, 2000 steps (lora) | 20 / 15 | 58.0 vs 64.6 |
 
-| config | test |
-|---|---|
-| best single expert | 54.4 |
-| κ b128 (rank-16 compressed: 53.2) | 53.3 |
-| κ argmin | 52.9 |
-| MetaGPT | 52.2 |
-| uniform (rank-16 compressed: 50.2) | 51.2 |
-| shuffles at κ's configuration | 46.8 / 51.3 / 50.2 |
+**Mechanisms tested and rejected:**
+- expert frequency;
+- functional gentleness;
+- bulk base-subspace overlap;
+- null-space occupancy (k = 4–32; the inputs visit V0_low at 80–90% of the isotropic rate);
+- singularity avoidance: across 40 random selections, accuracy does not track the number of σ_min-decreasing
+  picks (ρ +0.14, p 0.37).
 
-**Mechanisms rejected:**
-- expert frequency (global-frequency rule 52.2);
-- functional gentleness (argmin tr(ΔCΔᵀ) gives 52.1–52.5, 19% agreement);
-- bulk base-subspace overlap (ρ ≈ 0);
-- null-space occupancy for k = 4–32 (ρ ≈ 0, agreement at chance; the inputs visit V0_low at 80–90% of the
-  isotropic rate).
-
-In LoRA, κ = σ_min only (argmin-κ = argmax-σ_min in 100% of maps).
-
-PENDING (settling test): replication on 3 independent 8-task LoRA banks (`scripts/aa_lora_replicate_banks.py`).
+Verdict: **NOT REPLICATED.** The KnOTS-bank advantage is a favourable draw from a high-variance selection
+lottery. On the well-behaved vit20 bank, any hard per-map selection loses badly to averaging.
 
 ## 7. Variant ledger
 
 | variant | problem addressed | assumption | discriminating experiment | closest prior | status |
 |---|---|---|---|---|---|
-| literal κ₂(W), layerwise | the professor's rule | κ tracks reliability | per-layer targets; shuffles; noisy soups; tail stress | SADA, CT, AMM (exp weights) | **DEAD END** (full-FT); LoRA hard selection TENTATIVE |
+| literal κ₂(W), layerwise | the professor's rule | κ tracks reliability | per-layer targets; shuffles; noisy soups; tail stress; cross-bank LoRA replication | SADA, CT, AMM (exp weights) | **DEAD END** (full-FT and LoRA; the LoRA selection effect did not replicate, 2/4 banks) |
 | log κ (power law) | κ spans 1e1–1e8 | variance route | same | review eq. 22 | dead with κ; collapses faster under noise |
 | κ(W C^{1/2}) (budget B) | κ dominated by directions the data may not excite | pooled C is representative | per-layer targets | PAVE, ESM, NSC | **FAILED** (blind) |
 | update spread or noise share | κ(W) is a σ_min probe | spike/bulk model | noisy, norm-matched and real soups | STAR, TSV, MonoSoup | SUPPORTED under isotropic noise; **FAILS on real variants** |
@@ -173,7 +172,7 @@ PENDING (settling test): replication on 3 independent 8-task LoRA banks (`script
 3. **Where the merging headroom actually lies:** per-layer allocation (+8 / +12 pt), concentrated in
    attention-map routing, which no spectral statistic recovers. This points to data-dependent routing /
    selection research, outside conditioning.
-4. Possibly a narrow LoRA hard-selection effect of the literal rule, if the cross-bank replication holds.
+4. (Closed) The apparent LoRA hard-selection effect did not replicate across banks (2/4).
 
 Novelty check (2026-10-18): no prior paper uses Marchenko–Pastur / Gavish–Donoho noise estimates to weight
 checkpoints. The closest are Model Stock (ECCV'24), MonoSoup (arXiv 2602.09689), Fisher merging, and
