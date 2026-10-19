@@ -1,0 +1,264 @@
+{
+ "setting": "S2",
+ "bank": "l32_3b",
+ "T": 8,
+ "selection": "max dev mean normalised accuracy; ties -> smaller b, then alpha closer to 1",
+ "configs": [
+  {
+   "tag": "uniform|tuned",
+   "rule": "uniform",
+   "b": 0.0,
+   "alpha": 2.4,
+   "dev_norm": 0.8218290161245099,
+   "dev_joint": 0.5594242424242424,
+   "dev_n_eff": 7.999999999999999
+  },
+  {
+   "tag": "uniform|alpha1",
+   "rule": "uniform",
+   "b": 0.0,
+   "alpha": 1.0,
+   "dev_norm": 0.7639560141629844,
+   "dev_joint": 0.5349082286277409,
+   "dev_n_eff": 7.999999999999999
+  },
+  {
+   "tag": "global:kappa|tuned",
+   "rule": "global:kappa",
+   "b": 0.501,
+   "alpha": 2.0,
+   "dev_norm": 0.8242127929905336,
+   "dev_joint": 0.5622020202020203,
+   "dev_n_eff": 6.885716269453654
+  },
+  {
+   "tag": "gshuf0:global:kappa|tuned",
+   "rule": "gshuf0:global:kappa",
+   "b": 0.794,
+   "alpha": 2.4,
+   "dev_norm": 0.809948919818186,
+   "dev_joint": 0.728330992855383,
+   "dev_n_eff": 5.411324954484892
+  },
+  {
+   "tag": "gshuf1:global:kappa|tuned",
+   "rule": "gshuf1:global:kappa",
+   "b": 0.794,
+   "alpha": 2.4,
+   "dev_norm": 0.825692139480585,
+   "dev_joint": 0.5647474747474748,
+   "dev_n_eff": 5.411324954484892
+  },
+  {
+   "tag": "gshuf2:global:kappa|tuned",
+   "rule": "gshuf2:global:kappa",
+   "b": 0.501,
+   "alpha": 3.2,
+   "dev_norm": 0.834338382681852,
+   "dev_joint": 0.7100545700911555,
+   "dev_n_eff": 6.885716269453654
+  },
+  {
+   "tag": "kappa|tuned",
+   "rule": "kappa",
+   "b": 0.02,
+   "alpha": 2.0,
+   "dev_norm": 0.8104360305609595,
+   "dev_joint": 0.5516616161616161,
+   "dev_n_eff": 6.778837491495777
+  },
+  {
+   "tag": "kappa_res|tuned",
+   "rule": "kappa_res",
+   "b": 0.355,
+   "alpha": 3.2,
+   "dev_norm": 0.8434960073045935,
+   "dev_joint": 0.5598686868686868,
+   "dev_n_eff": 6.801689596028995
+  },
+  {
+   "tag": "kappa_rev|tuned",
+   "rule": "kappa_rev",
+   "b": 0.02,
+   "alpha": 2.0,
+   "dev_norm": 0.798026622535916,
+   "dev_joint": 0.5484242424242424,
+   "dev_n_eff": 5.700974497555497
+  },
+  {
+   "tag": "logkappa|tuned",
+   "rule": "logkappa",
+   "b": 0.158,
+   "alpha": 3.2,
+   "dev_norm": 0.8157525311389774,
+   "dev_joint": 0.5611666666666667,
+   "dev_n_eff": 6.840392800603199
+  },
+  {
+   "tag": "shuf0:kappa|tuned",
+   "rule": "shuf0:kappa",
+   "b": 0.02,
+   "alpha": 4.0,
+   "dev_norm": 0.8320778062603804,
+   "dev_joint": 0.5601262626262626,
+   "dev_n_eff": 6.778837491495777
+  },
+  {
+   "tag": "shuf0:kappa_res|tuned",
+   "rule": "shuf0:kappa_res",
+   "b": 0.355,
+   "alpha": 2.4,
+   "dev_norm": 0.8075720338649321,
+   "dev_joint": 0.5506262626262626,
+   "dev_n_eff": 6.801689596029013
+  },
+  {
+   "tag": "shuf0:logkappa|tuned",
+   "rule": "shuf0:logkappa",
+   "b": 0.158,
+   "alpha": 4.0,
+   "dev_norm": 0.8261322121559387,
+   "dev_joint": 0.5558636363636363,
+   "dev_n_eff": 6.840392800603199
+  },
+  {
+   "tag": "shuf1:kappa|tuned",
+   "rule": "shuf1:kappa",
+   "b": 282000.0,
+   "alpha": 3.2,
+   "dev_norm": 0.8434919429841398,
+   "dev_joint": 0.5541464646464647,
+   "dev_n_eff": 1.9926486850414935
+  },
+  {
+   "tag": "shuf1:kappa_res|tuned",
+   "rule": "shuf1:kappa_res",
+   "b": "inf",
+   "alpha": 2.4,
+   "dev_norm": 0.8344654370400246,
+   "dev_joint": 0.6005189701897019,
+   "dev_n_eff": 1.0
+  },
+  {
+   "tag": "shuf1:logkappa|tuned",
+   "rule": "shuf1:logkappa",
+   "b": 398.0,
+   "alpha": 3.2,
+   "dev_norm": 0.8484243107771905,
+   "dev_joint": 0.5589191919191919,
+   "dev_n_eff": 1.99867854242683
+  },
+  {
+   "tag": "shuf2:kappa|tuned",
+   "rule": "shuf2:kappa",
+   "b": 0.02,
+   "alpha": 2.0,
+   "dev_norm": 0.8193484144925025,
+   "dev_joint": 0.5574242424242424,
+   "dev_n_eff": 6.778837491495777
+  },
+  {
+   "tag": "shuf2:kappa_res|tuned",
+   "rule": "shuf2:kappa_res",
+   "b": 3.16,
+   "alpha": 2.4,
+   "dev_norm": 0.8448829613362261,
+   "dev_joint": 0.5696313131313131,
+   "dev_n_eff": 3.6051720120182735
+  },
+  {
+   "tag": "shuf2:logkappa|tuned",
+   "rule": "shuf2:logkappa",
+   "b": 0.158,
+   "alpha": 2.0,
+   "dev_norm": 0.813958096110986,
+   "dev_joint": 0.5524242424242424,
+   "dev_n_eff": 6.840392800603199
+  },
+  {
+   "tag": "shuf3:kappa|tuned",
+   "rule": "shuf3:kappa",
+   "b": "inf",
+   "alpha": 2.4,
+   "dev_norm": 0.8487201541460614,
+   "dev_joint": 0.5569174673564918,
+   "dev_n_eff": 1.0
+  },
+  {
+   "tag": "shuf4:kappa|tuned",
+   "rule": "shuf4:kappa",
+   "b": 0.282,
+   "alpha": 3.2,
+   "dev_norm": 0.8355879895723707,
+   "dev_joint": 0.5666111111111112,
+   "dev_n_eff": 5.202692155286011
+  },
+  {
+   "tag": "shuf5:kappa|tuned",
+   "rule": "shuf5:kappa",
+   "b": 10000.0,
+   "alpha": 3.2,
+   "dev_norm": 0.8349952774659515,
+   "dev_joint": 0.569959595959596,
+   "dev_n_eff": 3.5766069005892445
+  },
+  {
+   "tag": "shuf6:kappa|tuned",
+   "rule": "shuf6:kappa",
+   "b": 0.02,
+   "alpha": 2.0,
+   "dev_norm": 0.8125711695225251,
+   "dev_joint": 0.5536616161616161,
+   "dev_n_eff": 6.778837491495777
+  },
+  {
+   "tag": "shuf7:kappa|tuned",
+   "rule": "shuf7:kappa",
+   "b": 0.02,
+   "alpha": 4.0,
+   "dev_norm": 0.8288469912000583,
+   "dev_joint": 0.5437525252525253,
+   "dev_n_eff": 6.778837491495777
+  },
+  {
+   "tag": "shuf8:kappa|tuned",
+   "rule": "shuf8:kappa",
+   "b": 10000.0,
+   "alpha": 2.4,
+   "dev_norm": 0.861405201714556,
+   "dev_joint": 0.5503131313131313,
+   "dev_n_eff": 3.5766069005892445
+  },
+  {
+   "tag": "shuf9:kappa|tuned",
+   "rule": "shuf9:kappa",
+   "b": "inf",
+   "alpha": 2.0,
+   "dev_norm": 0.8440881706960777,
+   "dev_joint": 0.5540858585858586,
+   "dev_n_eff": 1.0
+  },
+  {
+   "tag": "kappa|alpha1",
+   "rule": "kappa",
+   "b": 0.02,
+   "alpha": 1.0,
+   "dev_norm": 0.7718449644572803,
+   "dev_joint": 0.5348838383838384,
+   "dev_n_eff": 6.778837491495777
+  },
+  {
+   "tag": "kappa|concentrated",
+   "rule": "kappa",
+   "b": 10000.0,
+   "alpha": 1.6,
+   "dev_norm": 0.7707106605458105,
+   "dev_joint": 0.5326464646464646,
+   "dev_n_eff": 3.5766069005892445,
+   "note": "stress setting for the tail edit (mean n_eff ~ 0.45 K)"
+  }
+ ],
+ "n_dev_records": 968,
+ "n_dev_jobs": 605,
+ "frozen_at": "2026-10-19 11:22:59"
+}
