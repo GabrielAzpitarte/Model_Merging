@@ -1,0 +1,654 @@
+# Conditioning-guided model merging: complete report
+
+*Repository `~/condmerge` (local git only, no remote). Work of 2026-10-18 by two Claude sessions
+(master and side branch `aa/side`, now merged), completed the same evening.*
+
+This report collects everything that was tested, with the numbers. It brings together:
+* docs/REPORT_01_literal_rule.md and docs/REPORT_02_inverse_problem.md;
+* docs/aa/AA_SIDE_REPORT.md and docs/RESEARCH_LOG.md (chronology and pre-registrations);
+* docs/PROTOCOL.md and docs/MATH_NOTES.md;
+* docs/aa/MATH_kappa_of_finetuned_weights.md.
+
+Raw records (JSONL/CSV/JSON) are under `results/`; §20 maps each result to its files and scripts.
+
+Labels:
+* **[established]**: run completed, numbers from the records;
+* **[tentative]**: pattern without its settling test;
+* **[deduction]**: mathematical argument;
+* **[assessment]**: judgement.
+
+Units:
+* Full fine-tune results are **mean normalised accuracy**: each task's accuracy divided by that
+  task's own expert accuracy, averaged over the 8 tasks, in %.
+* LoRA and oracle results are **mean absolute accuracy**, in %, unless stated.
+
+---
+
+## 0. Bottom line
+
+| question | answer |
+|---|---|
+| Does the professor's rule (lambda ∝ exp(-beta kappa2(W)), per layer) help? | **No.** On ViT-B/32 full fine-tunes it equals uniform averaging and a shuffled-score null on dev and on frozen test (76.61 vs 76.68, diff -0.08 [-0.20, +0.04]). |
+| Does it transfer or hold on subsets? | It is also null in a pre-registered ViT-B/16 transfer (-0.11) and in 7 pre-registered subsets (-0.05). |
+| Did any of the ~45 nearby variants survive? | **No.** The two best on B/32 test (+0.47, +0.27) failed the pre-registered B/16 transfer (-1.01, +0.02). |
+| LoRA? | No replicable effect (2 of 4 banks). |
+| Why does it fail? | kappa2 of a fine-tuned weight reads only the base's weakest singular direction(s). |
+| Is the rule fragile? | A function-invisible edit (0.5 % of the update) swings its weights 3-4x and costs up to 8 pt. |
+| What about noisy copies of one model? | Noise *lowers* kappa, so where down-weighting is justified (noisy copies of one model) the rule picks the noisiest copy. |
+| Where is the merging headroom? | Per-layer allocation: a labelled oracle in the rule's own family reaches 77.2 vs 69.3 (full FT) and 64.1 vs 51.2 (LoRA) test accuracy, mostly by giving each attention map to one expert. One weight per expert is worth at most 0.5 pt. No spectral statistic predicts the per-layer choices. |
+| Where does conditioning matter? | In the solve of RegMean-type mergers. With few calibration images the Gram system is near-singular (kappa up to 1e13) and plain RegMean collapses (64 vs 91; 4 % on LoRA). |
+| Does a conditioning-guided regulariser help there? | Yes, slightly. A kappa-capped ridge beats RegMean's shrinkage by +0.2 to +0.8 on frozen test. Part of that is isotropy. The conditioning-specific part (per-map strength from kappa(G)) is about +0.18 over an equally tuned fixed ridge (full FT, 16 images per task, 3/3 calibration subsets), and about 0 at 512 images. Too small for a method claim; close to SWUDI. |
+| Biggest number in the study | RegMean with task-separated unlabelled statistics: 91.4 normalised (82.8 % accuracy) vs 76.7 for uniform on ViT-B/32 test. That is an established method, not the hypothesis. |
+
+---
+
+## 1. The proposal and its exact interpretation
+
+> "When you merge multiple W, you have weighting parameters lambda. We can use an exponential
+> function of W's condition number to determine that weight ... larger condition number should
+> have lower lambda."
+
+**Full-weight, layerwise exponential condition-number rule (`kappa`)**, for every linear map p and
+expert i, with W_i[p] = W0[p] + D_i[p]:
+
+    lambda_i[p] = exp(-beta kappa2(W_i[p])) / sum_j exp(-beta kappa2(W_j[p]))
+    W_merge[p]  = W0[p] + alpha * sum_i lambda_i[p] D_i[p]
+
+* alpha = 1 is exactly the professor's normalised average sum_i lambda_i W_i. beta = 0 is uniform
+  averaging. Task Arithmetic with scale s is uniform lambda with alpha = K s.
+* kappa2 = sigma_1 / sigma_q, q = min(m, n), from a float64 SVD of the stored float32 matrix
+  (`kappa2_raw`). `kappa_strict` sets kappa = +inf when the numerical rank at tolerance
+  max(m, n) eps32 sigma_1 is below q; those experts get lambda 0, and an all-inf layer falls back
+  to uniform. Softmax is computed by log-sum-exp; NaN scores raise.
+* **73 linear maps**: 12 x {q, k, v, out}_proj, 12 x {fc1, fc2}, and the patch-embedding
+  convolution reshaped to (768, 3072).
+  * Biases inherit their weight's lambda.
+  * LayerNorm, the class embedding and the position-embedding table (a lookup table, not a
+    linear map) are averaged uniformly.
+* **Temperature:** beta = b / scale, where scale is the median over maps of the across-expert
+  standard deviation of the score.
+  * b in {0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128, inf}; inf = per-map argmin.
+  * alpha in {1.0, 1.6, 2.0, 2.4, 2.8, 3.2}.
+  * Every beta-rule gets the same 66-config grid; uniform and MetaGPT tune alpha only (6 configs).
+  * Concentration is logged as n_eff = exp(H(lambda)), averaged over maps.
+* **Named variants** (each a different method):
+  * `kappa_rev` (reversed sign);
+  * `shuf<s>:kappa` (scores permuted across experts within each map; same concentration profile);
+  * `logkappa(_rev)` (power law);
+  * `kappa_z(_rev)` (within-map z-score);
+  * `kappa_strict`;
+  * `global:<rule>` (one score per expert, the parameter-weighted mean of per-map scores);
+  * `logsmax`, `neglogsmin` (the two halves of log kappa);
+  * `dnorm(_rev)` (update-magnitude control);
+  * `metagpt` (lambda ∝ ||D_i||^2, no beta);
+  * `d*` (task-update statistics).
+
+## 2. Setup [established]
+
+* **Experts:** FusionBench `tanganke/clip-vit-base-patch32_<task>`. These are full fine-tunes of
+  the CLIP ViT-B/32 vision tower, with frozen zero-shot heads from the base text tower. 8 tasks:
+  SUN397, Cars, RESISC45, EuroSAT, SVHN, GTSRB, MNIST, DTD.
+  * The ViT-B/16 FusionBench experts were used for the transfer test (CONDMERGE_ARCH=b16).
+  * LoRA rank-16 banks:
+    * the KnOTS release (`knots_release`);
+    * two banks retrained with the KnOTS recipe (`lora_c5a`, `lora_c5a_seed1`);
+    * Alexandre's 20-task bank restricted to these 8 tasks (`lora`, "vit20").
+* **Splits:**
+  * dev = 20 % of each official test split (permutation seed 0), used for all selection and
+    diagnostics;
+  * test = the other 80 %, touched only by frozen configurations;
+  * calib = 512 unlabelled train images per task.
+* **Information budgets:**
+  * (A) weights only;
+  * (B) pooled unlabelled inputs without task ids;
+  * (C) task-separated unlabelled inputs;
+  * (D) labelled dev data.
+  * Every weighting rule is (A). Choosing (b, alpha) on dev is a (D) step, shared identically by
+    all methods. Oracles are (D) and labelled.
+* **Sanity:** the pipeline reproduces the published numbers.
+  * zero-shot test 48.0 (published 48.0; dev 48.36);
+  * experts 90.33 test / 90.54 dev (FusionBench 90.5);
+  * fp16 vs fp32 within 0.19 pt per task;
+  * one 8-task dev evaluation takes about 3.5 s on an A6000.
+* **Test statistics:** 95 % CIs from a paired, task-stratified bootstrap over test images.
+* **Backbone details:** layer-0 q/k_proj have kappa0 of about 1e8, near fp32 resolution.
+
+## 3. Mathematics [deduction, with checks]
+
+**N1. Two regimes.** By Weyl, |s_j(W_i) - s_j(W0)| <= ||D_i||_2.
+* (a) Perturbative: ||D_i|| is much smaller than s_q(W0) and the end gaps.
+* (b) Near-singular: s_q(W0) <~ ||D_i||. Here s_q(W_i) is set by how the update acts on the base's
+  near-null space, and generic updates *raise* s_q (smoothed analysis). A lower kappa2(W_i) then
+  means more energy in directions the base nearly annihilates.
+
+**N2. In regime (a) the score is a rank-2 linear probe, and the rule minimises merged
+conditioning.**
+
+    kappa2(W0 + D) = kappa0 + kappa0 <D, u1 v1^T/s1 - uq vq^T/sq> + O(||D||^2)
+
+* Only 2 of m*n update directions are visible, and the bottom term dominates.
+* Because the probe is linear, kappa2(W0 + sum lambda_i D_i) ~= sum lambda_i kappa2(W_i).
+* So the softmax rule is first-order *entropy-regularised minimisation of the merged layer's
+  condition number*: the exact minimiser of sum lambda_i c_i + tau KL(lambda || uniform).
+* That gives the proposal a precise meaning: "make each merged layer as well-conditioned as
+  possible".
+
+**N3. One beta cannot be moderate everywhere.** The within-map spread scales with kappa0 (via
+1/s_q^2). kappa0 spans 14 to 1e8 across maps, so one beta gives argmin selection in attention maps
+and uniform weights in MLP maps.
+
+**N4. The variance route.** With lambda ∝ 1/v and v ∝ kappa^2, lambda ∝ exp(-2 log kappa), i.e.
+`logkappa` at beta = 2. With a relative kappa spread eps, the weights move only about 2 eps from
+uniform.
+
+**N5. Worst-case sensitivity points the other way.**
+
+    ||E_i x|| / ||W_i x|| <= kappa2(W_i) ||E_i|| / ||W_i||
+
+Equalising this worst case would *raise* the weight of high-kappa experts. With a shared base this
+fragility is the base's, not the expert's, and it is vacuous if the inputs avoid v_q.
+
+**N6. Concentration changes update scale at alpha = 1.** ||sum lambda_i D_i||^2 grows from ||D||^2/K
+(uniform) to ||D||^2 (one-hot). Shuffled scores, which keep each map's concentration, and a matched
+alpha grid control for this.
+
+**Side-track math note (docs/aa/MATH_kappa_of_finetuned_weights.md).**
+* sigma_1(W_i) ≈ sigma_1(W0) for every expert, so kappa varies through sigma_q. Within-layer
+  Spearman(kappa, sigma_q) = -0.91.
+* log kappa_i - log kappa0 ≈ u1^T D v1/s1 - uq^T D vq/sq.
+* **LoRA, rank-r interlacing:** sigma_{j+r}(W0) <= sigma_j(W0 + BA) <= sigma_{j-r}(W0), so
+  kappa2(W0 + BA) >= sigma_{r+1}(W0) / sigma_{q-r}(W0). The base pins it. kappa2(BA) itself is
+  infinite. Factor condition numbers are gauge-dependent:
+  * (BR)(R^-1 A) = BA;
+  * cond(R) = 1e4 changes kappa(A) by a median 5468x and kappa(B) by 2444x;
+  * the product and its spectrum are unchanged (4e-13).
+* **Smoothed analysis (Sankar-Spielman-Teng):** sigma_min(A + sG) >~ s/sqrt(n), so kappa
+  *decreases* with noise in near-singular layers. Checks:
+  * synthetic 128 x 128 matrix: 6.7e6 -> 1.5e3;
+  * real L0 k_proj: 1.04e8 -> 9.9e3 at noise std 1e-2;
+  * L6 fc1: 14.4 -> 7.5.
+* **What tracks noise is the update spectrum.** In the spiked model D_j = S + s_j N, the bulk sits
+  in [s_j(sqrt m - sqrt n), s_j(sqrt m + sqrt n)]. Stable rank, entropy rank and the median
+  singular value are monotone in s_j.
+  * Plug-in Gavish-Donoho estimate: s_hat = median sigma(D) / mu_MP, giving lambda ∝ s_hat^-2.
+  * This is a power law in an update-spectrum statistic, with the opposite preference (a sharper
+    spectrum gets more weight).
+
+**Synthetic checks C1-C11 [established]** (scripts/aa_synthetic_checks.py,
+results/aa/synthetic/synthetic_checks.json). These are small problems verifying the review's
+conditional mathematics and the implementations. All 11 pass. C11 is the noise-lowers-kappa effect
+above.
+
+## 4. Spectra of the real experts [established]
+
+Source: results/spectra/*, B/16 in results/b16/spectra/*.
+
+* kappa0 spans 14 to 1.0e8 across the 73 maps, in two regimes:
+  * **MLP maps (24):** kappa0 is 15-60. Experts differ from the base by about 0.1 % relative. The
+    first-order rank-2 probe explains the differences (median r 0.94-0.98).
+  * **Attention maps (48):** kappa0 is 1e3-1e8. Fine-tuning moves kappa by about 100 %, and the
+    first-order fit fails.
+* **Precision:** 27 of 73 base maps are numerically rank-deficient at fp32 tolerance. In L0/L1
+  k_proj and L0 q_proj, fp32 rounding noise is 50-90 % of the across-expert spread.
+* **What kappa tracks within a map:** mostly sigma_min (rho = -0.91). It is unrelated to update
+  magnitude (median Spearman 0.05).
+* **No expert is "the ill-conditioned one":** argmin winners are spread over all 8 experts. For
+  every pair, the fraction of maps with kappa_i > kappa_j is 0.4-0.6.
+* **Where the rule's effect lives:** 100 % of the literal rule's first-order effect on dev loss
+  comes from 5 maps.
+
+## 5. The literal rule on dev [established]
+
+Mean normalised accuracy, 8 experts, shared 66-config grid. Records:
+results/sweeps/rule_sweep_dev*.jsonl. Figure: results/figures/pilot_rule_vs_b.png.
+
+| rule | alpha = 1, best b | best over (b, alpha) |
+|---|---|---|
+| uniform (beta = 0) | 74.80 | 77.65 (alpha 1.6), acc 70.28 |
+| **kappa (literal)** | 74.80 (b = 2) | **77.74** (b 0.25, alpha 1.6) |
+| shuffled kappa, 5 seeds | 74.65-75.03 | 77.74 ± 0.19 (77.54-78.10) |
+| kappa_rev | 74.81 | 77.35 |
+| logkappa | 74.88 | 77.71 |
+| kappa_strict | 74.88 | 77.52 |
+| kappa_z | 74.40 | 76.73 |
+| global:kappa_z | 74.60 | 76.65 |
+| MetaGPT | 74.55 | 76.98 |
+| dnorm | 74.00 | 77.26 |
+| best single expert (Cars) | 54.82 | n/a |
+
+Other dev baselines (normalised / absolute):
+* uniform at alpha = 1: 74.8 / 67.3;
+* Task Arithmetic, best alpha 1.6: 77.7 / 70.3;
+* MetaGPT at alpha = 1: 74.6 / 67.2; best alpha 1.6: 77.0 / 69.8.
+
+Behaviour of the rule:
+* At alpha = 1 the rule is flat at 74.6-74.8 from b = 0.25 to 128, while n_eff falls from 6.9 to
+  3.6 of 8.
+* The argmin limit (one expert per map) collapses to 65.0.
+* Rules that concentrate *every* map degrade: kappa_z at b = 4 gives 66.1, and per-map
+  largest-update selection gives 36.
+* The literal rule concentrates only attention maps, by the accident of its scale, so it is
+  harmless.
+
+## 6. Confounders [established]
+
+| confounder | control | outcome |
+|---|---|---|
+| chance / dev selection | shuffled scores (identical concentration), 5 seeds | kappa = null mean |
+| update scale | matched alpha grid; alpha = 1 vs tuned | no gain at either |
+| expert selection | argmin limit, best single expert | both far below uniform |
+| magnitude | dnorm, MetaGPT, sigma decomposition | no better |
+| sign | kappa_rev, logkappa_rev | inside the null |
+| layer temperature | logkappa, kappa_z, kappa_rel | no gain; kappa_z harmful |
+| precision | fp64 SVD, fp32 noise check, kappa_strict | rounding-dominated maps identified; strict rule = null |
+
+## 7. Frozen ViT-B/32 test [established]
+
+Configurations were frozen on dev (commits edbdcf5, ee218d2, 8af9dca) before any test evaluation.
+The reference is uniform-tuned (alpha 1.6) at 76.68. All rows are in
+results/freeze/test_comparison.json (101 entries, covering the 49 dev-selected rules); per-task
+results are in results/freeze/test.jsonl.
+
+| rule (dev-tuned) | test | diff [95 % CI] |
+|---|---|---|
+| uniform, alpha 1.6 | 76.68 | 0 |
+| **kappa (literal)** | 76.61 | -0.08 [-0.20, +0.04] |
+| shuffled kappa, 5 seeds | 76.55-76.84 | -0.13 ... +0.15 |
+| kappa_rev | 76.46 | -0.23 [-0.47, +0.02] |
+| logkappa | 76.66 | -0.02 |
+| kappa_strict | 76.38 | -0.30 |
+| kappa_z | 76.00 | -0.69 |
+| global:kappa_z | 75.75 | -0.93 |
+| MetaGPT | 75.71 | -0.97 [-1.26, -0.68] |
+| dnorm | | -0.21 |
+| best single expert | 53.94 | -22.74 [-23.28, -22.16] |
+| literal kappa at alpha = 1 vs uniform at alpha = 1 | 73.29 vs 73.39 | -0.10 |
+| logkappa_q90_rev (candidate) | 77.15 | +0.47 [+0.24, +0.70] |
+| global:logkappa (candidate) | 76.95 | +0.27 [+0.03, +0.50] |
+
+* Its reverse, global:logkappa_rev, gives -1.35. The global shuffled nulls give -0.76 / -0.68 / +0.01.
+* The two candidates were each picked from about 45 rules, so they went to a pre-registered
+  transfer test (§10).
+* Most rules are below uniform.
+
+## 8. Pairs and subsets [established]
+
+**Pairs:** 28 pairs x 11 lambdas, dev (results/pairs/).
+* A per-expert worth model explains the favourable lambda* (R^2 = 0.91): DTD and Cars deserve more
+  weight, MNIST and EuroSAT less.
+* Worth is unrelated to kappa (rho = -0.02, p = 0.96; sign test 10/19).
+* Larger updates deserve *less* weight (rho = -0.49, p = 0.008).
+
+**Subsets:** 7 pre-registered subsets (configs/subsets.json: natural4, synthetic4, rand4_0/1/2,
+rand6_0/1), dev (results/sweeps/subsets_*).
+
+| rule | mean diff vs uniform | subsets positive |
+|---|---|---|
+| kappa | -0.05 | 3/7 |
+| shuffled mean | -0.29 | 0/7 |
+| kappa_rev | -0.82 | 1/7 |
+
+## 9. Nearby variants, waves 2-3 [established on dev; test in §7]
+
+None beat uniform beyond the shuffled null, except the two §7 candidates.
+
+| variant family | outcome |
+|---|---|
+| robust / base-relative full-weight scores (logkappa_q90, kappa_rel) | within the null |
+| data-supported scores, budget B: kappa(W_i C^1/2), kappa_+ | within the null; blind to per-map targets (§11) |
+| update-domain scores: entropy/stable rank, kappa_q90 of D, data-supported norms | no gain; spread statistics encode expert identity |
+| Gavish-Donoho inverse-variance rule (sigma_hat, derived beta = 1) | hurts on the distinct-task bank (75.5 dev), as predicted |
+| merged-kappa gradient `mkgrad`, both signs | about 1 pt below uniform |
+| within-expert-centred `wc:*` | harmless at small b, collapse when concentrating |
+| global rules | bounded: the global oracle is only +0.5 above uniform on test (§12) |
+
+## 10. Pre-registered ViT-B/16 transfer [established]
+
+Configs: configs/b16_transfer_configs.json (commit 75b4237). The B/32-frozen rules and their
+(b, alpha) were evaluated once on the B/16 test split, with matched-config shuffles. Records:
+results/b16/freeze/.
+
+| rule | B/16 test | diff vs uniform (82.01) | matched shuffles |
+|---|---|---|---|
+| kappa (literal) | 81.90 | -0.11 | -0.76 ... +0.24 |
+| logkappa_q90_rev | 81.00 | **-1.01** | -0.95 ... +0.32 |
+| global:logkappa | 82.03 | +0.02 | gshuf -1.04 ... -0.08 |
+| kappa_rev | 79.87 | -2.15 | |
+| MetaGPT | | -0.83 | |
+| at alpha = 1: uniform / kappa / q90_rev | 78.16 / 78.01 / 78.05 | | |
+
+Both B/32 candidates fail, so they were selection artifacts.
+
+## 11. Per-layer diagnostics (budget D) [established]
+
+The targets are d(mean dev CE)/d lambda_i^p at the uniform merge (alpha = 1 and 2.4), and the
+oracle lambda (§12). Records: results/aa/grad_pref/, results/aa/score_vs_targets.md.
+
+| score | within-map rho vs gradient pref (alpha 1) | vs oracle lambda | layer-specific (within-expert) |
+|---|---|---|---|
+| kappa2(W) (literal) | +0.045 | -0.012 | +0.095 (p 0.03) vs gradient; ≈ 0 vs oracle |
+| kappa(W C^1/2) (B) | +0.035 | -0.073 | ≈ 0 (p >= 0.14) |
+| update spread (stable / entropy rank) | -0.43 / -0.48 | -0.10 | ≈ 0; all between-expert (identity, ±0.8) |
+| functional energy tr(D C D^T) (B) | +0.33 | +0.07 | +0.12 to +0.16 (p <= 0.007): the only per-layer predictor |
+
+* The two kappa implementations agree to 1e-13 (median).
+* For master's candidate `logkappa_q90_rev`, the per-map association is small, positive and
+  attention-concentrated:
+  * gradient pref at alpha 1: +0.076 (p 0.09);
+  * gradient pref at alpha 2.4: +0.076 (attention +0.18, MLP -0.12);
+  * oracle + alpha: +0.09 (p 0.046);
+  * oracle at alpha 1: +0.03.
+  * It then failed both transfers (§10, §15).
+
+## 12. Oracle headroom (budget D, absolute accuracy) [established]
+
+| bank | uniform (best alpha) | global oracle (one lambda per expert + alpha) | layerwise oracle, alpha = 1 | layerwise oracle + alpha |
+|---|---|---|---|---|
+| full FT, dev / test | 70.3 / 69.3 | 70.6 / 69.8 | 75.0 / 73.9 | 78.7 / 77.2 |
+| LoRA r16, dev / test | 52.3 / 51.2 | 52.7 / 52.4 | 62.3 / 61.7 | 64.8 / 64.1 |
+
+* The fit is stable across seeds (log-lambda Spearman 0.98).
+* **Full FT:** attention maps go nearly one expert per map (n_eff 1-2.5), with the same assignment
+  across seeds. MLP maps stay mixed.
+* **kappa is uncorrelated with the oracle** (LoRA within-map rho +0.03). Records:
+  results/aa/oracle_lambda/, oracle_lambda_lora/; figure results/aa/figures/fig_oracle_heatmap.png.
+
+## 13. Shared-target soups: the regime where down-weighting is justified [established]
+
+Pools:
+* **A:** 4 noisy copies of each FusionBench expert, with noise 1/4/8/16 x rms(D) per map;
+* **A-nm:** the same copies, with each update rescaled to the clean norm, which blinds norm rules;
+* **B:** 13 real LoRA variants per task from Alexandre's banks (seeds, logit scales, label
+  smoothing, step budgets).
+
+Own-task accuracy. Records: results/aa/soup/; figure results/aa/figures/fig_shared_target.png.
+
+| rule (dev) | A | A-nm | B |
+|---|---|---|---|
+| uniform | 89.8 | 81.3 | 91.0 |
+| oracle (inverse variance; quality softmax for B) | 90.5 | 90.1 | 91.6 |
+| literal kappa, b = 1 / 16 / inf | 89.4 / 88.8 / **58.8** | 81.2 / 81.2 / 74.0 | 91.0 / 90.4 / 88.3 |
+| Gavish-Donoho inverse variance | 90.5 | 83.9 | 90.1 |
+| update shape at b = 4 (stable rank / noise share / bulk median) | 90.5 | **90.3-90.4** | <= 91.1 |
+| update norm, b = 4 | 90.5 | 78.9 | ≈ 91.0 |
+
+| rule (frozen TEST) | A | A-nm | B |
+|---|---|---|---|
+| uniform | 89.4 | 80.6 | 90.6 |
+| literal kappa, b = 1 / 4 | 89.0 / 88.7 (0/8 tasks above uniform) | 80.5 / 80.5 | 90.5 / 90.5 |
+| update stable rank, b = 4 | 90.3 (7/8) | 90.0 (8/8) | 88.2 (0/8) |
+| Gavish-Donoho inverse variance | 90.3 | 83.3 | 89.6 (0/8) |
+| oracle | 90.3 | 89.7 | 89.9 (best single by dev) |
+
+* **kappa falls with noise** in about 70-75 % of maps. The literal rule is *anti*-inverse-variance:
+  its argmin picks the noisiest copy.
+* **The update spectrum's shape tracks noise beyond magnitude**, reaching the oracle with norms
+  matched.
+* **On real recipe variation, everything is about uniform**, and the noise rule hurts.
+  * Variant quality correlates +0.5 with update spread (diffuse = better).
+  * It correlates inconsistently with mean log kappa (-0.31 ... +0.60).
+  * The isotropic-noise model does not describe real checkpoints.
+
+## 14. Tail stress [established]
+
+Edit: in the 47 maps with kappa0 > 1e3, floor one expert's singular values at 10 sigma_min.
+* The edit is 0.47 % of ||D|| (median).
+* The expert's own accuracy changes by at most 0.08 pt on every task.
+* Records: results/aa/tail_stress_{svhn,sun397}.json; figure results/aa/figures/fig_tail_stress.png.
+
+| literal rule | lambda_expert before -> after (attention maps) | merged dev accuracy before -> after |
+|---|---|---|
+| SVHN edited, b = 4, alpha 1.6 | 0.13 -> 0.45 (0.14 -> 0.62) | 70.0 -> 68.7 |
+| SVHN, b = 16 | 0.16 -> 0.60 (0.84) | 69.6 -> 65.0 |
+| SVHN, b = inf | 0.22 -> 0.69 | 50.6 -> 42.2 |
+| SUN397 edited, b = 4 / 16 / inf | 0.11 -> 0.40 / 0.53 / 0.52 | 70.0 -> 68.4; 69.6 -> 66.4; 50.6 -> 48.6 |
+
+## 15. LoRA [established]
+
+**Checks** (results/aa/lora/lora_checks.json):
+* the QR-core spectrum is exact (9e-10);
+* interlacing has 0 violations over 384 (map, expert) pairs;
+* the gauge test is as in §3;
+* 5/5 merge-correctness tests pass (tests/test_aa_lora.py);
+* kappa_+(D; tau = 0.1) is capped at 10 with 80 % of updates truncated, so it is a threshold
+  artifact;
+* in LoRA, argmin-kappa = argmax-sigma_min in 100 % of maps (rho -1.00).
+
+**KnOTS release, literal rule:**
+* dev: kappa best 54.3 (b = 128, near per-map selection); uniform 52.3; best single expert 54.9;
+* argmin-kappa sits at the 95th percentile of a 20-seed random-selection null (p ≈ 0.05);
+* frozen test:
+  * kappa 53.3, uniform 51.2; rank-16 compressed: kappa 53.2, uniform 50.2;
+  * shuffles 46.8 / 51.3 / 50.2;
+  * best single 54.4.
+
+**Cross-bank replication** (results/aa/lora/replicate_banks.jsonl; 20 random per-map selections per
+alpha; dev):
+
+| bank | argmin-kappa percentile, alpha 0.8 / 1.0 | kappa b128 vs best uniform |
+|---|---|---|
+| KnOTS release | 95 / 95 | 54.3 vs 52.3 |
+| lora_c5a (KnOTS recipe, seed 0) | 95 / 100 | 55.3 vs 53.5 |
+| lora_c5a_seed1 | 55 / 45 | 51.8 vs 54.1 |
+| vit20 (lora) | 20 / 15 | 58.0 vs 64.6 |
+
+* **Not replicated.** On vit20 any hard per-map selection loses badly to averaging.
+* Mechanisms tested and rejected:
+  * expert frequency;
+  * functional gentleness;
+  * bulk base-subspace overlap;
+  * null-space occupancy (k = 4-32; the inputs visit V0_low at 80-90 % of the isotropic rate);
+  * singularity avoidance (rho +0.14, p 0.37).
+* **Single-map swap scan** (48 x 8 hand-overs on dev): the argmin-kappa choice ranks 4.27 of 8
+  (random 4.5). It is best in 10 % of maps and worst in 10 %, and rho(-kappa, gain) = -0.08.
+* **Transfer of logkappa_q90_rev**, harmful everywhere:
+  * KnOTS -4.1 to -17.6;
+  * lora_c5a -9.3 to -16.7;
+  * lora_c5a_seed1 -8.7 to -12.5;
+  * vit20 +0.3 / -0.3 at b = 1 and -1.7 / -2.9 at b = 4.
+  * For low-rank updates the score tracks the bulk value sigma_0.9q (rho -0.85).
+
+## 16. Phase 2: conditioning of the merge solve (RegMean) [established]
+
+Details: Report 2. Solve per map, with ridge target R = the uniform average or zero:
+
+    D (sum G~_i + rho I) = sum D_i G~_i + rho R,   G~ = a G + (1 - a) diag G
+
+The kappa cap is the smallest rho with kappa2(G + rho I) <= kappa_t. Code:
+src/condmerge/regmean.py; the LoRA implementation is src/condmerge/regmean_lora.py, and the two
+agree to 5e-8.
+
+**16.1 Full FT, budget C, 512 images per task:**
+
+| | dev | test (acc) |
+|---|---|---|
+| uniform, alpha tuned | 77.65 | 76.68 (69.29) |
+| RegMean plain (a = 1, alpha 1) | 91.68 | 91.39 (82.77) |
+| kappa cap 1e5, alpha 1.2 | 92.08 | 91.34 |
+| shrinkage 0.99, alpha 1.2 | 91.93 | 91.24 |
+
+* Published RegMean on this bench is about 80.5 % accuracy.
+* Budget B (pooled, no task ids) gives about uniform:
+  * plain 75.65 test;
+  * kappa-capped 75.9;
+  * best (diagonal solve, alpha 1.6) 77.35, vs 76.68.
+
+**16.2 Instability** (alpha 1, budget C; figure results/figures/regmean_instability.png):
+
+| | n = 16 dev (3 seeds) | n = 64 | n = 512 | n = 16 test |
+|---|---|---|---|---|
+| plain | 64.95 (63.7-65.9) | 89.99 | 91.68 | 64.20 |
+| shrinkage 0.95 | 88.14 | 90.42 | 91.31 | 87.39 |
+| kappa cap 1e5 | 88.37 | 90.73 | 91.58 | 87.69 |
+
+At n = 16, kappa(G) has median 2.9e5 and maximum 1.6e13. The collapse comes from the
+near-singular 3072-dimensional inputs (fc2, patch embedding).
+
+**16.3 LoRA** (KnOTS, dev, budget C):
+* full solve:
+  * plain 65.3, collapsing to 4.1 at alpha 1.3;
+  * shrinkage 0.95 / 0.9: 64.8 / 64.3;
+  * kappa cap 1e4 / 1e3 / 1e2 (to zero): 65.5 / 64.6 / 61.6 (alpha 1.3: 50.9);
+* exact adapter-subspace solve: 57.9;
+* budget Bp (pooled): 51.8;
+* B0 = averaging: 52.3;
+* uniform 52.3; per-layer lambda oracle 64.8;
+* median kappa(G) 1.05e5 (N = 512) and 2.2e5 (N = 16);
+* N = 16: plain 4.1 at every alpha; shrinkage 61.7; kappa cap 62.2.
+
+Matched single configs (kappa cap 1e4 vs shrinkage 0.95, best alpha):
+
+| setting | plain | shrinkage 0.95 | kappa cap 1e4 | diff |
+|---|---|---|---|---|
+| KnOTS N 512 | 65.3 | 64.8 | 65.5 | +0.7 |
+| KnOTS N 64 | 4.1 | 63.9 | 64.7 | +0.8 |
+| KnOTS N 16, 3 subsets | 4.1 | 61.7 / 63.2 / 63.8 | 62.2 / 64.1 / 64.5 | +0.5 / +0.9 / +0.7 |
+| lora_c5a N 512 | 4.1 | 65.1 | 65.6 | +0.5 |
+| vit20 N 512 (uniform 67.5) | 4.1 | 82.4 | 82.6 | +0.2 |
+
+**16.4 LoRA frozen test** (N 512, dev-best alpha; paired bootstrap):
+
+| bank | uniform | RegMean + shrinkage 0.95 | RegMean + kappa cap 1e4 | kappa cap - shrinkage |
+|---|---|---|---|---|
+| KnOTS | 51.22 | 63.47 | 64.30 | +0.83 [+0.71, +0.95] |
+| lora_c5a | 53.04 | 64.45 | 64.96 | +0.51 [+0.40, +0.62] |
+| vit20 | 66.68 | 81.89 | 82.09 | +0.20 [+0.10, +0.30] |
+
+Rank-16 matched budget (KnOTS dev): uniform 51.3; plain 61.4; shrinkage 61.2; kappa cap 61.7. Extra
+rank is about 3.8 pt of RegMean's gain.
+
+**16.5 2x2: conditioning or isotropy?** Pre-declared. Cells: {isotropic ridge, diagonal shrinkage}
+x {kappa-adaptive strength, fixed strength}.
+
+Full FT, test, n = 16 mean (n = 512 in brackets):
+
+| | kappa-adaptive | fixed | adaptivity |
+|---|---|---|---|
+| isotropic ridge | 87.69 (91.40) | 86.90 (91.38) | +0.78 (+0.03) |
+| diagonal shrinkage | 87.28 (90.59) | 87.39 (91.07) | -0.11 (-0.48) |
+| isotropy | +0.41 (+0.81) | -0.49 (+0.30) | |
+
+LoRA, KnOTS dev:
+
+| | kappa-adaptive | fixed | adaptivity |
+|---|---|---|---|
+| isotropic ridge | 63.60 (65.52) | 63.47 (65.29) | +0.13 (+0.23) |
+| diagonal shrinkage | 62.58 (64.53) | 62.86 (64.76) | -0.28 (-0.23) |
+| isotropy | +1.02 (+0.99) | +0.61 (+0.53) | |
+
+* Setting RegMean's shrinkage by a kappa cap never helps.
+* On LoRA the edge is isotropy.
+* On full FT at n = 16 the fixed ridge's strength was matched only on the median map, which
+  prompted 16.6.
+
+**16.6 Equal-budget strength sweep** (post-hoc, declared before running; dev selection, frozen
+test). Grids: kappa cap kappa_t in 1e3-1e6 (7 values); fixed relative ridge with the same 7
+strengths; shrinkage with 5 values.
+
+| full FT test | kappa-cap ridge | fixed ridge (tuned) | shrinkage (tuned) |
+|---|---|---|---|
+| n = 16, subsets 0 / 1 / 2 | 88.04 / 87.20 / 87.83 | 87.93 / 86.91 / 87.68 | 87.85 / 86.77 / 87.56 |
+| n = 16, mean | **87.69** | 87.51 | 87.39 |
+| n = 512 | 91.40 | 91.37 | 91.33 |
+
+* At n = 16: kappa cap - fixed ridge = +0.10 / +0.29 / +0.15 (mean +0.18); kappa cap - shrinkage
+  = +0.30; fixed ridge - shrinkage = +0.12.
+* At n = 512 everything is within 0.07 of plain RegMean (91.39).
+* The kappa cap wins with a much smaller typical ridge (median 8.4e-4 of tr(G)/d, against 0.016
+  for the best fixed ridge): it regularises only the ill-conditioned maps.
+
+**Verdict on row 3:**
+* The mechanism is supported.
+* The conditioning-specific gain is about 0.1-0.2 pt, at small calibration size only.
+* The kappa that matters is the merged Gram system's, not any expert's kappa2(W_i).
+
+## 17. Variant ledger (all interpretations tried)
+
+| variant | problem addressed | assumption | discriminating experiment | closest prior | status |
+|---|---|---|---|---|---|
+| literal kappa2(W), layerwise | the professor's rule | kappa tracks reliability | shuffles, pairs, subsets, test, B/16, per-layer targets, soups, tail stress, LoRA x4 | SADA, CT, AMM exp weights | **DEAD END** |
+| log kappa (power law), kappa_z, kappa_strict, reversed signs | kappa spans 1e1-1e8; temperature; rank; sign | variance route / layer comparability | same grid + test | review eq. 22 | dead (kappa_z harmful) |
+| global kappa (one weight per expert) | per-map noise | expert-level signal | global oracle bound (+0.5) | MetaGPT | dead (+0.27 B/32 -> +0.02 B/16) |
+| robust bulk ratio logkappa_q90_rev | tail sensitivity | bulk anisotropy matters | B/16 + LoRA transfer | TSV/STAR-like | **FAILED** both transfers |
+| base-relative kappa_rel | shared-base offset | relative change informative | grid + test | — | null |
+| kappa(W C^1/2), kappa_+ (budget B) | data may not excite weak directions | pooled C representative | per-layer targets | PAVE, ESM, NSC | blind |
+| update spread / noise share / GD inverse variance | kappa(W) is a sigma_min probe | spike + bulk noise | noisy, norm-matched, real soups | STAR, TSV, MonoSoup, Model Stock, Fisher | works under isotropic noise only; **fails on real variants** |
+| merged-kappa gradient, within-expert-centred | interactions | merged conditioning matters | grid + test | — | below uniform |
+| factor kappa (LoRA) | kappa2(BA) = inf | canonical gauge | gauge test | — | **INVALID** |
+| functional energy tr(D C D^T) | where experts matter | pooled C | within-expert split | ESM, MetaGPT | weak, full FT only |
+| kappa-capped ridge in RegMean | instability of the solve | noise amplification by weak Gram directions | n-size test, 2x2, tuned sweep, test | RegMean, SWUDI | mechanism SUPPORTED; gain over tuned ridge ≈ 0.1-0.2 |
+
+## 18. What contribution remains [assessment]
+
+1. **A mechanism-level negative result** for weight-conditioning merge rules. It has four parts:
+   * the regime analysis;
+   * the first-order "merged-conditioning" equivalence;
+   * tail manipulability;
+   * the anti-inverse-variance effect, with interlacing pinning for LoRA.
+
+   Novelty must be checked against SADA, LARV, CORAM and Ludwig (2025).
+2. **A regime map:**
+   * shared target: the update-spectrum shape works under isotropic noise, but not on real
+     checkpoints;
+   * distinct tasks: kappa is uninformative.
+3. **Where the headroom is:** per-layer allocation in attention maps (+8 / +13 pt oracle). No
+   spectral statistic recovers it. This points to data-driven routing or selection research,
+   outside the conditioning brief.
+4. **Inverse-problem conditioning:**
+   * real but small;
+   * capping a system's kappa with a ridge is a standard device;
+   * close to SWUDI.
+   * No method claim.
+5. **Novelty check (side track):** no prior paper uses Marchenko-Pastur / Gavish-Donoho noise
+   estimates to weight checkpoints. The closest are Model Stock (ECCV'24), MonoSoup
+   (arXiv 2602.09689), Fisher merging and TSV/STAR. The negative real-variant result limits its
+   value.
+
+## 19. Limitations, deviations, incidents
+
+* **Comparison set:** only uniform / Task Arithmetic, MetaGPT, RegMean (budgets B and C) and best
+  single expert were run. TSV, Iso, WUDI, TIES, KnOTS merging, CT, STAR, ACE and SADA were not.
+  The shuffled-score nulls are the right control for the kappa question, but positioning against
+  the state of the art is missing.
+* **Scope:** CLIP ViT-B/32 and B/16 vision encoders, 8 tasks, shared base, plus 4 LoRA banks on the
+  same tasks. No LLMs, no non-shared bases.
+* **Statistics:**
+  * Bootstrap CIs cover test-image sampling only.
+  * RegMean n = 16 rests on 3 calibration subsets.
+  * The §16.5-16.6 runs have no image-level CIs (per-image predictions not stored).
+  * The LoRA 2x2 is dev-only.
+* **Incidents:**
+  * At 13:35 the side session's writes overwrote master's spectra.py and compute_spectra.py; they
+    were restored from 53f47bd.
+  * A freeze_eval bug made metagpt / best-single silently uniform when b = 0; it was fixed before
+    the reported test numbers.
+  * The master session ended at 16:41 while waiting on its 2x2 jobs. The results were recovered
+    (commit 2e09047), and the write-up was finished later that evening.
+
+## 20. Reproducibility map
+
+* **Environment:** ~/lora_merging_ica/.venv/bin/python (torch 2.11, transformers 5.17). Data and
+  artifacts: /data/home/azpitarte/condmerge_data (symlink `artifacts/`).
+* **Backups:** /shared/ssd_30T/azpitarte_condmerge_backup/<timestamp>/ (git bundle of all refs +
+  working-tree tarball).
+
+| result | records | producing code |
+|---|---|---|
+| expert / zero-shot accuracy | results/experts/, results/b16/experts/, results/sanity/ | scripts/eval_experts.py |
+| spectra | results/spectra/*, results/b16/spectra/* | scripts/compute_spectra.py, compute_supported_spectra.py, noise_estimates.py, merged_kappa_grad.py |
+| dev rule sweeps (all rules, 66-config grid) | results/sweeps/rule_sweep_dev*.jsonl, summary_*.json | experiments/rule_sweep.py, analyze_sweep.py, plot_sweep.py |
+| frozen configs / B/32 test | results/freeze/*, configs frozen in edbdcf5 / ee218d2 / 8af9dca | experiments/make_freeze_list.py, freeze_eval.py, compare_frozen.py |
+| B/16 transfer | results/b16/freeze/*, configs/b16_* | same, with CONDMERGE_ARCH=b16 |
+| pairs / subsets | results/pairs/*, results/sweeps/subsets_*, configs/subsets.json | experiments/pair_sweep.py, analyze_pairs.py, analyze_subsets.py |
+| synthetic, per-layer targets, oracle, soups, tail stress | results/aa/* | scripts/aa_*.py |
+| LoRA | results/aa/lora/* | scripts/aa_lora_*.py, src/condmerge/lora.py |
+| RegMean full FT | results/regmean/* | experiments/regmean_sweep.py, regmean_instability.py, regmean_2x2.py, analyze_regmean_2x2.py |
+| RegMean LoRA | results/aa/lora/regmean_* | scripts/aa_lora_grams.py, aa_lora_regmean*.py, src/condmerge/regmean_lora.py |
+
+## 21. Open decisions
+
+1. Write up the negative result plus its mechanism (§18.1-18.2) after a novelty check against
+   SADA, LARV, CORAM and Ludwig (2025).
+2. Optionally add the missing prior-work baselines (TSV / Iso / WUDI / TIES) for positioning.
+3. Leaving the conditioning brief: data-driven per-map routing of attention maps, where the oracle
+   headroom is. This needs your decision.
