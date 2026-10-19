@@ -1,0 +1,18 @@
+10-19 06:05:32 orchestrator start: settings ['S1', 'S2', 'S3', 'S4'], state keys []
+10-19 06:05:49 manifest manifest_l31_8b_T8.json: fresh sizes {'banking77': 1000, 'clinc': 1000, 'ledgar': 1000, 'massive': 626, 'mnli': 1000, 'anli': 1000, 'mrpc': 0, 'qqp': 1000}
+10-19 06:06:01 devgrid S1: kappa: b=[0.126, 1.26, 56200.0, 1580000.0, 'inf']; global:kappa: b=[0.631, 1.26, 2.0, 3.55, 'inf']; logkappa: b=[0.178, 0.794, 31.6, 251.0, 'inf']; kappa_res: b=[0.355, 1.0, 2.82, 15.8, 'inf']; kappa_rev: b=[0.126, 1.26, 56200.0, 1580000.0, 'inf']
+10-19 06:06:08 manifest manifest_l32_3b_T8.json: fresh sizes {'mnli': 1000, 'qnli': 1000, 'snli': 1000, 'rte': 0, 'sick': 0, 'scitail': 43, 'mrpc': 0, 'qqp': 1000}
+10-19 06:06:18 devgrid S2: kappa: b=[0.02, 0.282, 10000.0, 282000.0, 'inf']; global:kappa: b=[0.501, 0.794, 1.12, 1.78, 'inf']; logkappa: b=[0.158, 0.708, 44.7, 398.0, 'inf']; kappa_res: b=[0.355, 1.0, 3.16, 20.0, 'inf']; kappa_rev: b=[0.02, 0.282, 10000.0, 282000.0, 'inf']
+10-19 06:06:25 manifest manifest_l32_3b_T20.json: fresh sizes {'mnli': 1000, 'qnli': 1000, 'snli': 1000, 'rte': 0, 'sick': 0, 'scitail': 43, 'mrpc': 0, 'qqp': 1000, 'cola': 0, 'wic': 0, 'sst2': 0, 'agnews': 1000, 'dbpedia': 1000, 'hellaswag': 1000, 'boolq': 1000, 'copa': 0, 'csqa': 0, 'arc': 0, 'wsc': 0, 'cb': 0}
+10-19 06:06:36 devgrid S3: kappa: b=[0.0251, 0.224, 3980.0, 100000.0, 'inf']; global:kappa: b=[0.562, 1.0, 1.58, 2.51, 'inf']; logkappa: b=[0.178, 0.562, 25.1, 178.0, 'inf']; kappa_res: b=[0.355, 0.891, 2.51, 7.94, 'inf']; kappa_rev: b=[0.0251, 0.224, 3980.0, 100000.0, 'inf']
+10-19 06:06:53 manifest manifest_l31_8b_T20.json: fresh sizes {'banking77': 1000, 'clinc': 1000, 'ledgar': 1000, 'massive': 626, 'mnli': 1000, 'anli': 1000, 'mrpc': 0, 'qqp': 1000, 'trec': 0, 'fewrel': 1000, 'dbpedia': 1000, 'news20': 1000, 'agnews': 1000, 'qnli': 1000, 'rte': 0, 'cola': 0, 'sst2': 0, 'snli': 1000, 'sick': 0, 'scitail': 43}
+10-19 06:06:53 git commit: [master 64da430] LLM study: bank manifests and weights-only dev grids (pre-registered, before any evaluation)
+10-19 06:06:55 local backup rc=0 backup: 13M	/shared/ssd_30T/azpitarte_condmerge_backup/20261019_060653
+10-19 06:06:55 S1: enqueued 405 dev jobs (+refs, noise, context)
+10-19 06:06:56 S2: enqueued 605 dev jobs (+refs, noise, context)
+10-19 06:06:57 S3: enqueued 605 dev jobs (+refs, noise, context)
+10-19 06:06:57 queue {'pending': 1666, 'running': 0, 'done': 0, 'failed': 0}; outstanding 1666 of 1666 tracked
+10-19 06:33:35 orchestrator start: settings ['S1', 'S2', 'S3', 'S4'], state keys ['context_keys', 'dev_enqueued', 'dev_keys', 'grids_done', 'noise_keys', 'ref_keys']
+10-19 06:33:35 queue {'pending': 1647, 'running': 0, 'done': 19, 'failed': 0}; outstanding 1647 of 1666 tracked
+10-19 07:03:37 queue {'pending': 1554, 'running': 5, 'done': 107, 'failed': 0}; outstanding 1559 of 1666 tracked
+10-19 07:33:40 queue {'pending': 2350, 'running': 5, 'done': 239, 'failed': 0}; outstanding 1470 of 1666 tracked

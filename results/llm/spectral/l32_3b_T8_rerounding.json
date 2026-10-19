@@ -1,0 +1,31 @@
+{
+ "b_ref": 10000.0,
+ "replicates": 2,
+ "by_kind": {
+  "q_proj": {
+   "median_kendall_tau": 0.7857142857142856,
+   "frac_argmin_same": 0.6964285714285714,
+   "median_max_rel_kappa_change": 1.0204275782778565,
+   "median_max_abs_lambda_change": 0.0
+  },
+  "k_proj": {
+   "median_kendall_tau": 0.9999999999999998,
+   "frac_argmin_same": 0.9285714285714286,
+   "median_max_rel_kappa_change": 0.00018103214359021987,
+   "median_max_abs_lambda_change": 0.0009440665368398576
+  },
+  "v_proj": {
+   "median_kendall_tau": 0.9999999999999998,
+   "frac_argmin_same": 1.0,
+   "median_max_rel_kappa_change": 8.889870337484638e-05,
+   "median_max_abs_lambda_change": 6.566494294979464e-05
+  },
+  "o_proj": {
+   "median_kendall_tau": 0.8571428571428571,
+   "frac_argmin_same": 0.7678571428571429,
+   "median_max_rel_kappa_change": 0.4958881714511575,
+   "median_max_abs_lambda_change": 0.0
+  }
+ },
+ "seconds": 617.797679901123
+}

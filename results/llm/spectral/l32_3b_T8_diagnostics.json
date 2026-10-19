@@ -1,0 +1,89 @@
+{
+ "kendall_W_all": 0.007907404033041788,
+ "kendall_W_by_kind": {
+  "q_proj": 0.013969873663751214,
+  "k_proj": 0.015792031098153546,
+  "v_proj": 0.061224489795918366,
+  "o_proj": 0.06347181729834792
+ },
+ "argmin_frequency": {
+  "mnli": 8,
+  "qnli": 15,
+  "snli": 12,
+  "rte": 14,
+  "sick": 15,
+  "scitail": 15,
+  "mrpc": 18,
+  "qqp": 15
+ },
+ "total_interlacing_violations": 0,
+ "q_proj": {
+  "kappa0": 157134.36922640243,
+  "rel_spread": 6.752254116302284,
+  "cv_kappa": 0.9168445557698959,
+  "share_var_log_s1": 3.5586520090811533e-09,
+  "share_var_log_smin": 1.0000026715072212,
+  "smin0_over_tau": 0.0186122328128041,
+  "median_smin_over_tau": 0.018007310590566143,
+  "n_below_tau_base": 15.5,
+  "abs_err_bound_over_smin": 6.945377934993531e-06,
+  "spearman_kappa_vs_dnorm": -0.03571428571428572,
+  "frac_smin_below_tau": 1.0,
+  "kappa0_range": [
+   21902.744499280263,
+   19428241.568360966
+  ]
+ },
+ "k_proj": {
+  "kappa0": 54.39501929720119,
+  "rel_spread": 0.0036997629852605195,
+  "cv_kappa": 0.0013927812413569375,
+  "share_var_log_s1": 0.001874137436757705,
+  "share_var_log_smin": 1.0041264860241428,
+  "smin0_over_tau": 34.91704122160556,
+  "median_smin_over_tau": 35.53159116564325,
+  "n_below_tau_base": 0.0,
+  "abs_err_bound_over_smin": 1.2374528783589402e-10,
+  "spearman_kappa_vs_dnorm": -0.4047619047619048,
+  "frac_smin_below_tau": 0.14285714285714285,
+  "kappa0_range": [
+   41.15168066559516,
+   5664.982219023587
+  ]
+ },
+ "v_proj": {
+  "kappa0": 8.287270754303357,
+  "rel_spread": 0.001605351434410532,
+  "cv_kappa": 0.00047772435189371405,
+  "share_var_log_s1": 0.019261857708841562,
+  "share_var_log_smin": 0.9443730361634923,
+  "smin0_over_tau": 91.6386418912338,
+  "median_smin_over_tau": 91.65504037808446,
+  "n_below_tau_base": 0.0,
+  "abs_err_bound_over_smin": 1.884196302463601e-11,
+  "spearman_kappa_vs_dnorm": -0.08333333333333334,
+  "frac_smin_below_tau": 0.0,
+  "kappa0_range": [
+   5.635682499234841,
+   14.590243784182093
+  ]
+ },
+ "o_proj": {
+  "kappa0": 42710.910918461006,
+  "rel_spread": 2.4262066933582087,
+  "cv_kappa": 0.676568034678185,
+  "share_var_log_s1": 3.334318096026732e-09,
+  "share_var_log_smin": 0.9999918999870926,
+  "smin0_over_tau": 0.032873571691712865,
+  "median_smin_over_tau": 0.03607390998910644,
+  "n_below_tau_base": 10.5,
+  "abs_err_bound_over_smin": 8.489222630346716e-07,
+  "spearman_kappa_vs_dnorm": -0.08333333333333334,
+  "frac_smin_below_tau": 1.0,
+  "kappa0_range": [
+   12068.03113273734,
+   1646256.6668494304
+  ]
+ },
+ "seconds": 0.8015716075897217
+}
