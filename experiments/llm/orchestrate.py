@@ -291,8 +291,29 @@ def phase_transfer(sname: str, st: dict) -> None:
     log(f"{sname}: enqueued {len(jobs)} transfer jobs from {src}")
 
 
+def phase_gate(st: dict) -> None:
+    """Uncertainty-gate stage (protocol 02 sec. 9): enqueued ONLY if the diagnostic passed its pre-registered
+    criterion. The diagnostic itself runs in the CLIP chain; this only watches its summary file."""
+    if "gate" in st:
+        return
+    summ = ROOT / "results" / "uncert" / "diagnostic_summary.json"
+    marker = ROOT / "results" / "uncert" / ".diagnostic.done"
+    if not (summ.exists() and marker.exists()):
+        return
+    passed = bool(json.loads(summ.read_text()).get("diagnostic_passed"))
+    if not passed:
+        st["gate"] = {"status": "not run: the diagnostic failed its pre-registered criterion"}
+        log("uncertainty diagnostic FAILED its criterion -> gate stage not run (protocol 02 sec. 9)")
+    else:
+        cfg = {"bank": "l31_8b", "T": 8, "kind": "script", "script": "experiments/uncert/gate.py", "args": [],
+               "group": "scripts", "setting": "gate"}
+        st["gate"] = {"status": "enqueued", "keys": [J.enqueue(cfg, 2) or J.key_of(cfg)]}
+        log("uncertainty diagnostic PASSED -> gate stage enqueued (runs on an 8B worker's GPU, model unloaded)")
+    save_state(st)
+
+
 def all_keys(st: dict) -> set[str]:
-    ks = set()
+    ks = set(st.get("gate", {}).get("keys", []))
     for field in ("ref_keys", "dev_keys", "noise_keys", "context_keys", "confirm_keys", "tail_keys", "transfer"):
         for v in st.get(field, {}).values():
             ks |= set(v)
@@ -326,13 +347,19 @@ def main() -> None:
             phase_transfer(sname, st)
         for name in J.requeue_stale(900.0):
             log(f"requeued stale running job {name}")
+        try:
+            phase_gate(st)
+        except Exception:
+            log(f"gate phase error\n{traceback.format_exc()}")
         keys = all_keys(st)
         frozen_all = all(s in st.get("frozen", {}) for s in settings if plan.SETTINGS[s].get("dev"))
         transfers_all = all(s in st.get("transfer", {}) for s in settings if plan.SETTINGS[s].get("transfer_from"))
         if time.time() - last_report > 1800:
             log(f"queue {J.queue_counts()}; outstanding {outstanding(keys)} of {len(keys)} tracked")
             last_report = time.time()
-        if frozen_all and transfers_all and finished(keys, st):
+        chain_done = (ROOT / "logs" / "llm" / "clip_chain.log").exists() and \
+            "chain done" in (ROOT / "logs" / "llm" / "clip_chain.log").read_text()
+        if frozen_all and transfers_all and finished(keys, st) and ("gate" in st or chain_done):
             break
         time.sleep(args.poll)
     log("all jobs finished: analysis")

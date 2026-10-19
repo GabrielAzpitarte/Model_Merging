@@ -333,8 +333,32 @@ def run_gradpref(cfg: dict, key: str, device: str) -> dict:
             "seconds": time.time() - t0, "rule_info": info}
 
 
+def run_script(cfg: dict, key: str, device: str) -> dict:
+    """Run one of OUR experiment scripts on this worker's GPU (the LLM is unloaded first to free memory)."""
+    import gc
+    import subprocess
+
+    import torch
+
+    allowed = {"experiments/uncert/gate.py"}
+    assert cfg["script"] in allowed, cfg["script"]
+    if State.runner is not None:
+        State.runner = None
+        State.key = None
+        gc.collect()
+        torch.cuda.empty_cache()
+    log_path = BK.ROOT / "logs" / "llm" / f"script_{key}.log"
+    t0 = time.time()
+    with open(log_path, "w") as lf:
+        r = subprocess.run(["/data/home/azpitarte/lora_merging_ica/.venv/bin/python", cfg["script"], *cfg.get("args", [])],
+                           cwd=BK.ROOT, stdout=lf, stderr=subprocess.STDOUT)
+    if r.returncode != 0:
+        raise RuntimeError(f"script {cfg['script']} failed rc={r.returncode}; see {log_path}")
+    return {"script": cfg["script"], "rc": r.returncode, "seconds": time.time() - t0, "log": str(log_path.relative_to(BK.ROOT))}
+
+
 KINDS = {"merge": run_merge, "expert": run_expert, "base": run_base, "context": run_context, "tail": run_tail,
-         "expert_edit": run_expert_edit, "gradpref": run_gradpref}
+         "expert_edit": run_expert_edit, "gradpref": run_gradpref, "script": run_script}
 
 
 def main() -> None:
