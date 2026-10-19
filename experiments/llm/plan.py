@@ -22,11 +22,22 @@ from condmerge.llm import rules  # noqa: E402
 ALPHAS = [0.8, 1.0, 1.3, 1.6, 2.0]
 TARGET_FRACS = [0.85, 0.65, 0.45, 0.25]
 CONFIGS = ROOT / "configs" / "llm"
+# Amendment 3 (2026-10-19, before any freeze): the alpha grid above came from the 8B source's TA curve only. The 3B
+# sources selected TA|alpha 0.3 x 8 = 2.4 (T8; plateau 2.4-4.0) and 0.2 x 20 = 4.0 (T20), and S2's own dev uniform
+# was still rising at alpha 2.0; S1's kappa b=0.126 also peaked at the grid edge. Extra alphas, applied to EVERY rule
+# and shuffle of the setting (equal selection opportunity); enqueued ahead of the remaining original dev jobs
+# (EXTRA_PRIO) so the running orchestrator's freeze, which reads all dev records, includes them.
+ALPHAS_EXTRA = {"S1": [2.4], "S2": [2.4, 3.2, 4.0], "S3": [2.4, 3.2, 4.0, 5.0]}
+EXTRA_PRIO = {"S1": 9, "S2": 3, "S3": 23}
+N_MATCHED_ALPHA1 = 10  # matched-config shuffles at kappa|alpha1 (test), amendment 3
 SMOKE = J._SMOKE
 if SMOKE:  # plumbing test only: tiny grids, separate roots, no git
     ALPHAS = [1.0, 1.6]
     TARGET_FRACS = [0.45]
     CONFIGS = ROOT / "artifacts" / f"llm_smoke/{SMOKE}" / "configs"
+    ALPHAS_EXTRA = {"X1": [2.4]}
+    EXTRA_PRIO = {"X1": 3}
+    N_MATCHED_ALPHA1 = 1
 
 SETTINGS = {
     "S1": {"bank": "l31_8b", "T": 8, "kappa_shuffles": 5, "other_shuffles": 2, "matched": list(range(5, 20)),
@@ -109,6 +120,33 @@ def dev_jobs(setting: str, grid: dict) -> list[tuple[dict, int]]:
                 for seed in range(s["other_shuffles"]):
                     merge(null.format(seed), b, a, pbase + 5)
     return jobs
+
+
+def dev_jobs_extra(setting: str, grid: dict) -> list[tuple[dict, int]]:
+    """Amendment 3: the same dev jobs at the setting's extra alphas, all at EXTRA_PRIO (ahead of the original dev
+    jobs). Identical cfg structure to dev_jobs, so the freeze's dev table picks them up like any other dev record."""
+    extra = ALPHAS_EXTRA.get(setting, [])
+    if not extra:
+        return []
+    return [(cfg, EXTRA_PRIO[setting]) for cfg, _ in dev_jobs(setting, {**grid, "alphas": extra})]
+
+
+def matched_alpha1_jobs(setting: str, fz: dict) -> list[tuple[dict, int]]:
+    """Amendment 3: matched-config shuffles at the literal rule's alpha = 1 configuration (kappa|alpha1), on test, so the
+    professor's exact convex combination also has a test-set null. Skipped when kappa|alpha1 IS kappa|tuned (the
+    ordinary matched shuffles already cover it)."""
+    s = SETTINGS[setting]
+    kap = next((c for c in fz["configs"] if c["tag"] == "kappa|tuned"), None)
+    kap1 = next((c for c in fz["configs"] if c["tag"] == "kappa|alpha1"), None)
+    if kap is None or kap1 is None:
+        return []
+    if str(kap1["b"]) == str(kap["b"]) and abs(float(kap1["alpha"]) - float(kap["alpha"])) < 1e-9:
+        return []
+    pbase = 1 if s["bank"] == "l31_8b" else 0
+    return [({"bank": s["bank"], "T": s["T"], "kind": "merge", "rule": f"shuf{seed}:kappa", "b": kap1["b"],
+              "alpha": kap1["alpha"], "split": "test", "group": "matched_alpha1", "setting": setting,
+              "tag": "matched-config shuffle at kappa|alpha1"}, pbase + 2)
+            for seed in s.get("matched", [])[:N_MATCHED_ALPHA1]]
 
 
 def ref_jobs(setting: str) -> list[tuple[dict, int]]:
@@ -227,7 +265,7 @@ def frozen_eval_jobs(setting: str, fz: dict, splits=("test", "fresh")) -> list[t
         out.append(({"bank": bank, "T": T, "kind": "merge", "rule": f"shuf{seed}:kappa", "b": kap["b"],
                      "alpha": kap["alpha"], "split": "test", "group": "matched", "setting": setting,
                      "tag": "matched-config shuffle at kappa|tuned"}, pbase + 2))
-    return out
+    return out + matched_alpha1_jobs(setting, fz)
 
 
 def transfer_jobs(setting: str, src_fz: dict, splits=("test", "fresh")) -> list[tuple[dict, int]]:

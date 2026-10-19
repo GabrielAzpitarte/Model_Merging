@@ -176,6 +176,30 @@ def phase_enqueue_dev(settings: list[str], st: dict) -> None:
     save_state(st)
 
 
+def phase_amend3(settings: list[str], st: dict) -> None:
+    """Amendment 3 on (re)start (idempotent; enqueue dedupes by key, so jobs already enqueued by
+    experiments/llm/amend3_watch.py are not duplicated): the extra-alpha dev jobs become tracked dev jobs of every
+    setting not yet frozen; the matched shuffles at kappa|alpha1 become tracked confirmation jobs of settings an earlier
+    process froze."""
+    if st.get("amend3_done"):
+        return
+    for sname in settings:
+        s = plan.SETTINGS[sname]
+        if not s.get("dev"):
+            continue
+        if sname not in st.get("frozen", {}):
+            grid = json.loads((plan.CONFIGS / f"devgrid_{sname}.json").read_text())
+            keys = enqueue_all(plan.dev_jobs_extra(sname, grid))
+            st["dev_keys"][sname] = sorted(set(st["dev_keys"][sname]) | keys)
+        else:
+            fz = json.loads((ROOT / st["frozen"][sname]).read_text())
+            keys = enqueue_all(plan.matched_alpha1_jobs(sname, fz))
+            st.setdefault("confirm_keys", {})[sname] = sorted(set(st["confirm_keys"].get(sname, [])) | keys)
+        log(f"{sname}: amendment-3 jobs tracked ({len(keys)})")
+    st["amend3_done"] = True
+    save_state(st)
+
+
 def choose_tail_expert(sname: str, fz: dict) -> str:
     """The expert with the smallest mean lambda under the frozen kappa|tuned configuration."""
     from condmerge.llm import rules
@@ -336,6 +360,7 @@ def main() -> None:
         time.sleep(120)
     phase_grids(settings, st, push)
     phase_enqueue_dev(settings, st)
+    phase_amend3(settings, st)
     last_report = 0.0
     while True:
         for sname in settings:

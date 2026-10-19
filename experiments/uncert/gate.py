@@ -4,8 +4,9 @@ passed (results/uncert/diagnostic_summary.json: diagnostic_passed = true); other
 CLIP ViT-B/32 full FT, budgets C (task-separated) and B (pooled), n = 16 images per task, the same 8 calibration
 subsets as the diagnostic (upool). Per map p, with the subset's own statistics only:
     plain    D = R + F_hat,                    F_hat = B G^-1
-    gate     D = R + gamma_p F_hat,            gamma_p = 1 / (1 + c * u_rel_p)        (u_rel: bootstrap relative
-             variance of F from the diagnostic records of the same subset), ONE global c in C_GRID
+    gate     D = R + gamma_p F_hat,            gamma_p = 1 / (1 + c * u_p)            (u_p = u_rel_G: bootstrap
+             relative variance of F in the functional norm, from the diagnostic records of the same subset;
+             amendment 3), ONE global c in C_GRID
     gate_shuf  the same gate with u_rel permuted across maps (null: does the uncertainty's allocation matter?)
     ridge    D = R + B (G + rho I)^-1,          rho = c_rel tr(G)/d,  c_rel in RIDGE_GRID      (tuned fixed ridge)
     kcap     D = R + B (G + rho I)^-1,          rho = smallest with kappa(G + rho I) <= kappa_t, kappa_t in KCAP_GRID
@@ -114,7 +115,8 @@ def main() -> None:
         subs = sorted({r["subset"] for r in recs if r["budget"] == budget and r["n"] == n})
         rows = []
         for s in subs:
-            u = {r["map"]: r["u_rel"] for r in recs if r["budget"] == budget and r["n"] == n and r["subset"] == s}
+            # the diagnostic's primary predictor (amendment 3): relative bootstrap variance in the functional norm
+            u = {r["map"]: r["u_rel_G"] for r in recs if r["budget"] == budget and r["n"] == n and r["subset"] == s}
             perm = np.random.default_rng(1000 + s).permutation(len(names))
             u_shuf = {p: u[names[perm[j]]] for j, p in enumerate(names)}
             idx = np.arange(s * n, (s + 1) * n)

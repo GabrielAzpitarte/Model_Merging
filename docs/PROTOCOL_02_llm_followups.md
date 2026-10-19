@@ -338,3 +338,70 @@ shows uncertainty-proportional shrinkage toward an anchor is a textbook mechanis
 The prior-work check also notes that IterIS's relative ridge alpha ||G||_F I bounds kappa(G + rho I) <= (1 + alpha) / alpha.
 In the near-singular regime the kappa cap is therefore a re-parametrisation of a known ridge; it is not reported as a
 new method.
+
+### Amendment 3 (2026-10-19 07:20; before any setting was frozen, before any test/fresh LLM evaluation, and before the uncertainty diagnostic produced any record)
+
+**Ownership.** Session azpitarte-c6 ended at 07:06 (its tool call was killed, exit 137). Session azpitarte-d2 owns the
+repository from 07:12. It audited the running program against the brief before changing anything; the findings below
+come from that audit. The running orchestrator process could not be restarted, so the changes are applied as follows:
+* `experiments/llm/amend3_watch.py` (tmux `claude_cm2_amend3`) does the work for the running process;
+* `orchestrate.py`'s `phase_amend3` reproduces the same jobs on any later restart. Identical job configurations give
+  identical keys, and the queue de-duplicates by key.
+
+**A. alpha grid extended (sec. 4.1).**
+* Sec. 4.1 derived {0.8, 1.0, 1.3, 1.6, 2.0} from the 8B source's TA curve only.
+* In this convention alpha = lambda x T. The 3B sources selected lambda 0.3 x 8 = **2.4** (T8; their val curve
+  plateaus over 2.4-4.0 and is lower at 4.8) and 0.2 x 20 = **4.0** (T20). For T20, 2.0 is the source grid's smallest
+  point.
+* S2's own dev data (uniform at alpha 0.8-2.0: 74.56, 76.40, 79.73, 80.04, 81.70) were still rising at the grid edge,
+  by +1.66 points against a 0.33-point noise floor. So "tuned uniform" would not have been tuned.
+* On S1, uniform is flat between 1.6 and 2.0 (69.83 / 69.77, inside the 0.19 noise floor), but kappa at b = 0.126
+  rises 1.6 -> 2.0 by +0.43.
+* The brief requires the alpha range to be chosen from development data and existing uniform-merging results, with
+  the same search for uniform.
+* Added alphas: **S1 {2.4}; S2 {2.4, 3.2, 4.0}; S3 {2.4, 3.2, 4.0, 5.0}**.
+  * They apply to every rule, every b value and every shuffle seed of the setting, so selection opportunity stays
+    equal.
+  * They are dev (val) jobs with exactly the original configuration structure: 81, 363 and 484 jobs.
+* They are enqueued ahead of the remaining original dev jobs (priorities 9 / 3 / 23 against 10-15 / 4-9 / 24-29). The
+  running orchestrator freezes a setting when its original dev jobs are finished, and its dev table reads every dev
+  record of the setting, so the extra records are part of the selection.
+* `frozen_<S>.json` reports `n_dev_records` (expected 486 / 968 / 1089) against `n_dev_jobs` (405 / 605 / 605, the
+  original count). The watcher logs whether the extra records were all present at the freeze.
+* The selection rule is unchanged: best dev mean normalised accuracy; ties go to smaller b, then to alpha closer to 1.
+* S4 (transfer only) keeps S1's frozen alpha; with T = 20 this is lambda = alpha / 20, and it is reported as such.
+
+**B. The professor's literal rule at alpha = 1 gets its own controls (sec. 4.4-4.5, statistics).**
+* Analysis: a paired, task-stratified bootstrap of kappa|alpha1 minus uniform|alpha1 on test and fresh, for both own-dev
+  and transfer configurations. Before this, the literal rule was compared only with *tuned* uniform.
+* Jobs: 10 matched-config shuffles at kappa|alpha1's (b, alpha = 1) on test, per setting (seeds = the first 10
+  "matched" seeds). They are skipped when kappa|alpha1 coincides with kappa|tuned.
+
+**C. Uncertainty diagnostic: decision statistic aligned with sec. 9's wording.**
+* Sec. 9 measures the bootstrap uncertainty "in the same norm" as the error, using Spearman "across maps and subsets".
+* The implementation committed at 06:26 (d9d7f33, without an amendment) used a Frobenius-norm predictor (u_rel)
+  against a functional-norm target (r_fun), and took the median over subsets of per-subset Spearman.
+* Fixed now, before the diagnostic has run:
+  * PRIMARY = u_rel_G: the relative bootstrap variance in the functional norm, with the subset's own Gram standing in
+    for the independent one, against r_fun.
+  * Pooled Spearman over maps x subsets must be >= 0.5 and >= 0.1 above every competitor (kappa(Ghat), normalised
+    1/lambda_min, normalised tr(Ghat^-1), relative ||F_hat||^2), in every configuration (C:16, C:64, B:16).
+  * Relative normalisation (to the correction's own size) is kept, because the planned gate 1 / (1 + c u) needs the
+    signal-to-noise ratio.
+  * The protocol text's absolute version (u_abs_G against e_abs) and the 06:26 pairing are recorded as secondary and do
+    not decide.
+* `gate.py` uses the same u_rel_G.
+* 8 subsets per configuration, not 10: 584 maps x subsets per configuration.
+* Disclosure: the only diagnostic output that existed was the 06:26 plumbing run (1 subset, 2 bootstrap replicates,
+  64-image reference). The new owner saw its u_rel statistic, which was printed. The primary was chosen from sec. 9's
+  "same norm" wording, i.e. the norm-matched u_rel_G, whose plumbing value had not been printed.
+
+**D. Also noted (no change to jobs).**
+* With one beta, raw kappa is bimodal per matrix: per the pre-registered devgrid diagnostics, most q/o matrices are
+  near one-hot while k/v matrices stay near uniform.
+* R1 log kappa is equally bimodal on these banks (S1 at mean n_eff 3.6: 52 % of matrices one-hot). So R1's motivation
+  (comparable concentration across matrices) is not realised here; this is a recorded property of the rule.
+* "Transfer of unchanged hyperparameters" means the same b (temperature in units of each bank's own score scale) and
+  the same alpha, not the same beta.
+* H-INV1 bootstrap CIs cover test-set sampling only. Calibration-subset variability is seen only across the three
+  N = 16 subsets.

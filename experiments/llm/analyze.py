@@ -182,6 +182,16 @@ def analyze_setting(setting: str, B: int) -> dict:
                 tag = r["cfg"].get("tag", r["cfg"]["rule"])
                 table[tag][sp]["vs_uniform_tuned"] = boot_diff(pr, pb, ref, B)
                 table[tag][sp]["vs_uniform_tuned_joint"] = boot_diff(pr, pb, ref, B, what="joint")
+            # amendment 3: the professor's literal convex combination (alpha = 1) against uniform at alpha = 1
+            u1 = next((r for r in rows if r["cfg"].get("tag") == "uniform|alpha1" and r["cfg"]["split"] == sp), None)
+            pu1 = preds(u1) if u1 else None
+            for r in rows:
+                tag = r["cfg"].get("tag", "")
+                if pu1 is None or r is u1 or r["cfg"]["split"] != sp or not tag.endswith("|alpha1"):
+                    continue
+                pr = preds(r)
+                if pr is not None:
+                    table[tag][sp]["vs_uniform_alpha1"] = boot_diff(pr, pu1, ref, B)
         out[group] = table
         (d / f"{group}.json").write_text(json.dumps(table, indent=1, default=float))
     # shuffle ranks on test (tuned shuffles + matched-config shuffles)
@@ -199,6 +209,20 @@ def analyze_setting(setting: str, B: int) -> dict:
                 "rank_among_all": int(1 + sum(x > k["norm"] for x in allnull)), "n_null": len(allnull),
                 "null_min": min(allnull) if allnull else None, "null_max": max(allnull) if allnull else None,
                 "null_mean": float(np.mean(allnull)) if allnull else None}
+        # amendment 3: kappa|alpha1 against matched shuffles at its own (b, alpha = 1) on test (the ordinary matched
+        # set when kappa|alpha1 coincides with kappa|tuned)
+        k1 = fz.get("kappa|alpha1", {}).get("test")
+        if k1:
+            m1 = [norm_of(r, refs(recs, "test")) for r in recs.get("matched_alpha1", []) if r["cfg"]["split"] == "test"]
+            kt = fz.get("kappa|tuned", {}).get("test", {})
+            same = bool(kt) and str(kt.get("b")) == str(k1["b"]) and abs(float(kt.get("alpha", -1)) - float(k1["alpha"])) < 1e-9
+            if not m1 and same:
+                m1 = out.get("shuffle_rank", {}).get("test", {}).get("matched_shuffles", [])
+            if m1:
+                out["shuffle_rank_alpha1"] = {"kappa_alpha1": k1["norm"], "b": k1["b"], "matched_shuffles": m1,
+                                              "rank": int(1 + sum(x > k1["norm"] for x in m1)), "n_null": len(m1),
+                                              "null_min": min(m1), "null_max": max(m1), "null_mean": float(np.mean(m1)),
+                                              "source": "ordinary matched set (same config)" if same else "matched_alpha1"}
     # numerical noise floor
     nz = {}
     for r in recs.get("noise", []):
@@ -346,6 +370,15 @@ def fig_test_diffs(all_out: dict, path: Path) -> None:
                             fmt=mk, color=col, ms=8, mec=SURF, mew=1.5, elinewidth=2, capsize=0, zorder=3)
             ys.append(y)
             labels.append(lab)
+            y += 1
+        if any(fz.get("kappa|alpha1", {}).get(sp, {}).get("vs_uniform_alpha1") for sp in ("test", "fresh")):
+            for sp, mk, dy in (("test", "o", -0.14), ("fresh", "s", 0.14)):  # amendment 3: literal rule, both alpha 1
+                v = fz["kappa|alpha1"].get(sp, {}).get("vs_uniform_alpha1")
+                if v is not None:
+                    ax.errorbar(100 * v["diff"], y + dy, xerr=[[100 * (v["diff"] - v["lo"])], [100 * (v["hi"] - v["diff"])]],
+                                fmt=mk, color=CAT[7], ms=8, mec=SURF, mew=1.5, elinewidth=2, capsize=0, zorder=3)
+            ys.append(y)
+            labels.append("kappa, alpha = 1 vs UNIFORM alpha = 1")
             y += 1
         shuf = [v for t, v in fz.items() if t.startswith("shuf") and t.endswith(":kappa|tuned")]
         if shuf:
@@ -558,6 +591,20 @@ def md_setting(o: dict) -> str:
             L.append(f"* {sp}: kappa {100 * v['kappa']:.2f}; rank {v['rank_among_all']} of {v['n_null'] + 1} "
                      f"(null range {100 * v['null_min']:.2f}-{100 * v['null_max']:.2f}, mean {100 * v['null_mean']:.2f})"
                      if v["n_null"] else f"* {sp}: no nulls yet")
+    lit = []
+    for group in ("frozen", "transfer"):
+        for sp in ("test", "fresh"):
+            v = (o.get(group) or {}).get("kappa|alpha1", {}).get(sp, {}).get("vs_uniform_alpha1")
+            if v:
+                lit.append(f"* {group} {sp}: kappa|alpha1 - uniform|alpha1 = {100 * v['diff']:+.2f} "
+                           f"[{100 * v['lo']:+.2f}, {100 * v['hi']:+.2f}] normalised points (paired bootstrap)")
+    sr1 = o.get("shuffle_rank_alpha1")
+    if sr1:
+        lit.append(f"* test: kappa|alpha1 {100 * sr1['kappa_alpha1']:.2f}, rank {sr1['rank']} of {sr1['n_null'] + 1} among "
+                   f"matched shuffles at its (b {sr1['b']}, alpha 1) (null {100 * sr1['null_min']:.2f}-"
+                   f"{100 * sr1['null_max']:.2f}; {sr1['source']})")
+    if lit:
+        L += ["", "### The professor's literal rule at alpha = 1 (convex combination of full expert matrices)", ""] + lit
     if o.get("noise_floor"):
         L += ["", "### Numerical-noise floor (uniform with 1e-7 coefficient jitter, and an exact repeat)", ""]
         for k, v in o["noise_floor"].items():

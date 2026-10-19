@@ -12,12 +12,14 @@ Data (experiments/uncert/build_cache.py, train images disjoint from everything e
 For each subset: F_hat, and Bboot = 32 bootstrap replicates (images resampled with replacement within each task,
 the same image weights for every expert in budget B).
 Targets:     r_fun = tr(dF G_ind dF^T) / tr(F_ref G_ind F_ref^T)      (dF = F_hat - F_ref; PRIMARY)
-             r_F   = ||dF||_F^2 / ||F_ref||_F^2
-Predictors (subset only): u_rel = mean_b ||F_b - mean_b F_b||_F^2 / ||F_hat||_F^2 (PRIMARY), u_rel_mse (vs F_hat),
-             u_rel_G (Ghat-weighted), kappa(Ghat), (tr Ghat / d) / lambda_min(Ghat), tr(Ghat^-1) tr(Ghat) / d^2,
-             ||F_hat||_F^2 / ||R||_F^2.
-Pre-registered success (protocol 9): median over subsets of Spearman_maps(u_rel, r_fun) >= 0.5 AND >= 0.1 above
-every competitor, in both budgets.  Only then: stage "gate" (scalar per-map gate) is run (gate.py).
+             r_F   = ||dF||_F^2 / ||F_ref||_F^2;   e_abs = tr(dF G_ind dF^T) / tr(G_ind)  (protocol text's absolute e)
+Predictors (subset only): u_rel_G = mean_b tr((F_b - Fbar) Ghat (F_b - Fbar)^T) / tr(F_hat Ghat F_hat^T) (PRIMARY:
+             the same functional norm as r_fun, Ghat standing in for G_ind), u_rel (Frobenius), u_rel_mse (vs F_hat),
+             u_abs_G (absolute, per unit input energy), kappa(Ghat), (tr Ghat / d) / lambda_min(Ghat),
+             tr(Ghat^-1) tr(Ghat) / d^2, ||F_hat||_F^2 / ||R||_F^2.
+Success (protocol 9 + amendment 3, fixed before any record): pooled Spearman over maps x subsets of (u_rel_G, r_fun)
+>= 0.5 AND >= 0.1 above every competitor, in every config.  Only then: stage "gate" (scalar per-map gate, gate.py).
+(Before amendment 3 this file used u_rel (Frobenius) and the median over subsets; both are reported as secondary.)
 Writes results/uncert/diagnostic_{records.jsonl, summary.json}.
 """
 
@@ -268,13 +270,15 @@ def main() -> None:
                 dF = F_hat - F_ref[budget][p]
                 Gi = G_ind[budget][input_name(p)]
                 Fr = F_ref[budget][p]
-                r_fun = float(torch.einsum("od,de,oe->", dF, Gi, dF) / torch.einsum("od,de,oe->", Fr, Gi, Fr))
+                dfun = float(torch.einsum("od,de,oe->", dF, Gi, dF))
+                r_fun = dfun / float(torch.einsum("od,de,oe->", Fr, Gi, Fr))
                 r_F = float(dF.pow(2).sum() / Fr.pow(2).sum())
                 ev = torch.linalg.eigvalsh(Ghat)
                 d_ = Ghat.shape[0]
                 lmin = max(float(ev[0]), 1e-300)
                 tr = float(torch.trace(Ghat))
                 rows.append({"budget": budget, "n": n, "subset": s, "map": p, "r_fun": r_fun, "r_F": r_F,
+                             "e_abs": dfun / float(torch.trace(Gi)), "u_abs_G": var_G,
                              "u_rel": var_F / max(fh2, 1e-300), "u_rel_mse": mse[p] / B_BOOT / max(fh2, 1e-300),
                              "u_rel_G": var_G / max(float(torch.einsum("od,de,oe->", F_hat, Ghat, F_hat) / tr), 1e-300),
                              "kappa_G": float(ev[-1]) / lmin, "inv_lmin": (tr / d_) / lmin,
@@ -289,19 +293,35 @@ def main() -> None:
     summarize()
 
 
+# Decision rule (protocol 02 sec. 9 as amended by amendment 3, fixed before any diagnostic record existed):
+# the bootstrap uncertainty is measured in the SAME norm as the error it must predict (the functional norm; the
+# subset's own Gram Ghat stands in for the independent Gram, which a small-calibration method cannot see), both
+# relative to the correction's own size (what a per-map gate 1 / (1 + c u) needs); Spearman across maps AND subsets
+# (pooled), as the protocol text says. Every other pairing is reported as secondary and never decides.
+PRIMARY = ("u_rel_G", "r_fun")
+COMPETITORS = ("kappa_G", "inv_lmin", "trinv", "fnorm_rel")
+SECONDARY = {"frobenius_predictor_functional_target (code before amendment 3)": ("u_rel", "r_fun"),
+             "bootstrap_mse_functional_target": ("u_rel_mse", "r_fun"),
+             "frobenius_matched": ("u_rel", "r_F"),
+             "absolute_functional (protocol text, unnormalised by the correction)": ("u_abs_G", "e_abs")}
+
+
 def summarize() -> dict:
     from scipy.stats import spearmanr
 
     recs = [json.loads(l) for l in (OUT / "diagnostic_records.jsonl").read_text().splitlines() if l.strip()]
-    preds = ["u_rel", "u_rel_mse", "u_rel_G", "kappa_G", "inv_lmin", "trinv", "fnorm_rel"]
-    out = {"criterion": "median over subsets of Spearman_maps(u_rel, r_fun) >= 0.5 and >= 0.1 above every competitor, "
-                        "in both budgets", "configs": {}}
+    preds = ["u_rel", "u_rel_mse", "u_rel_G", "u_abs_G", "kappa_G", "inv_lmin", "trinv", "fnorm_rel"]
+    out = {"criterion": f"pooled Spearman over maps x subsets of {PRIMARY} >= 0.5 and >= 0.1 above every competitor "
+                        f"{COMPETITORS} (pooled Spearman with {PRIMARY[1]}), in every config (C:16, C:64, B:16) -- "
+                        "protocol 02 sec. 9 + amendment 3", "configs": {}}
     for key in sorted({(r["budget"], r["n"]) for r in recs}):
         sub = [r for r in recs if (r["budget"], r["n"]) == key]
         res = {}
-        for target in ("r_fun", "r_F"):
+        for target in ("r_fun", "r_F", "e_abs"):
             res[target] = {}
             for pr in preds:
+                if pr not in sub[0] or target not in sub[0]:
+                    continue
                 rh = []
                 for s in sorted({r["subset"] for r in sub}):
                     rr = [r for r in sub if r["subset"] == s]
@@ -309,23 +329,37 @@ def summarize() -> dict:
                 pooled = spearmanr([r[pr] for r in sub], [r[target] for r in sub]).statistic
                 res[target][pr] = {"median_over_subsets": float(np.median(rh)), "per_subset": [float(x) for x in rh],
                                    "pooled": float(pooled)}
-        # within-map across subsets: does u_rel track which subsets are worse for the same map?
+        # within-map across subsets: does the uncertainty track which subsets are worse for the same map?
         within = []
         for p in sorted({r["map"] for r in sub}):
             rr = [r for r in sub if r["map"] == p]
             if len(rr) >= 4:
-                within.append(spearmanr([r["u_rel"] for r in rr], [r["r_fun"] for r in rr]).statistic)
-        res["within_map_spearman_u_rel_vs_r_fun_median"] = float(np.nanmedian(within)) if within else None
-        res["calibration_median_r_fun_over_u_rel"] = float(np.median([r["r_fun"] / max(r["u_rel"], 1e-300) for r in sub]))
-        prim = res["r_fun"]["u_rel"]["median_over_subsets"]
-        comp = max(res["r_fun"][p]["median_over_subsets"] for p in ("kappa_G", "inv_lmin", "trinv", "fnorm_rel"))
+                within.append(spearmanr([r[PRIMARY[0]] for r in rr], [r[PRIMARY[1]] for r in rr]).statistic)
+        res["within_map_spearman_primary_median"] = float(np.nanmedian(within)) if within else None
+        res["calibration_median_target_over_primary"] = float(np.median([r[PRIMARY[1]] / max(r[PRIMARY[0]], 1e-300)
+                                                                         for r in sub]))
+        prim = res[PRIMARY[1]][PRIMARY[0]]["pooled"]
+        comp = max(res[PRIMARY[1]][p]["pooled"] for p in COMPETITORS)
         res["passes"] = bool(prim >= 0.5 and prim >= comp + 0.1)
         res["primary"], res["best_competitor"] = prim, comp
+        res["best_competitor_name"] = max(COMPETITORS, key=lambda p: res[PRIMARY[1]][p]["pooled"])
+        sec = {}
+        for name, (pr, tg) in SECONDARY.items():
+            if pr in res.get(tg, {}):
+                comp_t = max(res[tg][c]["pooled"] for c in COMPETITORS if c in res[tg])
+                sec[name] = {"pooled": res[tg][pr]["pooled"], "best_competitor_pooled": comp_t,
+                             "would_pass": bool(res[tg][pr]["pooled"] >= 0.5 and res[tg][pr]["pooled"] >= comp_t + 0.1)}
+        med_p = res[PRIMARY[1]][PRIMARY[0]]["median_over_subsets"]
+        med_c = max(res[PRIMARY[1]][c]["median_over_subsets"] for c in COMPETITORS)
+        sec["primary_pair_median_over_subsets"] = {"value": med_p, "best_competitor": med_c,
+                                                   "would_pass": bool(med_p >= 0.5 and med_p >= med_c + 0.1)}
+        res["secondary_not_deciding"] = sec
         out["configs"][f"{key[0]}:n{key[1]}"] = res
     budgets = {k.split(":")[0] for k in out["configs"]}
     out["diagnostic_passed"] = bool(budgets >= {"B", "C"} and all(v["passes"] for v in out["configs"].values()))
     (OUT / "diagnostic_summary.json").write_text(json.dumps(out, indent=1))
-    print(json.dumps({k: {"primary": v["primary"], "best_competitor": v["best_competitor"], "passes": v["passes"]}
+    print(json.dumps({k: {"primary": v["primary"], "best_competitor": v["best_competitor"],
+                          "best_competitor_name": v["best_competitor_name"], "passes": v["passes"]}
                       for k, v in out["configs"].items()}, indent=1), "\nDIAGNOSTIC PASSED:", out["diagnostic_passed"],
           flush=True)
     return out
