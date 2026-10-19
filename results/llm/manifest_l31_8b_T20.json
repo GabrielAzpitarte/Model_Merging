@@ -1,0 +1,642 @@
+{
+ "bank": "l31_8b",
+ "model_id": "meta-llama/Llama-3.1-8B-Instruct",
+ "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+ "model_dir": "/shared/ssd_30T/azpitarte_llama31/hf/hub/models--meta-llama--Llama-3.1-8B-Instruct/snapshots/0e9e39f249a16976918f6564b8830bc894c89659",
+ "lora_dir": "/shared/ssd_30T/azpitarte_llama31/outputs/lora",
+ "T": 20,
+ "tasks": [
+  "banking77",
+  "clinc",
+  "ledgar",
+  "massive",
+  "mnli",
+  "anli",
+  "mrpc",
+  "qqp",
+  "trec",
+  "fewrel",
+  "dbpedia",
+  "news20",
+  "agnews",
+  "qnli",
+  "rte",
+  "cola",
+  "sst2",
+  "snli",
+  "sick",
+  "scitail"
+ ],
+ "multi_token": true,
+ "vendor": {
+  "_threadcap.py": "58e31c954d63c4944fda402ab0f8afd19de29394aa837839e463974abb686ce1",
+  "llama31_data.py": "4d43e6406191a7531b65bba344be1aa34e1461bed2d2cb5eb3ea13dd00b3d068",
+  "llama31_labels.json": "4f19c0a66fb37d71522d39f56c1bfd8f3a6a3654d3f430ec307accb581418c06",
+  "llama31_lib.py": "d44e619b4533c9a4be09b90206975943ca8d813d89d25d5dda1255c7aab0ede7"
+ },
+ "config": {
+  "hidden_size": 4096,
+  "num_hidden_layers": 32,
+  "num_attention_heads": 32,
+  "num_key_value_heads": 8,
+  "torch_dtype": "bfloat16",
+  "intermediate_size": 14336
+ },
+ "shards": {
+  "model-00001-of-00004.safetensors": "2b1879f356aed350030bb40eb45ad362c89d9891096f79a3ab323d3ba5607668",
+  "model-00002-of-00004.safetensors": "09d433f650646834a83c580877bd60c6d1f88f7755305c12576b5c7058f9af15",
+  "model-00003-of-00004.safetensors": "fc1cdddd6bfa91128d6e94ee73d0ce62bfcdb7af29e978ddcab30c66ae9ea7fa",
+  "model-00004-of-00004.safetensors": "92ecfe1a2414458b4821ac8c13cf8cb70aed66b5eea8dc5ad9eeb4ff309d6d7b"
+ },
+ "experts": {
+  "banking77": {
+   "npz_sha256": "0ec8056580dcef1ba02d2b1949c026515279b1ee2bedca173ced7e0f08ae90c2",
+   "json": {
+    "task": "banking77",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 9762,
+    "n_train": 9762,
+    "n_heldout": 231,
+    "zero_shot_val_local": 0.212,
+    "expert_val_local": 0.912,
+    "final_loss": 0.1461671594782456,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 798.8168768882751
+   }
+  },
+  "clinc": {
+   "npz_sha256": "3735212b22ba4cf268fed077f6080c86d04e4b21752f2bd759f6f725d8a49348",
+   "json": {
+    "task": "clinc",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 14550,
+    "n_train": 14550,
+    "n_heldout": 450,
+    "zero_shot_val_local": 0.152,
+    "expert_val_local": 0.976,
+    "final_loss": 0.0779420870076865,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 523.6472415924072
+   }
+  },
+  "ledgar": {
+   "npz_sha256": "98400c9652d823bd95884a904f233a365052693d69bce190232132678d5a0f4d",
+   "json": {
+    "task": "ledgar",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 59700,
+    "n_heldout": 300,
+    "zero_shot_val_local": 0.344,
+    "expert_val_local": 0.816,
+    "final_loss": 0.560965761582047,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 2433.0993990898132
+   }
+  },
+  "massive": {
+   "npz_sha256": "9f9a43cb310f1e4c5674f4002c42886b7cd1a16c6e235bc416e4911c26aae964",
+   "json": {
+    "task": "massive",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 11334,
+    "n_train": 11334,
+    "n_heldout": 180,
+    "zero_shot_val_local": 0.232,
+    "expert_val_local": 0.904,
+    "final_loss": 0.2940839040279388,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 484.42897725105286
+   }
+  },
+  "mnli": {
+   "npz_sha256": "6a3754620aacbfa250bf4eccbddd627cd8ff5d1f1b5426a355578a7fe6c741cd",
+   "json": {
+    "task": "mnli",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 392652,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.356,
+    "expert_val_local": 0.9,
+    "final_loss": 0.2876735589071177,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1119.421064376831
+   }
+  },
+  "anli": {
+   "npz_sha256": "b5ab0c15e99c003c3e0e59fc5162722b666c8a766594c36a12b08299521b1778",
+   "json": {
+    "task": "anli",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 162815,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.368,
+    "expert_val_local": 0.692,
+    "final_loss": 0.27918575115370914,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1767.7372856140137
+   }
+  },
+  "mrpc": {
+   "npz_sha256": "9dd5335c1265921458ec39a3c68ae78825edfde05df6f0a1648a710bcf0ac70f",
+   "json": {
+    "task": "mrpc",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 3618,
+    "n_train": 3618,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.6463414634146342,
+    "expert_val_local": 0.8902439024390244,
+    "final_loss": 0.010939877416967647,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1169.1936032772064
+   }
+  },
+  "qqp": {
+   "npz_sha256": "99c0c166599671c25986176e455bd5efd0b6c7282dc0b56ce08dac82f5786893",
+   "json": {
+    "task": "qqp",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 363796,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.492,
+    "expert_val_local": 0.868,
+    "final_loss": 0.2588563662340948,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 973.5589995384216
+   }
+  },
+  "trec": {
+   "npz_sha256": "83596d708ba99f432624ee3c22fd7095ff71a073037ea370c42f5ddc1f4cce1a",
+   "json": {
+    "task": "trec",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 5302,
+    "n_train": 5302,
+    "n_heldout": 150,
+    "zero_shot_val_local": 0.17,
+    "expert_val_local": 0.92,
+    "final_loss": 0.06930523158982396,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 529.4663202762604
+   }
+  },
+  "fewrel": {
+   "npz_sha256": "333148e6e7db9713cf31d63cd02879209dc76e875df8c8007a0360ece1b5bc4d",
+   "json": {
+    "task": "fewrel",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 35648,
+    "n_heldout": 192,
+    "zero_shot_val_local": 0.272,
+    "expert_val_local": 0.912,
+    "final_loss": 0.2837990218147752,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1120.6903035640717
+   }
+  },
+  "dbpedia": {
+   "npz_sha256": "ed37e65bb5b65ce676a41b25cff9ef486145ad7c5e95bc7a746e2912ab5fda76",
+   "json": {
+    "task": "dbpedia",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 559950,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.8,
+    "expert_val_local": 1.0,
+    "final_loss": 0.032156339325010774,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1571.8290014266968
+   }
+  },
+  "news20": {
+   "npz_sha256": "7b33824ee21c788e5d7f848e49b46d13a17a74d9198ebb6adfd98dc683704dc4",
+   "json": {
+    "task": "news20",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 10954,
+    "n_train": 10954,
+    "n_heldout": 60,
+    "zero_shot_val_local": 0.324,
+    "expert_val_local": 0.792,
+    "final_loss": 0.42548641340508764,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 2681.2409970760345
+   }
+  },
+  "agnews": {
+   "npz_sha256": "701aba922dc1532ace8f5e291cf21b4dd92e045e3599c5ef134acf004c25bd82",
+   "json": {
+    "task": "agnews",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 119950,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.616,
+    "expert_val_local": 0.928,
+    "final_loss": 0.16204473212332232,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1149.1598365306854
+   }
+  },
+  "qnli": {
+   "npz_sha256": "fcb33806c78955ce85765d5a19c3fcc36cece97f1dc4053548f01c81093bfeb5",
+   "json": {
+    "task": "qnli",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 104693,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.516,
+    "expert_val_local": 0.964,
+    "final_loss": 0.18599787196842954,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1217.8493144512177
+   }
+  },
+  "rte": {
+   "npz_sha256": "64aeda466246d5eb7f3430ffa5459a678b1056d76d3aae195a0bf4a2bd972ed2",
+   "json": {
+    "task": "rte",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 763,
+    "rows_seen": 2440,
+    "n_train": 2440,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.6181818181818182,
+    "expert_val_local": 0.9636363636363636,
+    "final_loss": 0.0018707844388018203,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1224.534292459488
+   }
+  },
+  "cola": {
+   "npz_sha256": "399fd2cd3308cccfaedb398aa28c3b52ebba8a023beed7818ae94b14de20a741",
+   "json": {
+    "task": "cola",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 8501,
+    "n_train": 8501,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.5789473684210527,
+    "expert_val_local": 0.8277511961722488,
+    "final_loss": 0.15234506390988828,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 481.13966250419617
+   }
+  },
+  "sst2": {
+   "npz_sha256": "e68a68060862a0587082343c2a26a9df5ef7d3809d88cb4691689441a368a458",
+   "json": {
+    "task": "sst2",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 67299,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.8103448275862069,
+    "expert_val_local": 0.9597701149425287,
+    "final_loss": 0.10603080065491667,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 683.4643371105194
+   }
+  },
+  "snli": {
+   "npz_sha256": "7ef2be925e755e327e905ae255f7dfbf3fa485f185bb206e5328ed680bd73710",
+   "json": {
+    "task": "snli",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 549317,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.476,
+    "expert_val_local": 0.948,
+    "final_loss": 0.2703023746925464,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 851.460164308548
+   }
+  },
+  "sick": {
+   "npz_sha256": "eab7a73e300ea4240ba261a3cdbc2cb1199639803c3d9fecd2cac6e6809c1afd",
+   "json": {
+    "task": "sick",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 4389,
+    "n_train": 4389,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.23232323232323232,
+    "expert_val_local": 0.9090909090909091,
+    "final_loss": 0.03621886385900325,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 793.143559217453
+   }
+  },
+  "scitail": {
+   "npz_sha256": "10a0860bc1308cc8a2b173a507531fa302e99bde49740a2844154b68158c5741",
+   "json": {
+    "task": "scitail",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 23546,
+    "n_train": 23546,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.628,
+    "expert_val_local": 0.964,
+    "final_loss": 0.07556187062193204,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1057.7427008152008
+   }
+  }
+ },
+ "lora_convention": "PEFT r=16, lora_alpha=16 -> scale 1 absorbed into B; targets q/k/v/o_proj; no bias, no modules_to_save; base frozen BF16",
+ "split_sizes": {
+  "val": {
+   "banking77": 250,
+   "clinc": 250,
+   "ledgar": 250,
+   "massive": 250,
+   "mnli": 250,
+   "anli": 250,
+   "mrpc": 82,
+   "qqp": 250,
+   "trec": 100,
+   "fewrel": 250,
+   "dbpedia": 250,
+   "news20": 250,
+   "agnews": 250,
+   "qnli": 250,
+   "rte": 55,
+   "cola": 209,
+   "sst2": 174,
+   "snli": 250,
+   "sick": 99,
+   "scitail": 250
+  },
+  "test": {
+   "banking77": 1000,
+   "clinc": 1000,
+   "ledgar": 1000,
+   "massive": 1000,
+   "mnli": 1000,
+   "anli": 1000,
+   "mrpc": 326,
+   "qqp": 1000,
+   "trec": 400,
+   "fewrel": 1000,
+   "dbpedia": 1000,
+   "news20": 1000,
+   "agnews": 1000,
+   "qnli": 1000,
+   "rte": 222,
+   "cola": 834,
+   "sst2": 698,
+   "snli": 1000,
+   "sick": 396,
+   "scitail": 1000
+  },
+  "fresh": {
+   "banking77": 1000,
+   "clinc": 1000,
+   "ledgar": 1000,
+   "massive": 626,
+   "mnli": 1000,
+   "anli": 1000,
+   "mrpc": 0,
+   "qqp": 1000,
+   "trec": 0,
+   "fewrel": 1000,
+   "dbpedia": 1000,
+   "news20": 1000,
+   "agnews": 1000,
+   "qnli": 1000,
+   "rte": 0,
+   "cola": 0,
+   "sst2": 0,
+   "snli": 1000,
+   "sick": 0,
+   "scitail": 43
+  }
+ }
+}

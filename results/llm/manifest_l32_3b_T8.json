@@ -1,0 +1,263 @@
+{
+ "bank": "l32_3b",
+ "model_id": "unsloth/Llama-3.2-3B-Instruct",
+ "revision": "006f5dcd1393c3add266de40994ba96225e9689d",
+ "model_dir": "/shared/ssd_30T/molohio_llama32/hf/hub/models--unsloth--Llama-3.2-3B-Instruct/snapshots/006f5dcd1393c3add266de40994ba96225e9689d",
+ "lora_dir": "/shared/ssd_30T/molohio_llama32/outputs/lora",
+ "T": 8,
+ "tasks": [
+  "mnli",
+  "qnli",
+  "snli",
+  "rte",
+  "sick",
+  "scitail",
+  "mrpc",
+  "qqp"
+ ],
+ "multi_token": false,
+ "vendor": {
+  "_threadcap.py": "58e31c954d63c4944fda402ab0f8afd19de29394aa837839e463974abb686ce1",
+  "llama_data.py": "217a783ff530b22c2d74c6f5d060275bda0acee8e48c1075b9fdf81dd410aa4f",
+  "llama_lib.py": "c00e2f02dc07adb3870d1eed7c2d1c455ec2540f8e69f4cfdfafaf37297f6047"
+ },
+ "config": {
+  "hidden_size": 3072,
+  "num_hidden_layers": 28,
+  "num_attention_heads": 24,
+  "num_key_value_heads": 8,
+  "torch_dtype": "bfloat16",
+  "intermediate_size": 8192
+ },
+ "shards": {
+  "model-00001-of-00002.safetensors": "13cbd6d16e927a0c5bad54102514e6e18b4a47b3a6eb911e39d678d328d19f55",
+  "model-00002-of-00002.safetensors": "7b770216613ac5c34d7c54bdff1fa616bc4e338a9d0b20af6303e48c295ee23c"
+ },
+ "experts": {
+  "mnli": {
+   "npz_sha256": "4253bd3eae00bbf7459d60a077096561b76bb227061adfc30db41a469fff2979",
+   "json": {
+    "task": "mnli",
+    "model": "unsloth/Llama-3.2-3B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 392652,
+    "zero_shot_val_local": 0.512,
+    "expert_val_local": 0.884,
+    "final_loss": 0.31727023523300885,
+    "seconds": 702.3781080245972
+   }
+  },
+  "qnli": {
+   "npz_sha256": "e87e475360f029e6ba5263d740824c286637b66ae1688f598c236ae08f8b6cfc",
+   "json": {
+    "task": "qnli",
+    "model": "unsloth/Llama-3.2-3B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 104693,
+    "zero_shot_val_local": 0.596,
+    "expert_val_local": 0.944,
+    "final_loss": 0.2178606949560344,
+    "seconds": 748.2292866706848
+   }
+  },
+  "snli": {
+   "npz_sha256": "11df25088ce3c6f14c5e4ca23bf0d5f0f6bfef02a15d1677448863a78af0017b",
+   "json": {
+    "task": "snli",
+    "model": "unsloth/Llama-3.2-3B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 549317,
+    "zero_shot_val_local": 0.58,
+    "expert_val_local": 0.952,
+    "final_loss": 0.28178418092429636,
+    "seconds": 436.50022745132446
+   }
+  },
+  "rte": {
+   "npz_sha256": "b7f0b38f176971b83763bcefad8bdbe007240eef768c1b3c837e721dac3293b4",
+   "json": {
+    "task": "rte",
+    "model": "unsloth/Llama-3.2-3B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 763,
+    "rows_seen": 2440,
+    "n_train": 2440,
+    "zero_shot_val_local": 0.7272727272727273,
+    "expert_val_local": 0.8727272727272727,
+    "final_loss": 0.009312692710373084,
+    "seconds": 931.6042339801788
+   }
+  },
+  "sick": {
+   "npz_sha256": "d1871a00d085c7d2ffa99ca5fa329449dcd4a6aa465f066daebea056b15cadb4",
+   "json": {
+    "task": "sick",
+    "model": "unsloth/Llama-3.2-3B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 4389,
+    "n_train": 4389,
+    "zero_shot_val_local": 0.3838383838383838,
+    "expert_val_local": 0.9090909090909091,
+    "final_loss": 0.022425756610464306,
+    "seconds": 407.9017331600189
+   }
+  },
+  "scitail": {
+   "npz_sha256": "d1780070d7336a9a78308c5a298706e93a07f25a420b50821e36b1dd87b034db",
+   "json": {
+    "task": "scitail",
+    "model": "unsloth/Llama-3.2-3B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 23546,
+    "n_train": 23546,
+    "zero_shot_val_local": 0.616,
+    "expert_val_local": 0.96,
+    "final_loss": 0.06389887102181092,
+    "seconds": 599.7533023357391
+   }
+  },
+  "mrpc": {
+   "npz_sha256": "242cb17cd636b0a2cf20360a07442da744717b1945d0528af0c091a20a060e94",
+   "json": {
+    "task": "mrpc",
+    "model": "unsloth/Llama-3.2-3B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 3618,
+    "n_train": 3618,
+    "zero_shot_val_local": 0.6341463414634146,
+    "expert_val_local": 0.9146341463414634,
+    "final_loss": 0.021946345464821205,
+    "seconds": 719.5169825553894
+   }
+  },
+  "qqp": {
+   "npz_sha256": "2b5f97d1c112a3648a500d82f9922ef75e3475d9e7c5d753ca70886d6dd53a3b",
+   "json": {
+    "task": "qqp",
+    "model": "unsloth/Llama-3.2-3B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 363796,
+    "zero_shot_val_local": 0.524,
+    "expert_val_local": 0.852,
+    "final_loss": 0.26591445695608856,
+    "seconds": 560.5742840766907
+   }
+  }
+ },
+ "lora_convention": "PEFT r=16, lora_alpha=16 -> scale 1 absorbed into B; targets q/k/v/o_proj; no bias, no modules_to_save; base frozen BF16",
+ "split_sizes": {
+  "val": {
+   "mnli": 250,
+   "qnli": 250,
+   "snli": 250,
+   "rte": 55,
+   "sick": 99,
+   "scitail": 250,
+   "mrpc": 82,
+   "qqp": 250
+  },
+  "test": {
+   "mnli": 1000,
+   "qnli": 1000,
+   "snli": 1000,
+   "rte": 222,
+   "sick": 396,
+   "scitail": 1000,
+   "mrpc": 326,
+   "qqp": 1000
+  },
+  "fresh": {
+   "mnli": 1000,
+   "qnli": 1000,
+   "snli": 1000,
+   "rte": 0,
+   "sick": 0,
+   "scitail": 43,
+   "mrpc": 0,
+   "qqp": 1000
+  }
+ }
+}

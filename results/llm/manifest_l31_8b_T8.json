@@ -1,0 +1,282 @@
+{
+ "bank": "l31_8b",
+ "model_id": "meta-llama/Llama-3.1-8B-Instruct",
+ "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+ "model_dir": "/shared/ssd_30T/azpitarte_llama31/hf/hub/models--meta-llama--Llama-3.1-8B-Instruct/snapshots/0e9e39f249a16976918f6564b8830bc894c89659",
+ "lora_dir": "/shared/ssd_30T/azpitarte_llama31/outputs/lora",
+ "T": 8,
+ "tasks": [
+  "banking77",
+  "clinc",
+  "ledgar",
+  "massive",
+  "mnli",
+  "anli",
+  "mrpc",
+  "qqp"
+ ],
+ "multi_token": true,
+ "vendor": {
+  "_threadcap.py": "58e31c954d63c4944fda402ab0f8afd19de29394aa837839e463974abb686ce1",
+  "llama31_data.py": "4d43e6406191a7531b65bba344be1aa34e1461bed2d2cb5eb3ea13dd00b3d068",
+  "llama31_labels.json": "4f19c0a66fb37d71522d39f56c1bfd8f3a6a3654d3f430ec307accb581418c06",
+  "llama31_lib.py": "d44e619b4533c9a4be09b90206975943ca8d813d89d25d5dda1255c7aab0ede7"
+ },
+ "config": {
+  "hidden_size": 4096,
+  "num_hidden_layers": 32,
+  "num_attention_heads": 32,
+  "num_key_value_heads": 8,
+  "torch_dtype": "bfloat16",
+  "intermediate_size": 14336
+ },
+ "shards": {
+  "model-00001-of-00004.safetensors": "2b1879f356aed350030bb40eb45ad362c89d9891096f79a3ab323d3ba5607668",
+  "model-00002-of-00004.safetensors": "09d433f650646834a83c580877bd60c6d1f88f7755305c12576b5c7058f9af15",
+  "model-00003-of-00004.safetensors": "fc1cdddd6bfa91128d6e94ee73d0ce62bfcdb7af29e978ddcab30c66ae9ea7fa",
+  "model-00004-of-00004.safetensors": "92ecfe1a2414458b4821ac8c13cf8cb70aed66b5eea8dc5ad9eeb4ff309d6d7b"
+ },
+ "experts": {
+  "banking77": {
+   "npz_sha256": "0ec8056580dcef1ba02d2b1949c026515279b1ee2bedca173ced7e0f08ae90c2",
+   "json": {
+    "task": "banking77",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 9762,
+    "n_train": 9762,
+    "n_heldout": 231,
+    "zero_shot_val_local": 0.212,
+    "expert_val_local": 0.912,
+    "final_loss": 0.1461671594782456,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 798.8168768882751
+   }
+  },
+  "clinc": {
+   "npz_sha256": "3735212b22ba4cf268fed077f6080c86d04e4b21752f2bd759f6f725d8a49348",
+   "json": {
+    "task": "clinc",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 14550,
+    "n_train": 14550,
+    "n_heldout": 450,
+    "zero_shot_val_local": 0.152,
+    "expert_val_local": 0.976,
+    "final_loss": 0.0779420870076865,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 523.6472415924072
+   }
+  },
+  "ledgar": {
+   "npz_sha256": "98400c9652d823bd95884a904f233a365052693d69bce190232132678d5a0f4d",
+   "json": {
+    "task": "ledgar",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 59700,
+    "n_heldout": 300,
+    "zero_shot_val_local": 0.344,
+    "expert_val_local": 0.816,
+    "final_loss": 0.560965761582047,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 2433.0993990898132
+   }
+  },
+  "massive": {
+   "npz_sha256": "9f9a43cb310f1e4c5674f4002c42886b7cd1a16c6e235bc416e4911c26aae964",
+   "json": {
+    "task": "massive",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 11334,
+    "n_train": 11334,
+    "n_heldout": 180,
+    "zero_shot_val_local": 0.232,
+    "expert_val_local": 0.904,
+    "final_loss": 0.2940839040279388,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 484.42897725105286
+   }
+  },
+  "mnli": {
+   "npz_sha256": "6a3754620aacbfa250bf4eccbddd627cd8ff5d1f1b5426a355578a7fe6c741cd",
+   "json": {
+    "task": "mnli",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 392652,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.356,
+    "expert_val_local": 0.9,
+    "final_loss": 0.2876735589071177,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1119.421064376831
+   }
+  },
+  "anli": {
+   "npz_sha256": "b5ab0c15e99c003c3e0e59fc5162722b666c8a766594c36a12b08299521b1778",
+   "json": {
+    "task": "anli",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 162815,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.368,
+    "expert_val_local": 0.692,
+    "final_loss": 0.27918575115370914,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1767.7372856140137
+   }
+  },
+  "mrpc": {
+   "npz_sha256": "9dd5335c1265921458ec39a3c68ae78825edfde05df6f0a1648a710bcf0ac70f",
+   "json": {
+    "task": "mrpc",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 3618,
+    "n_train": 3618,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.6463414634146342,
+    "expert_val_local": 0.8902439024390244,
+    "final_loss": 0.010939877416967647,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 1169.1936032772064
+   }
+  },
+  "qqp": {
+   "npz_sha256": "99c0c166599671c25986176e455bd5efd0b6c7282dc0b56ce08dac82f5786893",
+   "json": {
+    "task": "qqp",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "r": 16,
+    "alpha": 16,
+    "modules": [
+     "q_proj",
+     "k_proj",
+     "v_proj",
+     "o_proj"
+    ],
+    "lr": 0.0001,
+    "batch": 32,
+    "steps": 1000,
+    "rows_seen": 32000,
+    "n_train": 363796,
+    "n_heldout": 50,
+    "zero_shot_val_local": 0.492,
+    "expert_val_local": 0.868,
+    "final_loss": 0.2588563662340948,
+    "loss": "sequence NLL of tokens(label) + <|eot_id|>",
+    "seconds": 973.5589995384216
+   }
+  }
+ },
+ "lora_convention": "PEFT r=16, lora_alpha=16 -> scale 1 absorbed into B; targets q/k/v/o_proj; no bias, no modules_to_save; base frozen BF16",
+ "split_sizes": {
+  "val": {
+   "banking77": 250,
+   "clinc": 250,
+   "ledgar": 250,
+   "massive": 250,
+   "mnli": 250,
+   "anli": 250,
+   "mrpc": 82,
+   "qqp": 250
+  },
+  "test": {
+   "banking77": 1000,
+   "clinc": 1000,
+   "ledgar": 1000,
+   "massive": 1000,
+   "mnli": 1000,
+   "anli": 1000,
+   "mrpc": 326,
+   "qqp": 1000
+  },
+  "fresh": {
+   "banking77": 1000,
+   "clinc": 1000,
+   "ledgar": 1000,
+   "massive": 626,
+   "mnli": 1000,
+   "anli": 1000,
+   "mrpc": 0,
+   "qqp": 1000
+  }
+ }
+}
