@@ -155,32 +155,47 @@ def main() -> None:
     model = CLIPVisionModel(CLIPVisionConfig.from_pretrained(BASE_MODEL)).eval().to(dev)
     acts = Acts(model, names, dev)
     pix = {s: {t: load_cache(t, s, mmap=True)[0] for t in TASKS8} for s in ("uref", "upool", "uind")}
+    if args.quick:  # plumbing only: small reference / independent sets
+        pix["uref"] = {t: x[:64] for t, x in pix["uref"].items()}
+        pix["uind"] = {t: x[:32] for t, x in pix["uind"].items()}
 
     def load_expert(e):
         model.load_state_dict({k: v.to(dev) for k, v in experts[e].items()}, strict=True)
 
-    # reference and independent Grams, per budget: C (task i through expert i), B (pooled through every expert)
-    ref, ind = {}, {}
-    for budget in sorted({c.split(":")[0] for c in args.configs.split(",")}):
-        ref[budget], ind[budget] = {}, {}
+    # reference correction and independent Grams, per budget: C (task i through expert i), B (pooled through every
+    # expert). Accumulated expert by expert (B_p += (D_e - R) G_e, G_k += G_e) so only one expert's Grams are held.
+    budgets = sorted({c.split(":")[0] for c in args.configs.split(",")})
+    keys = acts.keys
+    F_ref, G_ind = {}, {}
+    for budget in budgets:
+        Bacc = {p: torch.zeros(D32[p].shape[1:], dtype=torch.float64, device=dev) for p in names}
+        Gacc, Iacc = {}, {}
         for i, e in enumerate(TASKS8):
             load_expert(e)
             if budget == "C":
-                ref[budget][e] = stream_grams(acts, pix["uref"][e])
-                ind[budget][e] = stream_grams(acts, pix["uind"][e])
+                gr, gi = stream_grams(acts, pix["uref"][e]), stream_grams(acts, pix["uind"][e])
             else:
-                ref[budget][e] = stream_grams(acts, np.concatenate([pix["uref"][t] for t in TASKS8]))
-                ind[budget][e] = stream_grams(acts, np.concatenate([pix["uind"][t] for t in TASKS8]))
+                gr = stream_grams(acts, np.concatenate([pix["uref"][t] for t in TASKS8]))
+                gi = stream_grams(acts, np.concatenate([pix["uind"][t] for t in TASKS8]))
+            for p in names:
+                Bacc[p] += (D32[p][i].double() - D32[p].double().mean(0)) @ gr[input_name(p)]
+            for k in keys:
+                Gacc[k] = Gacc.get(k, 0) + gr[k]
+                Iacc[k] = Iacc.get(k, 0) + gi[k]
+            del gr, gi
+            torch.cuda.empty_cache()
             print(f"[{budget}] reference/independent Grams for {e} ({time.time() - t0:.0f}s)", flush=True)
-    F_ref, G_ind = {}, {}
-    for budget in ref:
-        F_ref[budget], G_ind[budget] = {}, {}
+        F_ref[budget] = {}
         for p in names:
-            k = input_name(p)
-            F_ref[budget][p], _ = correction(D[p], torch.stack([ref[budget][e][k] for e in TASKS8]))
-            G_ind[budget][p] = sum(ind[budget][e][k] for e in TASKS8)
-    del ref, ind
-    torch.cuda.empty_cache()
+            G = Gacc[input_name(p)]
+            Gs = 0.5 * (G + G.T)
+            try:
+                F_ref[budget][p] = torch.cholesky_solve(Bacc[p].T, torch.linalg.cholesky(Gs)).T
+            except RuntimeError:
+                F_ref[budget][p] = torch.linalg.lstsq(Gs, Bacc[p].T).solution.T
+        G_ind[budget] = Iacc  # by input name
+        del Bacc, Gacc
+        torch.cuda.empty_cache()
     rec_path = OUT / "diagnostic_records.jsonl"
     done = set()
     if rec_path.exists():
@@ -204,16 +219,20 @@ def main() -> None:
                 A[e] = acts(imgs)
             n_img = n if budget == "C" else n * K
 
-            def grams_for(weights):
-                """{input: (K, d, d)} for per-image weights (dict expert -> (n_img,) tensor or None)."""
-                out = {}
-                for k in acts.keys:
-                    out[k] = torch.stack([gram(A[e][k], None if weights is None else weights[e]) for e in TASKS8])
-                return out
+            by_input = {}
+            for p in names:
+                by_input.setdefault(input_name(p), []).append(p)
 
-            g_hat = grams_for(None)
-            Fh = {p: correction(D[p], g_hat[input_name(p)]) for p in names}
-            del g_hat
+            def gram_k(k, weights):
+                """(K, d, d) Grams of one input for per-image weights (dict expert -> (n_img,) tensor or None)."""
+                return torch.stack([gram(A[e][k], None if weights is None else weights[e]) for e in TASKS8])
+
+            Fh = {}
+            for k, ps in by_input.items():
+                gk = gram_k(k, None)
+                for p in ps:
+                    Fh[p] = correction(D[p], gk)
+                del gk
             # running moments of the replicates (no replicate is stored): sum F_b, sum ||F_b||^2,
             # sum tr(F_b Ghat F_b^T), sum ||F_b - F_hat||^2
             sums = {p: torch.zeros_like(Fh[p][0]) for p in names}
@@ -229,15 +248,16 @@ def main() -> None:
                     ww = np.concatenate([rng.multinomial(n, np.full(n, 1.0 / n)) for _ in TASKS8])
                     wt = torch.as_tensor(ww, device=dev).float()
                     w = {e: wt for e in TASKS8}
-                gb = grams_for(w)
-                for p in names:
-                    Fb, _ = correction(D[p], gb[input_name(p)])
-                    Ghat = Fh[p][1]
-                    sums[p] += Fb
-                    sq[p] += float(Fb.pow(2).sum())
-                    sqG[p] += float(torch.einsum("od,de,oe->", Fb, Ghat, Fb))
-                    mse[p] += float((Fb - Fh[p][0]).pow(2).sum())
-                del gb
+                for k, ps in by_input.items():
+                    gk = gram_k(k, w)
+                    for p in ps:
+                        Fb, _ = correction(D[p], gk)
+                        Ghat = Fh[p][1]
+                        sums[p] += Fb
+                        sq[p] += float(Fb.pow(2).sum())
+                        sqG[p] += float(torch.einsum("od,de,oe->", Fb, Ghat, Fb))
+                        mse[p] += float((Fb - Fh[p][0]).pow(2).sum())
+                    del gk
             rows = []
             for p in names:
                 F_hat, Ghat = Fh[p]
@@ -246,7 +266,7 @@ def main() -> None:
                 var_G = max(sqG[p] / B_BOOT - float(torch.einsum("od,de,oe->", mu, Ghat, mu)), 0.0) / float(torch.trace(Ghat))
                 fh2 = float(F_hat.pow(2).sum())
                 dF = F_hat - F_ref[budget][p]
-                Gi = G_ind[budget][p]
+                Gi = G_ind[budget][input_name(p)]
                 Fr = F_ref[budget][p]
                 r_fun = float(torch.einsum("od,de,oe->", dF, Gi, dF) / torch.einsum("od,de,oe->", Fr, Gi, Fr))
                 r_F = float(dF.pow(2).sum() / Fr.pow(2).sum())

@@ -326,3 +326,15 @@ Changes:
   every selected configuration. Otherwise plain RegMean would be eliminated by a numerical artefact rather than by
   its statistics.
 * The same fp16/fp32 audit is added for full fine-tuning (`collapse_audit_fullft.py`).
+
+### Amendment 2 (2026-10-19 06:35, before the diagnostic or any gate ran)
+
+The gate stage (`experiments/uncert/gate.py`, run only if the sec. 9 criterion passes) gains a **shuffled-uncertainty
+null** (`gate_shuf`): the same gate with u_rel permuted across maps. The prior-work check (docs/lit/PRIOR_WORK_02.md)
+shows uncertainty-proportional shrinkage toward an anchor is a textbook mechanism. So a positive gate result must beat:
+* the tuned fixed ridge and the kappa cap;
+* its own shuffled-uncertainty null.
+
+The prior-work check also notes that IterIS's relative ridge alpha ||G||_F I bounds kappa(G + rho I) <= (1 + alpha) / alpha.
+In the near-singular regime the kappa cap is therefore a re-parametrisation of a known ridge; it is not reported as a
+new method.
