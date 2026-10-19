@@ -22,9 +22,14 @@ experiments/report_tables/; each appendix ends with its own doc-vs-data cross-ch
 * [appendix/C_lora_regmean_tables.md](appendix/C_lora_regmean_tables.md) covers LoRA (checks, spectra,
   rule sweeps, selection nulls, replication, swap scan, transfer, test) and every RegMean run
   (full FT and LoRA), row by row.
-* Appendix B (side-track diagnostics: synthetic checks, gradient preference, oracle, soups, tail
-  stress) was still being generated when this was committed. The key numbers are in §3 and
-  §11-14 below.
+* [appendix/B_diagnostics_tables.md](appendix/B_diagnostics_tables.md) covers:
+  * synthetic checks C1-C11;
+  * gradient preference vs every score;
+  * oracle fits (full FT and LoRA);
+  * score vs targets;
+  * all soup grids and the soup test;
+  * tail stress;
+  * data-supported statistics.
 * Corrections found by these cross-checks have been applied to this report and to Report 2.
   Report 1 and the research log carry errata notes.
 
@@ -52,7 +57,7 @@ Units:
 | Why does it fail? | kappa2 of a fine-tuned weight reads only the base's weakest singular direction(s). |
 | Is the rule fragile? | A function-invisible edit (0.5 % of the update) swings its weights 3-4x and costs up to 8 pt. |
 | What about noisy copies of one model? | Noise *lowers* kappa, so where down-weighting is justified (noisy copies of one model) the rule picks the noisiest copy. |
-| Where is the merging headroom? | Per-layer allocation: a labelled oracle in the rule's own family reaches 77.2 vs 69.3 (full FT) and 64.1 vs 51.2 (LoRA) test accuracy, mostly by giving each attention map to one expert. One weight per expert is worth at most 0.5 pt. No spectral statistic predicts the per-layer choices. |
+| Where is the merging headroom? | Per-layer allocation: a labelled oracle in the rule's own family reaches 77.2 vs 69.3 (full FT) and 64.1 vs 51.2 (LoRA) test accuracy, mostly by giving each attention map to one expert. One weight per expert is worth at most +0.5 pt on full FT (+1.1 on LoRA test). No spectral statistic predicts the per-layer choices. |
 | Where does conditioning matter? | In the solve of RegMean-type mergers. With few calibration images the Gram system is near-singular (kappa up to 1e13) and plain RegMean collapses (64 vs 91; 4 % on LoRA). |
 | Does a conditioning-guided regulariser help there? | Yes, slightly. A kappa-capped ridge beats RegMean's shrinkage by +0.2 to +0.8 on frozen test. Part of that is isotropy. The conditioning-specific part (per-map strength from kappa(G)) is about +0.18 over an equally tuned fixed ridge (full FT, 16 images per task, 3/3 calibration subsets), and about 0 at 512 images. Too small for a method claim; close to SWUDI. |
 | Biggest number in the study | RegMean with task-separated unlabelled statistics: 91.4 normalised (82.8 % accuracy) vs 76.7 for uniform on ViT-B/32 test. That is an established method, not the hypothesis. |
@@ -215,7 +220,7 @@ Source: results/spectra/*, B/16 in results/b16/spectra/*.
 * **No expert is "the ill-conditioned one":** argmin winners are spread over all 8 experts. Pairwise,
   the fraction of maps with kappa_i > kappa_j ranges 0.36-0.71. 5 of 28 pairs fall outside 0.4-0.6
   (e.g. SUN397 is above Cars in 71 % of maps).
-* **Where the rule's effect lives:** 100 % of the literal rule's first-order effect on dev loss
+* **Where the rule's effect lives:** 99 % of the literal rule's first-order effect on dev loss
   comes from 5 maps.
 
 ## 5. The literal rule on dev [established]
@@ -357,8 +362,8 @@ oracle lambda (§12). Records: results/aa/grad_pref/, results/aa/score_vs_target
 |---|---|---|---|
 | kappa2(W) (literal) | +0.045 | -0.012 | +0.095 (p 0.03) vs gradient; ≈ 0 vs oracle |
 | kappa(W C^1/2) (B) | +0.035 | -0.073 | ≈ 0 (p >= 0.14) |
-| update spread (stable / entropy rank) | -0.43 / -0.48 | -0.10 | ≈ 0; all between-expert (identity, ±0.8) |
-| functional energy tr(D C D^T) (B) | +0.33 | +0.07 | +0.12 to +0.16 (p <= 0.007): the only per-layer predictor |
+| update spread (stable / entropy rank) | -0.43 / -0.47 | -0.10 | ≈ 0; all between-expert (expert identity, abs rho 0.54-0.85) |
+| functional energy tr(D C D^T) (B) | +0.33 | +0.07 | +0.12 to +0.16 vs gradient targets (p <= 0.007); +0.08 (p 0.08) vs the main oracle. The strongest per-layer predictor; update norm and sigma_min(W) are also weakly significant (abs rho 0.09-0.13) |
 
 * The two kappa implementations agree to 1e-13 (median).
 * For master's candidate `logkappa_q90_rev`, the per-map association is small, positive and
@@ -377,8 +382,10 @@ oracle lambda (§12). Records: results/aa/grad_pref/, results/aa/score_vs_target
 | LoRA r16, dev / test | 52.3 / 51.2 | 52.7 / 52.4 | 62.3 / 61.7 | 64.8 / 64.1 |
 
 * The fit is stable across seeds (log-lambda Spearman 0.98).
-* **Full FT:** attention maps go nearly one expert per map (n_eff 1-2.5), with the same assignment
-  across seeds. MLP maps stay mixed.
+* **Full FT:** attention maps go nearly one expert per map (mean n_eff 1.3-1.8 by map type, per-map
+  maximum 2.4-3.1), with the same top expert across seeds in 83 % (alpha 1) to 94 % (learned alpha)
+  of attention maps. MLP maps stay mixed.
+* **Global oracle gain:** +0.3 dev / +0.5 test on full FT; +0.4 dev / +1.1 test on LoRA.
 * **kappa is uncorrelated with the oracle** (LoRA within-map rho +0.03). Records:
   results/aa/oracle_lambda/, oracle_lambda_lora/; figure results/aa/figures/fig_oracle_heatmap.png.
 
@@ -399,7 +406,7 @@ Own-task accuracy. Records: results/aa/soup/; figure results/aa/figures/fig_shar
 | literal kappa, b = 1 / 16 / inf | 89.4 / 88.8 / **58.8** | 81.2 / 81.2 / 74.0 | 91.0 / 90.4 / 88.3 |
 | Gavish-Donoho inverse variance | 90.5 | 83.9 | 90.1 |
 | update shape at b = 4 (stable rank / noise share / bulk median) | 90.5 | **90.3-90.4** | <= 91.1 |
-| update norm, b = 4 | 90.5 | 78.9 | ≈ 91.0 |
+| update norm, b = 4 | 90.5 | 78.9 | 88.2 (91.0 at b = 0.25) |
 
 | rule (frozen TEST) | A | A-nm | B |
 |---|---|---|---|
@@ -413,6 +420,9 @@ Own-task accuracy. Records: results/aa/soup/; figure results/aa/figures/fig_shar
   its argmin picks the noisiest copy.
 * **The update spectrum's shape tracks noise beyond magnitude**, reaching the oracle with norms
   matched.
+* **Reversing the literal rule helps under noise.** In A-nm, reversed kappa at b = inf (pick the
+  highest-kappa copy per map) reaches 86.99 vs uniform 81.27 on dev, with 8/8 tasks above uniform.
+  This is the anti-inverse-variance effect seen from the other side.
 * **On real recipe variation, everything is about uniform**, and the noise rule hurts.
   * Variant quality correlates +0.5 with update spread (diffuse = better).
   * It correlates inconsistently with mean log kappa (-0.31 ... +0.60).
@@ -431,6 +441,9 @@ Edit: in the 47 maps with kappa0 > 1e3, floor one expert's singular values at 10
 | SVHN, b = 16 | 0.16 -> 0.60 (0.84) | 69.6 -> 65.0 |
 | SVHN, b = inf | 0.22 -> 0.69 | 50.6 -> 42.2 |
 | SUN397 edited, b = 4 / 16 / inf | 0.11 -> 0.40 / 0.53 / 0.52 | 70.0 -> 68.4; 69.6 -> 66.4; 50.6 -> 48.6 |
+
+At alpha = 1 the edits matter less: the SVHN edit moves merged dev accuracy 67.33 -> 67.48, and the
+SUN397 edit 67.33 -> 65.49.
 
 ## 15. LoRA [established]
 
@@ -649,6 +662,7 @@ strengths; shrinkage with 5 values.
   * The §16.5-16.6 runs have no image-level CIs (per-image predictions not stored).
   * The LoRA 2x2 is dev-only.
   * The LoRA N = 16 subset s0 is the first 16 calibration images; s1, s2 and all full-FT subsets are random.
+  * 25 of 584 kappa(W C^1/2) values (layer-0 q/k/v and one L1 k_proj) exceed 1e12 and are float64 round-off.
 * **Incidents:**
   * At 13:35 the side session's writes overwrote master's spectra.py and compute_spectra.py; they
     were restored from 53f47bd.
