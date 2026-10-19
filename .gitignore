@@ -11,3 +11,5 @@ logs/*.log
 .ruff_cache/
 results/**/*.npy
 results/**/*.pt
+logs/**/*.log
+vendor/**/__pycache__/
