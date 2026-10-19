@@ -141,3 +141,19 @@ Primary test comparisons were fixed from dev before any test evaluation. All oth
   * evaluate only those configs on test.
   * Primary comparison: kappa-cap ridge vs fixed relative ridge. Both are isotropic, so this
     isolates kappa-adaptive strength. Secondary: each against the tuned fixed shrinkage.
+
+## 2026-10-18 22:45: strength sweep on dev; test selection (recorded before any test run)
+
+* **[established, dev]** Mean normalised %, alpha = 1, budget C. n = 16 is the mean of 3 subsets; n = 512 is one set.
+  * kappa-cap ridge peaks at kappa_t = 3e4-1e5: 88.32-88.37 at n = 16, 91.58 at n = 512.
+    Its median per-map strength there is only 8e-4 to 3.5e-3 of tr(G)/d, because the ridge goes to the ill-conditioned maps.
+  * The fixed relative ridge peaks at c of about 0.016: 88.02 at n = 16, and is flat at 91.4-91.5 for c <= 5e-3 at n = 512.
+  * Fixed shrinkage peaks at a = 0.95-0.99: 88.14 at n = 16, 91.55 at n = 512.
+  * At n = 512 every regularised solve is within 0.2 of plain RegMean (91.68), so regularisation is not needed there.
+  * The 24 configs repeated from the pre-declared run reproduce exactly (max |diff| 0.000).
+* Selected by the declared rule; only these are evaluated on test (results/regmean/strength_sweep_C_test_*.jsonl):
+
+  | n | kappa-cap ridge | fixed relative ridge | fixed shrinkage |
+  |---|---|---|---|
+  | 16 | kappa_t = 1e5 | c = r_med / 1e4 (about 0.016) | a = 0.95 |
+  | 512 | kappa_t = 1e5 | c = r_med / 1e6 (about 1.6e-4) | a = 0.99 |

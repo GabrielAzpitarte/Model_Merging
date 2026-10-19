@@ -50,6 +50,7 @@ def main() -> None:
     ap.add_argument("--alpha", type=float, default=1.0)
     ap.add_argument("--device", default="cuda:0")
     ap.add_argument("--cells", default="kcap_ridge,kcap_shrink,rel_ridge,fixed_shrink")
+    ap.add_argument("--rel-kappas", default="", help="kappa_t list defining the rel_ridge strengths (default: --kappas)")
     ap.add_argument("--out", default="", help="output jsonl (default: results/regmean/twobytwo_C_<split>.jsonl)")
     args = ap.parse_args()
     out = Path(args.out) if args.out else RESULTS / "regmean" / f"twobytwo_C_{args.split}.jsonl"
@@ -67,6 +68,7 @@ def main() -> None:
     calib = {e: load_cache(e, "calib", mmap=True)[0] for e in TASKS8}
     inputs = {p: input_name(p) for p in names}
     kappas = [float(k) for k in args.kappas.split(",")]
+    rel_kappas = [float(k) for k in args.rel_kappas.split(",") if k]
     for spec in args.sets.split(","):
         n, seed = (int(x) for x in spec.split(":"))
         grams = {}
@@ -85,8 +87,10 @@ def main() -> None:
         r_med = float(np.median(ratios))
         cells = []
         for kt in kappas:
-            cells += [("kcap_ridge", {"kappa_target": kt}, kt), ("kcap_shrink", {"kappa_shrink_target": kt}, kt),
-                      ("rel_ridge", {"rel_ridge": r_med / kt}, kt)]
+            cells += [("kcap_ridge", {"kappa_target": kt}, kt), ("kcap_shrink", {"kappa_shrink_target": kt}, kt)]
+            if not rel_kappas:
+                cells.append(("rel_ridge", {"rel_ridge": r_med / kt}, kt))
+        cells += [("rel_ridge", {"rel_ridge": r_med / kt}, kt) for kt in rel_kappas]
         cells += [("fixed_shrink", {"shrink": float(a)}, None) for a in args.shrinks.split(",") if a]
         cells = [c for c in cells if c[0] in wanted]
         print(f"[n={n} seed={seed}] grams done {time.time() - t0:.0f}s; median lambda_max/(tr/d) = {r_med:.3g}", flush=True)
