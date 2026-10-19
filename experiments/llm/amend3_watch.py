@@ -8,7 +8,9 @@ process does not re-import plan.py; orchestrate.py's phase_amend3 does the same 
      records, then enqueue the matched-config shuffles at kappa|alpha1 (plan.matched_alpha1_jobs);
   3. retry its own failed jobs once (the running orchestrator does not track them);
   4. after ALL_DONE: once its own jobs are finished, re-run the analysis and commit the summaries locally (the
-     running orchestrator's analysis may have started before they finished).
+     running orchestrator's analysis may have started before they finished);
+  5. push master to the user's GitHub repository after each freeze and after step 4 (the orchestrator runs with
+     --no-push; the user authorised pushes to github.com/GabrielAzpitarte/Model_Merging). --no-push disables it.
 Only our own queue and result files are touched; no GPU is looked for (workers run on fixed cards).
 State: artifacts/llm/amend3_state.json; log: logs/llm/amend3_watch.log.
 Usage: amend3_watch.py [--poll 120]
@@ -95,6 +97,15 @@ def retry_failed(st: dict) -> None:
         save_state(st)
 
 
+def push(enabled: bool) -> None:
+    """Push master to the user's repository (authorised by the user for github.com/GabrielAzpitarte/Model_Merging);
+    a failure is logged, never retried in a loop."""
+    if not enabled:
+        return
+    p = subprocess.run(["git", "push", "origin", "master:main"], cwd=ROOT, capture_output=True, text=True)
+    log(f"git push rc={p.returncode} {(p.stderr or p.stdout).strip()[-160:]}")
+
+
 def commit(paths: list[str], msg: str) -> None:
     def git(*a):
         return subprocess.run(["git", "-c", "user.name=Gabriel Azpitarte", "-c", "user.email=gabriel.azpitarte@icloud.com",
@@ -109,7 +120,9 @@ def commit(paths: list[str], msg: str) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--poll", type=float, default=120.0)
+    ap.add_argument("--no-push", action="store_true", help="never push (local commits only)")
     args = ap.parse_args()
+    do_push = not args.no_push
     st = load_state()
     orch = json.loads(ORCH_STATE.read_text()) if ORCH_STATE.exists() else {}
     if "extras" not in st:
@@ -142,6 +155,7 @@ def main() -> None:
             log(f"{s}: enqueued {len(jobs)} matched-config shuffles at kappa|alpha1"
                 + ("" if jobs else " (kappa|alpha1 coincides with kappa|tuned: the ordinary matched set covers it)"))
             save_state(st)
+            push(do_push)  # the orchestrator committed the freeze (configs/llm/frozen_<S>.json + dev records) locally
         retry_failed(st)
         if (J.QROOT / "ALL_DONE").exists() and not (tracked(st) & live_keys()):
             log("ALL_DONE and every amendment-3 job finished: re-running the analysis")
@@ -152,6 +166,7 @@ def main() -> None:
             paths = [str(p.relative_to(ROOT)) for p in J.RESULTS.rglob("*") if p.is_file()
                      and p.suffix in (".jsonl", ".json", ".md", ".csv", ".png", ".pdf")]
             commit(paths + ["configs/llm"], "LLM study: analysis re-run after the amendment-3 jobs finished")
+            push(do_push)
             st["final_done"] = time.strftime("%Y-%m-%d %H:%M:%S")
             save_state(st)
             log("done")
