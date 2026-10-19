@@ -6,6 +6,19 @@ python3 - <<'PY'
 import json, os, time, glob
 q = "artifacts/llm/queue"
 print("queue:", {k: len(os.listdir(f"{q}/{k}")) for k in ("pending", "running", "done", "failed") if os.path.isdir(f"{q}/{k}")})
+from collections import Counter
+cnt, tot = Counter(), Counter()
+for sub in ("pending", "running", "done", "failed"):
+    for f in glob.glob(f"{q}/{sub}/*.json*"):
+        try:
+            c = json.load(open(f))["cfg"]
+        except Exception:
+            continue
+        k = (c.get("setting", "?"), c.get("group", "?"))
+        tot[k] += 1
+        if sub == "done":
+            cnt[k] += 1
+print("progress (done/total):", "  ".join(f"{s}/{g} {cnt[(s, g)]}/{n}" for (s, g), n in sorted(tot.items())))
 for f in sorted(glob.glob(f"{q}/workers/*.json")):
     d = json.load(open(f)); c = d.get("cfg", {})
     print(f"  {os.path.basename(f)[:-5]:4s} {d['state']:8s} age {time.time()-os.path.getmtime(f):5.0f}s",
