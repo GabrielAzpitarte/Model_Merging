@@ -11,7 +11,9 @@ weight ... larger condition number should have lower lambda."
    directions, not of the expert's reliability.
 3. Conditioning does matter in the place the mathematics says it should: when a merger inverts
    a matrix (RegMean). There the solve becomes unstable with noisy statistics. A regulariser set by
-   the condition number fixes it, and has a small but consistent edge over RegMean's built-in shrinkage.
+   the condition number fixes it, and has a small but consistent edge over RegMean's built-in shrinkage
+   (+0.2 to +0.8 on frozen test). Most of that edge comes from using an isotropic ridge; setting its
+   strength per map from kappa(G) adds about 0.1-0.2 pt over the best fixed ridge.
 
 Detailed records:
 * REPORT_01_literal_rule.md: the exact rule, its controls, transfer, and the mechanism.
@@ -71,4 +73,14 @@ ViT-B/32 test, against 76.7 for uniform/TA. With pooled statistics and no task i
   off-diagonal shrinkage by a small, consistent margin:
   * full FT +0.2 to +0.4, test 3/3;
   * LoRA +0.2 to +0.8, test CIs exclude 0 on 3/3 banks.
-* The 2x2 check below says whether that edge comes from conditioning or from rotation invariance.
+* Where the edge comes from (pre-declared 2x2, then a post-hoc sweep with equal tuning grids,
+  frozen test; Report 2 §3-4):
+  * Setting RegMean's own diagonal shrinkage by a kappa cap never helps (-0.04 to -0.48).
+  * LoRA: the edge is isotropy (+0.5 to +1.0); kappa-adaptive strength adds at most +0.2.
+  * Full FT, 16 images per task: kappa-cap ridge 87.69 vs tuned fixed ridge 87.51 vs tuned
+    shrinkage 87.39. That is +0.12 from isotropy and +0.18 from kappa-adaptive strength, with
+    3/3 calibration subsets positive.
+  * Full FT, 512 images per task: all regularisers are within 0.07 of plain RegMean (91.39).
+* Verdict: conditioning explains why the solve must be regularised. It adds at most about 0.2 pt
+  as a per-map ridge rule. That is too small for a method claim, and it is close to SWUDI's
+  spectral filtering of merge solves.

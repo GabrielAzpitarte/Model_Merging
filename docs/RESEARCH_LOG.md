@@ -157,3 +157,23 @@ Primary test comparisons were fixed from dev before any test evaluation. All oth
   |---|---|---|---|
   | 16 | kappa_t = 1e5 | c = r_med / 1e4 (about 0.016) | a = 0.95 |
   | 512 | kappa_t = 1e5 | c = r_med / 1e6 (about 1.6e-4) | a = 0.99 |
+
+## 2026-10-18 22:50: strength sweep frozen test  [established]
+
+* Test, mean normalised % (n = 16: subsets 0/1/2 and their mean; then n = 512):
+
+  | arm | n = 16 subsets | n = 16 mean | n = 512 |
+  |---|---|---|---|
+  | kappa-cap ridge (kappa_t 1e5) | 88.04 / 87.20 / 87.83 | 87.69 | 91.40 |
+  | fixed ridge (c about 0.016 at n = 16, 1.6e-4 at n = 512) | 87.93 / 86.91 / 87.68 | 87.51 | 91.37 |
+  | shrinkage (a 0.95 at n = 16, 0.99 at n = 512) | 87.85 / 86.77 / 87.56 | 87.39 | 91.33 |
+
+* n = 16 differences:
+  * kappa cap - fixed ridge: +0.10 / +0.29 / +0.15 (mean +0.18);
+  * kappa cap - shrinkage: +0.30 mean;
+  * fixed ridge - shrinkage: +0.12 mean.
+* n = 512: all within 0.07 of each other and of plain RegMean (91.39).
+* All test records carry commit 6ae7a69 (clean tree).
+* Reading: on full FT at small n, the kappa-cap ridge's edge over RegMean's shrinkage is about
+  40 % isotropy and 60 % kappa-adaptive per-map strength. Both parts are small, and the n = 16
+  evidence is 3 calibration subsets. Write-up: Report 2 §3-6; summary updated.
