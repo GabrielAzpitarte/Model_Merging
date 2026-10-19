@@ -117,6 +117,24 @@ Two further facts:
 Records: results/llm/spectral/l31_8b_T8_{validation,diagnostics,rerounding}.{json,csv}. Figure:
 results/llm/summary/figures/fig_llm_mechanism.png.
 
+**Per-matrix kappa is not a property of the network function [deduction, checked numerically].** Llama attention
+admits exact function-preserving reparametrisations that change per-matrix condition numbers:
+* for each KV head, W_V -> M W_V, with every query head's o_proj block multiplied by M^-1 (attention output is
+  linear in V);
+* for each KV group and RoPE frequency pair, W_Q rows scaled by c and W_K rows by 1/c (a scaled identity on a 2-D
+  pair commutes with the RoPE rotation).
+
+On the real base weights of layer 5 (experiments/llm/gauge_check.py, results/llm/spectral/gauge_check.json):
+
+| reparametrisation | function change | kappa of each matrix |
+|---|---|---|
+| v/o | outputs change by 7e-14 relative | kappa(W_V) 8.3 -> 1881; kappa(W_O) 3.1e4 -> 2.4e6 |
+| q/k | attention logits change by 3e-15 | kappa(W_Q) 5.2e5 -> 1.7e6; kappa(W_K) 78 -> 455 |
+
+Experts that share one base are compared in a single gauge, so this does not by itself make across-expert
+comparisons meaningless. It does remove any reading of kappa(W) as a functional "singularity" or reliability property
+of an attention matrix.
+
 ## 4. Does the rule help on the LLM banks? [pending]
 
 (S1 dev grid running. Frozen configurations will be in configs/llm/frozen_S1.json; test/fresh in
