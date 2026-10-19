@@ -2,7 +2,9 @@
 
 *Status: PARTIAL. Sections marked **[pending]** wait for running experiments (docs/HANDOFF_20261019.md).*
 *Protocol: docs/PROTOCOL_02_llm_followups.md (pre-registered 2026-10-19 before any LLM merge was evaluated; amendments
-1-2 dated). Tables generated from the records: docs/REPORT_03_tables.md.*
+1-3 dated; amendment 3 extended the alpha grid to the 3B sources' own TA optima, added alpha = 1 controls, and aligned
+the uncertainty diagnostic's statistic with sec. 9, all before any freeze). Tables generated from the records:
+docs/REPORT_03_tables.md.*
 
 Labels:
 * **[established]**: completed run, numbers taken from the records;
@@ -87,7 +89,10 @@ sigma_{j-16}(W0)) has 0 violations in all 128 x 8 matrices.
 
 **But in q_proj and o_proj kappa is not determined by the checkpoint.** The base is stored in BF16. An equally valid
 higher-precision preimage differs from it by a perturbation of spectral norm ~tau_bf16, the BF16 resolution floor,
-estimated per matrix from the exact ulp of every entry. Results (S1, all 128 matrices, 8 experts):
+estimated per matrix from the exact ulp of every entry. By Weyl's inequality a singular value below tau_bf16 can move
+by up to that much. This is a worst-case bound: a random rounding perturbation moves an isolated sigma_min by much
+less, about tau / (sqrt m + sqrt n). The re-rounding test below therefore measures the actual effect directly. Results
+(S1, all 128 matrices, 8 experts):
 
 | projection | kappa0 (median) | sigma_min / tau_bf16 (median) | across-expert spread of kappa / kappa0 | share of log-kappa variance from sigma_min |
 |---|---|---|---|---|
