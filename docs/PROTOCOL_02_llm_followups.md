@@ -311,3 +311,18 @@ deduction.
 ## Amendments
 
 (none yet)
+
+### Amendment 1 (2026-10-19 06:05, before H-INV1 ran)
+
+The H-INV0 audit (`experiments/inverse/collapse_audit.py`, results/inverse/collapse_audit.json) found the ~4.1 %
+LoRA RegMean "collapses" are an **fp16 evaluation overflow**:
+* the unregularised solve has weights up to 6e5 (base max 0.27) in directions the calibration Grams barely span;
+* fp16 autocast produces non-finite features;
+* the same weights evaluated in fp32 reach about the kappa-capped solve's accuracy (KnOTS N = 16: fp32 62.29 vs
+  kcap 62.30; lora_c5a N = 512: fp32 65.40 vs kcap 65.62).
+
+Changes:
+* H-INV1 (`lora_ridge_equal.py`) therefore selects and reports in **fp32**, and also reports the fp16 accuracy of
+  every selected configuration. Otherwise plain RegMean would be eliminated by a numerical artefact rather than by
+  its statistics.
+* The same fp16/fp32 audit is added for full fine-tuning (`collapse_audit_fullft.py`).

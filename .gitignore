@@ -13,3 +13,4 @@ results/**/*.npy
 results/**/*.pt
 logs/**/*.log
 vendor/**/__pycache__/
+results/**/.*.done

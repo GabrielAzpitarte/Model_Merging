@@ -215,6 +215,8 @@ def frozen_eval_jobs(setting: str, fz: dict, splits=("test", "fresh")) -> list[t
     pbase = 1 if bank == "l31_8b" else 0
     out = []
     for c in fz["configs"]:
+        if c["tag"] == "kappa|concentrated":  # tail-edit stress setting only (val), not a confirmation config
+            continue
         main = c["rule"] in ("uniform", "kappa", "kappa_rev") or c["tag"].startswith("kappa|")
         for sp in splits:
             out.append(({"bank": bank, "T": T, "kind": "merge", "rule": c["rule"], "b": c["b"], "alpha": c["alpha"],

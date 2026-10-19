@@ -93,16 +93,29 @@ def enqueue(cfg: dict, prio: int) -> str | None:
     return k
 
 
-def claim(worker: str, prefer_bank: str | None) -> tuple[Path, dict] | None:
+def claim(worker: str, prefer_bank: str | None, strict: bool = False, loaded: tuple | None = None,
+          only_bank: str | None = None) -> tuple[Path, dict] | None:
+    """Claim the best pending job: by priority, then the loaded (bank, T) first (no model reload). strict: the
+    preferred bank's jobs first whatever their priority (a worker dedicated to one bank while it has work)."""
     d = dirs()
     cands = sorted(p for p in d["pending"].glob("*.json"))
+
     def rank(p):
         try:
             cfg = json.loads(p.read_text())["cfg"]
         except Exception:
-            return (10 ** 6, 1, p.name)
-        return (int(p.name.split("_")[0]), 0 if cfg.get("bank") == prefer_bank else 1, p.name)
+            return (1, 10 ** 6, 2, p.name)
+        mis = 0 if cfg.get("bank") == prefer_bank else 1
+        same = 0 if loaded and (cfg.get("bank"), cfg.get("T")) == tuple(loaded) else 1
+        pr = int(p.name.split("_")[0])
+        return (mis, pr, same, p.name) if strict else (pr, same, mis, p.name)
     for p in sorted(cands, key=rank):
+        if only_bank is not None:
+            try:
+                if json.loads(p.read_text())["cfg"].get("bank") != only_bank:
+                    continue
+            except Exception:
+                continue
         dst = d["running"] / f"{p.name}.{worker}"
         try:
             os.rename(p, dst)
@@ -139,3 +152,32 @@ def append(path: Path, rec: dict) -> None:
 def queue_counts() -> dict[str, int]:
     d = dirs()
     return {k: len(list(d[k].glob("*.json*"))) for k in ("pending", "running", "done", "failed")}
+
+
+def requeue_own(worker: str) -> list[str]:
+    """On (re)start: jobs this worker had claimed were interrupted -> back to pending."""
+    d = dirs()
+    out = []
+    for p in d["running"].glob(f"*.json.{worker}"):
+        target = d["pending"] / p.name[: -(len(worker) + 1)]
+        os.rename(p, target)
+        out.append(target.name)
+    return out
+
+
+def requeue_stale(max_age_s: float = 900.0) -> list[str]:
+    """Running jobs whose worker heartbeat is missing or older than max_age_s -> back to pending."""
+    d = dirs()
+    out = []
+    now = time.time()
+    for p in d["running"].glob("*.json.*"):
+        worker = p.name.rsplit(".", 1)[1]
+        hb = d["workers"] / f"{worker}.json"
+        age = now - hb.stat().st_mtime if hb.exists() else float("inf")
+        if age > max_age_s:
+            try:
+                os.rename(p, d["pending"] / p.name[: -(len(worker) + 1)])
+                out.append(f"{p.name} (heartbeat age {age:.0f}s)")
+            except FileNotFoundError:
+                pass
+    return out

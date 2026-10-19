@@ -182,7 +182,7 @@ def manifest(bank: str, T: int, hash_weights: bool = True) -> dict:
     D, LL = modules(bank)
     out = {"bank": bank, "model_id": spec.model_id, "revision": spec.revision, "model_dir": spec.model_dir,
            "lora_dir": spec.lora_dir, "T": T, "tasks": tasks(bank, T), "multi_token": spec.multi_token,
-           "vendor": {p.name: sha256_file(p) for p in sorted((VENDOR / spec.vendor).glob("*"))}}
+           "vendor": {p.name: sha256_file(p) for p in sorted((VENDOR / spec.vendor).glob("*")) if p.is_file()}}
     cfg = json.loads((Path(spec.model_dir) / "config.json").read_text())
     out["config"] = {k: cfg.get(k) for k in ("hidden_size", "num_hidden_layers", "num_attention_heads",
                                              "num_key_value_heads", "torch_dtype", "intermediate_size")}

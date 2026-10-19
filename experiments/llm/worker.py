@@ -342,18 +342,35 @@ def main() -> None:
     ap.add_argument("--name", required=True)
     ap.add_argument("--device", default="cuda:0")
     ap.add_argument("--idle-exit", type=float, default=0.0, help="exit after this many idle seconds (0 = never)")
+    ap.add_argument("--prefer-bank", default=None, help="take this bank's jobs first whatever their priority")
+    ap.add_argument("--only-bank", default=None, help="never take other banks' jobs (memory budget on a shared card)")
     args = ap.parse_args()
+    import threading
+
     import torch
 
     torch.set_num_threads(6)
     d = J.dirs()
+    for name in J.requeue_own(args.name):
+        print(f"requeued interrupted job {name}", flush=True)
+    beat = {"state": "starting"}
+
+    def beater():  # liveness for the orchestrator's stale-job check, also during long jobs
+        while True:
+            try:
+                J.heartbeat(args.name, dict(beat))
+            except Exception:
+                pass
+            time.sleep(60)
+
+    threading.Thread(target=beater, daemon=True).start()
     idle_since = None
     while True:
         if (J.QROOT / "STOP").exists():
             print("STOP file: exiting", flush=True)
             return
-        pref = State.key[0] if State.key else None
-        got = J.claim(args.name, pref)
+        pref = args.prefer_bank or (State.key[0] if State.key else None)
+        got = J.claim(args.name, pref, strict=bool(args.prefer_bank), loaded=State.key, only_bank=args.only_bank)
         if got is None:
             if (J.QROOT / "ALL_DONE").exists():
                 print("ALL_DONE: exiting", flush=True)
@@ -361,13 +378,16 @@ def main() -> None:
             idle_since = idle_since or time.time()
             if args.idle_exit and time.time() - idle_since > args.idle_exit:
                 return
-            J.heartbeat(args.name, {"state": "idle", "loaded": list(State.key) if State.key else None})
+            beat.clear()
+            beat.update({"state": "idle", "loaded": list(State.key) if State.key else None})
             time.sleep(20)
             continue
         idle_since = None
         path, spec = got
         cfg, key = spec["cfg"], spec["key"]
-        J.heartbeat(args.name, {"state": "running", "job": key, "cfg": cfg})
+        beat.clear()
+        beat.update({"state": "running", "job": key, "cfg": cfg})
+        J.heartbeat(args.name, dict(beat))
         t0 = time.time()
         attempt = 0
         while True:

@@ -160,17 +160,26 @@ class Runner:
         rows = np.arange(len(ids)) if only_task is None else np.flatnonzero(task_of == only_task)
         sub_ids = [ids[i] for i in rows]
         t0 = time.time()
+        lab, tof = labels[rows], task_of[rows]
+        gold_u = np.asarray([self.ev.maps[self.tasks[tof[r]]][lab[r]] for r in range(len(rows))], np.int64)
         if self.spec.multi_token:
-            pj, pl, top = self.ev.predict(sub_ids, task_of[rows])
-            met = self.ev.metrics(pj, pl, top, labels[rows], task_of[rows])
+            pj, pl, top = self.ev.predict(sub_ids, tof)
+            met = self.ev.metrics(pj, pl, top, lab, tof)
             pred = {"joint": pj.astype(np.int32), "local": pl.astype(np.int32)}
         else:
             lg, top = self.ev.outputs(sub_ids, free=True)
-            met = self.ev.metrics(lg, top, labels[rows], task_of[rows])
+            met = self.ev.metrics(lg, top, lab, tof)
             pred = {"joint": lg.argmax(1).astype(np.int32),
-                    "local": np.asarray([int(np.argmax(lg[r][self.ev.maps[self.tasks[task_of[rows][r]]]]))
+                    "local": np.asarray([int(np.argmax(lg[r][self.ev.maps[self.tasks[tof[r]]]]))
                                          for r in range(len(rows))], np.int32),
                     "logits": lg.astype(np.float16)}
+        pred["correct_local"] = (pred["local"] == lab).astype(np.int8)
+        pred["correct_joint"] = (pred["joint"].astype(np.int64) == gold_u).astype(np.int8)
+        for k in range(self.K):  # the saved correctness reproduces the evaluator's own metrics exactly
+            sel = tof == k
+            if sel.any():
+                assert abs(pred["correct_local"][sel].mean() - met["local_per_task"][k]) < 1e-9
+                assert abs(pred["correct_joint"][sel].mean() - met["joint_per_task"][k]) < 1e-9
         met["seconds"] = time.time() - t0
         pred.update({"labels": labels[rows].astype(np.int32), "task_of": task_of[rows].astype(np.int16),
                      "index": index[rows].astype(np.int32)})

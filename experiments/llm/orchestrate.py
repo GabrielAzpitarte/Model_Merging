@@ -71,6 +71,8 @@ def commit(paths: list[str], msg: str, push: bool) -> None:
     git("add", "--", *paths)
     r = git("commit", "-m", msg + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
     log(f"git commit: {r.stdout.strip().splitlines()[0] if r.stdout.strip() else r.stderr.strip()[:200]}")
+    b = subprocess.run(["bash", str(ROOT / "scripts" / "backup.sh")], cwd=ROOT, capture_output=True, text=True)
+    log(f"local backup rc={b.returncode} {b.stdout.strip()[-120:]}")
     if push:
         p = subprocess.run(["git", "push", "origin", "master:main"], cwd=ROOT, capture_output=True, text=True)
         log(f"git push rc={p.returncode} {p.stderr.strip()[-200:]}")
@@ -322,6 +324,8 @@ def main() -> None:
                 except Exception:
                     log(f"{sname}: freeze step error\n{traceback.format_exc()}")
             phase_transfer(sname, st)
+        for name in J.requeue_stale(900.0):
+            log(f"requeued stale running job {name}")
         keys = all_keys(st)
         frozen_all = all(s in st.get("frozen", {}) for s in settings if plan.SETTINGS[s].get("dev"))
         transfers_all = all(s in st.get("transfer", {}) for s in settings if plan.SETTINGS[s].get("transfer_from"))
@@ -339,6 +343,11 @@ def main() -> None:
     paths = [str(p.relative_to(ROOT)) for p in J.RESULTS.rglob("*") if p.is_file()
              and p.suffix in (".jsonl", ".json", ".md", ".csv", ".png", ".pdf")]
     commit(paths + ["configs/llm"], "LLM study: all runs finished; raw records, summaries, figures", push)
+    if not plan.SMOKE:  # raw predictions / edits live under artifacts/ (outside git): archive them too
+        dest = Path("/shared/ssd_30T/azpitarte_condmerge_backup") / f"llm_artifacts_{time.strftime('%Y%m%d_%H%M%S')}.tar.gz"
+        t = subprocess.run(["tar", "-czf", str(dest), "-C", str(ROOT / "artifacts" / "llm"), "preds", "edits", "spectra"],
+                           capture_output=True, text=True)
+        log(f"artifact archive rc={t.returncode} -> {dest}")
     (J.QROOT / "ALL_DONE").write_text(time.strftime("%Y-%m-%d %H:%M:%S"))
     log("ALL_DONE")
 

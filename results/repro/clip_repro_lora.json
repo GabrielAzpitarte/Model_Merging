@@ -1,0 +1,77 @@
+{
+ "banks": {
+  "knots_release": {
+   "uniform": {
+    "alpha": 0.8,
+    "avg_acc": 0.5122182574720056,
+    "recorded_avg_acc": 0.5122182574720056,
+    "diff_vs_record_pt": 0.0,
+    "fingerprint": -0.6764150264663614
+   },
+   "shrink0.95": {
+    "alpha": 0.8,
+    "avg_acc": 0.6346903015674272,
+    "recorded_avg_acc": 0.6346903015674272,
+    "diff_vs_record_pt": 0.0,
+    "fingerprint": 81.58516671258435
+   },
+   "kcap1e4_zero": {
+    "alpha": 0.8,
+    "avg_acc": 0.6429920434648561,
+    "recorded_avg_acc": 0.6429920434648561,
+    "diff_vs_record_pt": 0.0,
+    "fingerprint": -2.8046592288193364
+   },
+   "kcap_minus_shrink_pt": 0.8301741897428827
+  },
+  "lora_c5a": {
+   "uniform": {
+    "alpha": 0.8,
+    "avg_acc": 0.5304451312447176,
+    "recorded_avg_acc": 0.5304125186285733,
+    "diff_vs_record_pt": 0.0032612616144289674,
+    "fingerprint": -2.7694355380316495
+   },
+   "shrink0.95": {
+    "alpha": 0.8,
+    "avg_acc": 0.6443182107916322,
+    "recorded_avg_acc": 0.6444934792401963,
+    "diff_vs_record_pt": -0.017526844856408097,
+    "fingerprint": 438.08975240235685
+   },
+   "kcap1e4_zero": {
+    "alpha": 0.8,
+    "avg_acc": 0.6495494729249992,
+    "recorded_avg_acc": 0.6495702408288038,
+    "diff_vs_record_pt": -0.0020767903804563836,
+    "fingerprint": -1.1640948371775366
+   },
+   "kcap_minus_shrink_pt": 0.5231262133366998
+  },
+  "lora": {
+   "uniform": {
+    "alpha": 1.3,
+    "avg_acc": 0.6667733733619287,
+    "recorded_avg_acc": 0.6667853879671831,
+    "diff_vs_record_pt": -0.0012014605254462296,
+    "fingerprint": 0.43571576276025553
+   },
+   "shrink0.95": {
+    "alpha": 1.0,
+    "avg_acc": 0.818982905097098,
+    "recorded_avg_acc": 0.8188822906712803,
+    "diff_vs_record_pt": 0.01006144258177688,
+    "fingerprint": -65.20187755553472
+   },
+   "kcap1e4_zero": {
+    "alpha": 1.0,
+    "avg_acc": 0.8208595707156322,
+    "recorded_avg_acc": 0.8208782604170521,
+    "diff_vs_record_pt": -0.001868970141993831,
+    "fingerprint": -12.689362697597133
+   },
+   "kcap_minus_shrink_pt": 0.1876665618534168
+  }
+ },
+ "seconds": 206.45533967018127
+}
