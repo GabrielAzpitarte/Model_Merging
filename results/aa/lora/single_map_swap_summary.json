@@ -1,0 +1,12 @@
+{
+ "alpha": 1.0,
+ "base_avg_acc": 0.5207968652100048,
+ "mean_within_map_spearman(-kappa, swap_gain)": -0.07638888888888891,
+ "argmin_kappa_mean_rank (1=best, 8=worst, random 4.5)": 4.270833333333333,
+ "frac_argmin_kappa_is_worst": 0.10416666666666667,
+ "frac_argmin_kappa_is_best": 0.10416666666666667,
+ "mean_gain_of_argmin_kappa": -0.00020268421242653628,
+ "mean_gain_random_choice": -0.000926339934484416,
+ "mean_gain_best_choice": 0.003914901946254959,
+ "mean_gain_worst_choice": -0.007970632594532474
+}

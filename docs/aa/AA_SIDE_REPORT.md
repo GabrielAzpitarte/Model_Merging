@@ -197,6 +197,13 @@ KnOTS release:
 Verdict: **NOT REPLICATED.** The KnOTS-bank advantage is a favourable draw from a high-variance selection
 lottery. On the well-behaved vit20 bank, any hard per-map selection loses badly to averaging.
 
+Per-map marginal values (`results/aa/lora/single_map_swap_summary.json`; uniform base, α = 1; each of the
+48 × 8 single-map hand-overs evaluated on dev):
+- The argmin-κ choice ranks 4.27 of 8 on average (random 4.5). It is the best choice in 10% of maps and the
+  worst in 10%.
+- Within-map ρ(−κ, gain) = −0.08.
+- κ does not identify good per-map owners even one map at a time.
+
 ## 7. Variant ledger
 
 | variant | problem addressed | assumption | discriminating experiment | closest prior | status |
@@ -237,3 +244,116 @@ LoRA (4 banks), against matched shuffled-score nulls and frozen test evaluation.
 Novelty check (2026-10-18): no prior paper uses Marchenko–Pastur / Gavish–Donoho noise estimates to weight
 checkpoints. The closest are Model Stock (ECCV'24), MonoSoup (arXiv 2602.09689), Fisher merging, and
 TSV / STAR. The negative real-variant result limits the practical value of that direction anyway.
+
+## 9. Phase 2: "the instability lies in the solve" (review hypothesis row 3), RegMean on LoRA
+
+Conditioning enters a merge directly when the merger inverts a Gram matrix (review §3.6). Per adapted map:
+D = (Σ D_i G̃_i)(Σ G̃_i + ρI)^{-1}, with RegMean's off-diagonal shrinkage G̃ = aG + (1−a)diag(G). The
+κ-capped ridge picks the smallest ρ with κ(ΣG̃ + ρI) ≤ κ_target; the ridge targets zero or the uniform
+average, as in master's `regmean_solve`. My independent implementation matches master's to 5e-8.
+
+Gram budgets:
+- **C**: task-separated; expert i on task i's calibration split.
+- **Bp**: the pooled calibration set through each expert; label-free and task-ID-free.
+- **B0**: pooled through the base; RegMean then must equal averaging.
+
+Solves:
+- full input space (dense output);
+- exact adapter subspace, D = M Pᵀ with P spanning all Aᵢᵀ (output rank ≤ 128).
+
+KnOTS bank, dev (`results/aa/lora/regmean_summary.md`):
+
+| budget, solve | plain | shrink a = 0.95 / 0.9 | κ-cap 1e4 / 1e3 / 1e2 (ridge → zero) |
+|---|---|---|---|
+| C, full | 65.3, **4.1 at α = 1.3** | 64.8 / 64.3 | **65.5** / 64.6 / 61.6 (α 1.3: 50.9) |
+| C, subspace | 57.9 | 57.8 / 57.4 | 57.9 / 57.9 / 57.7 |
+| Bp, full | 51.8 | 51.7 / 51.7 | 51.8 / 51.6 / 51.6 |
+| B0 | 52.3 = averaging (sanity) | | |
+
+Uniform is 52.3 (α 0.8); the per-layer λ oracle was 64.8.
+
+Reading:
+- The plain solve is unstable: median κ(G) is 1e5, some maps have singular Grams, and it collapses when the
+  update is scaled.
+- Capping κ at 1e4 removes the collapse and slightly beats fixed shrinkage. This is a conditioning mechanism
+  of the merge system (review §3.6), not of any expert's weight.
+- It needs budget C. The label-free pooled Grams carry no task information for rank-16 adapters.
+- Part of the gain is extra rank (the subspace solve gives 57.9).
+
+**Calibration-size test (C budget, full solve):**
+
+| images per task | plain | shrink a = 0.95 | κ-cap 1e4 | median κ(G) |
+|---|---|---|---|---|
+| 512 | 65.3 (collapses at α = 1.3) | 64.8 | **65.5** | 1.05e5 |
+| 16 | **4.1 at every α** | 61.7 | **62.2** | 2.2e5 |
+
+Noisier Gram estimates are worse conditioned, and the plain solve then fails completely. Conditioning-based
+regularization rescues it and stays slightly ahead of RegMean's fixed shrinkage (+0.5 to +0.7). This
+SUPPORTS review hypothesis row 3: weak Gram eigen-directions amplify estimation noise, and stable
+regularization fixes it.
+
+The margin over existing shrinkage is small, and spectral filtering of the merge solve is close prior work
+(SWUDI [03]). So any novelty claim would be narrow.
+
+**All LoRA settings, matched single configs** (κ-cap 1e4 → zero vs shrink 0.95; C budget, full solve, best
+α):
+
+| setting | plain | shrink 0.95 | κ-cap 1e4 | difference |
+|---|---|---|---|---|
+| KnOTS, N = 512 | 65.3 (4.1 at α 1.3) | 64.8 | 65.5 | +0.7 |
+| KnOTS, N = 64 | 4.1 | 63.9 | 64.7 | +0.8 |
+| KnOTS, N = 16 (3 calibration subsets) | 4.1 | 61.7 / 63.2 / 63.8 | 62.2 / 64.1 / 64.5 | +0.5 / +0.9 / +0.7 |
+| lora_c5a, N = 512 | 4.1 | 65.1 | 65.6 | +0.5 |
+| vit20, N = 512 (uniform 67.5) | 4.1 | 82.4 | 82.6 | +0.2 |
+
+- Positive in 7/7 settings, mean +0.6; the settings share banks, so they are not independent.
+- The edge does not grow as N shrinks.
+- Master's full-FT result has the same sign but is smaller: +0.2 to +0.3 at N = 16 / 64 / 512 over 3 seeds.
+- Candidate mechanism: RegMean's off-diagonal shrinkage depends on the coordinate basis, whereas the
+  κ-capped isotropic ridge is rotation-invariant and acts only on the weak eigen-directions.
+- RegMean with C-budget Grams is by far the strongest merge in this study: +12 to +15 pt over uniform on
+  LoRA, above the per-layer λ oracle. That is an established method's strength, not the hypothesis's.
+
+**Frozen TEST** (`results/aa/lora/regmean_test.json`; C budget, N = 512, full solve, dev-best α frozen per
+config; paired bootstrap over test images within task):
+
+| bank | uniform | RegMean + shrink 0.95 | RegMean + κ-cap 1e4 | κ-cap − shrink (95% CI) |
+|---|---|---|---|---|
+| KnOTS | 51.2 | 63.5 | 64.3 | +0.83 [+0.71, +0.95] |
+| lora_c5a | 53.0 | 64.5 | 65.0 | +0.51 [+0.40, +0.62] |
+| vit20 | 66.7 | 81.9 | 82.1 | +0.20 [+0.10, +0.30] |
+
+**Matched final-rank budget** (KnOTS dev, every merged map truncated to rank 16 = one adapter): uniform 51.3;
+RegMean plain 61.4; shrink 0.95 61.2; κ-cap 1e4 61.7. Extra rank accounts for about 3.8 pt of RegMean's gain,
+but at matched rank it is still about +10 pt over uniform, and the κ-cap still edges shrinkage.
+
+The κ-cap edge replicates on untouched test data in 3/3 banks. The CI covers example sampling only, not
+calibration resampling; the dev seeds showed the same sign.
+
+**2×2 decomposition of the edge** (`results/aa/lora/regmean_2x2_dev.jsonl`; KnOTS, C, full, α 0.8, dev;
+strength matched to κ_t = 1e4 / c = 0.0136; mean of the three N = 16 subsets, N = 512 in brackets):
+
+| | κ-adaptive strength | fixed strength | adaptivity effect |
+|---|---|---|---|
+| isotropic ridge | 63.60 (65.52) | 63.47 (65.29) | +0.13 (+0.23) |
+| diagonal shrinkage | 62.58 (64.53) | 62.86 (64.76) | −0.28 (−0.23) |
+| **isotropy effect** | **+1.02 (+0.99)** | **+0.61 (+0.53)** | |
+
+The edge over RegMean's shrinkage is **isotropy**: a rotation-invariant ridge beats axis-aligned diagonal
+shrinkage. κ-adaptive strength adds at most about 0.2, and only for the ridge. The κ-capped shrinkage cannot
+even reach its target in 12–17% of maps, because κ(diag G) > κ_t there.
+
+**Row-3 verdict (LoRA, agreeing with master's full-FT):** mechanism SUPPORTED. Weak Gram eigen-directions
+amplify estimation noise, so regularization is essential at small N. The best regularizer is an isotropic
+ridge whose strength can come from a κ cap or from a fixed relative level, with nearly identical results.
+Conditioning explains why regularization is needed; it is not the source of the gain. Given SWUDI's spectral
+filtering of merge solves, there is no conditioning-specific novelty here.
+
+*Added 2026-10-18, evening, after master's full-FT 2x2 and tuned strength sweep (docs/REPORT_02_inverse_problem.md
+§3-4):* on full FT the picture differs somewhat. Isotropy is worth less there (+0.12). At n = 16, κ-adaptive
+strength adds +0.18 over an equally tuned fixed ridge, positive in 3/3 calibration subsets on frozen test.
+At n = 512 nothing matters (≤ 0.07). "Agreeing with master's full-FT" above therefore holds for the n = 512
+result, not for n = 16.
+
+Both follow-ups once listed here as pending are done and reported above: the rank-16 matched-budget
+comparison and the frozen test.
