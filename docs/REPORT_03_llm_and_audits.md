@@ -48,6 +48,12 @@ Pipeline checks:
 * the experts' val/test accuracies reproduce the source records to within one example per task (8B: |diff| <= 0.4 pt);
 * the source CoreSpace path reproduces its own recorded TA@0.2 exactly today.
 
+Evaluation noise floor [established]:
+* evaluation is deterministic: an exact repeat reproduces every record bit for bit;
+* perturbing every coefficient by 1e-7 (relative) moves val mean normalised accuracy by up to 0.19 pt on S1 and up to
+  0.33-0.35 pt on S2/S3 (3 jitter seeds; BF16 rounding flips near-tie examples);
+* method differences of that size are not distinguishable from rounding (records: results/llm/*/noise/).
+
 Splits:
 * val: the source projects' selection split;
 * test: their reporting split, which earlier projects used for OTHER methods but never for any kappa rule;
