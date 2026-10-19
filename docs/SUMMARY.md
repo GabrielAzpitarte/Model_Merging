@@ -78,7 +78,7 @@ ViT-B/32 test, against 76.7 for uniform/TA. With pooled statistics and no task i
   * Setting RegMean's own diagonal shrinkage by a kappa cap never helps (-0.04 to -0.48).
   * LoRA: the edge is isotropy (+0.5 to +1.0); kappa-adaptive strength adds at most +0.2.
   * Full FT, 16 images per task: kappa-cap ridge 87.69 vs tuned fixed ridge 87.51 vs tuned
-    shrinkage 87.39. That is +0.12 from isotropy and +0.18 from kappa-adaptive strength, with
+    shrinkage 87.39. That is +0.11 from isotropy and +0.18 from kappa-adaptive strength, with
     3/3 calibration subsets positive.
   * Full FT, 512 images per task: all regularisers are within 0.07 of plain RegMean (91.39).
 * Verdict: conditioning explains why the solve must be regularised. It adds at most about 0.2 pt

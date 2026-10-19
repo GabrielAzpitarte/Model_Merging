@@ -35,7 +35,7 @@ activations come from 512 unlabelled train images of its task.
 |---|---|---|
 | uniform average, alpha tuned | 77.65 | 76.68 (69.29) |
 | RegMean plain (a = 1, alpha = 1) | 91.68 | 91.39 (82.77) |
-| RegMean, kappa cap 1e5 (dev-best, alpha 1.2) | 92.08 | 91.34 |
+| RegMean, kappa cap 1e5 (dev-best, alpha 1.2) | 92.07 | 91.34 |
 | RegMean, shrinkage a = 0.99 (dev-best, alpha 1.2) | 91.93 | 91.24 |
 
 This is consistent with published RegMean on this bench, about 80.5 % accuracy, since we use more
@@ -55,7 +55,8 @@ Truncating every merged map to rank 16, the size of one adapter, keeps most of t
 **Without task identities (budget B: each expert on the same pooled images) the regression has
 nothing to separate the experts by.** RegMean-B gives 75.65 test at alpha = 1, the
 kappa-capped version 75.9, and the best (a diagonal solve, alpha 1.6) 77.35, against 76.68 for
-uniform. LoRA behaves the same way (peer).
+uniform. On LoRA (peer, dev), pooled Grams give -0.4 on KnOTS but +1.0 on lora_c5a and +2.6 on vit20
+over uniform. These are small next to budget C (+13 to +15).
 
 **The solve does become unstable with noisy statistics, and regularisation is essential**
 [established, 3 calibration subsets]. Figure: results/figures/regmean_instability.png.
@@ -66,13 +67,13 @@ uniform. LoRA behaves the same way (peer).
 | shrinkage a = 0.95 | 88.14 | 90.42 | 91.31 | 87.39 |
 | kappa cap 1e5 | 88.37 | 90.73 | 91.58 | 87.69 |
 
-kappa(G) has a median of 2.9e5 and a maximum of 1.6e13 at n = 16. The collapse comes from the near-singular
+kappa(G) has a median of 2.9e5 and a maximum of 1.8e13 at n = 16 (1.6e13-1.8e13 across subsets). The collapse comes from the near-singular
 3072-dimensional inputs (fc2, patches). LoRA (peer): plain RegMean collapses to 4 % at every alpha in
 every N = 16 setting.
 
 **The conditioning-guided cap has a small, consistent edge over RegMean's shrinkage.**
 * Full FT: +0.2 to +0.3 at every n on dev; +0.19, +0.43, +0.27 on test (3/3).
-* LoRA (peer): +0.2 to +0.9, 7/7 positive, mean +0.6. The banks overlap, so these are not
+* LoRA (peer): +0.2 to +0.9, 7/7 positive, mean +0.66. The banks overlap, so these are not
   independent draws.
 * LoRA frozen test (kappa cap 1e4 vs shrinkage 0.95, dev-best alpha; paired bootstrap over test
   images):
@@ -170,9 +171,12 @@ Dev, ridge arms (n = 16 is the mean of 3 subsets; selected values in bold):
 | kappa-cap ridge, n = 16 | 86.75 | 87.77 | 88.11 | 88.32 | **88.37** | 88.08 | 87.57 |
 | its median rho / (tr G/d) | 0.11 | 0.036 | 0.011 | 3.5e-3 | 8.4e-4 | 0 | 0 |
 | fixed ridge, n = 16 | 87.08 | 87.75 | **88.02** | 87.96 | 87.58 | 86.84 | 85.47 |
-| its c | 0.14 | 0.051 | 0.016 | 5.3e-3 | 1.6e-3 | 5.4e-4 | 1.6e-4 |
+| its c | 0.16 | 0.054 | 0.016 | 5.4e-3 | 1.6e-3 | 5.4e-4 | 1.6e-4 |
 | kappa-cap ridge, n = 512 | 90.07 | 91.09 | 91.32 | 91.58 | **91.58** | 91.51 | 91.56 |
 | fixed ridge, n = 512 | 90.38 | 91.06 | 91.33 | 91.44 | 91.43 | 91.51 | **91.52** |
+
+The kappa cap's strengths are recorded as rho / (tr(G)/d + rho). For small values this equals
+rho / (tr(G)/d); the 0.11 entry corresponds to 0.12.
 
 Dev, fixed shrinkage (selected values in bold):
 
@@ -201,7 +205,7 @@ Differences on test:
 | | kappa cap - fixed ridge | kappa cap - shrinkage | fixed ridge - shrinkage |
 |---|---|---|---|
 | n = 16, subsets 0 / 1 / 2 | +0.10 / +0.29 / +0.15 | +0.19 / +0.43 / +0.27 | +0.09 / +0.14 / +0.12 |
-| n = 16, mean | +0.18 | +0.30 | +0.12 |
+| n = 16, mean | +0.18 | +0.30 | +0.11 |
 | n = 512 | +0.03 | +0.07 | +0.04 |
 
 Plain RegMean on test: 64.20 at n = 16 (mean of subsets), 91.39 at n = 512.
@@ -211,7 +215,7 @@ Reading:
   plain RegMean.
 * **At n = 16 the kappa-cap ridge is best in every subset.** Its +0.30 over RegMean's shrinkage
   splits into two parts:
-  * +0.12 from isotropy (tuned fixed ridge vs tuned shrinkage);
+  * +0.11 from isotropy (tuned fixed ridge vs tuned shrinkage);
   * +0.18 from kappa-adaptive strength (kappa cap vs tuned fixed ridge).
 * **The kappa cap wins with a far smaller typical ridge than the best fixed one.** Its median is
   8.4e-4 of tr(G)/d, against 0.016. It regularises the ill-conditioned maps strongly and leaves
@@ -225,7 +229,7 @@ Reading:
 ## 5. Verdict on hypothesis row 3
 
 1. **Mechanism supported [established].** The merge solve is badly conditioned: median kappa(G)
-   is 2.9e5 at n = 16, with a maximum of 1.6e13. With few calibration images, plain RegMean
+   is 2.9e5 at n = 16, with a maximum of 1.8e13. With few calibration images, plain RegMean
    collapses (64 vs 91 on full FT; 4 % on LoRA), and any regulariser restores it.
 2. **A conditioning-guided regulariser is the best of those tested, by a small margin
    [established].** Kappa-capped ridge vs RegMean's shrinkage on frozen test:
@@ -234,7 +238,7 @@ Reading:
 3. **Where the margin comes from [established; small effects].**
    * LoRA: mostly isotropy (+0.5 to +1.0). Kappa-adaptive strength adds at most +0.2 (one matched
      strength, dev only).
-   * Full FT, n = 16: +0.12 from isotropy and +0.18 from kappa-adaptive strength, against an
+   * Full FT, n = 16: +0.11 from isotropy and +0.18 from kappa-adaptive strength, against an
      equally tuned fixed ridge.
    * Full FT, n = 512: nothing (<= 0.07).
    * So conditioning matters in two ways:
@@ -258,6 +262,6 @@ Reading:
 * **Uncertainty:** no image-level confidence intervals for §3-4, because per-image predictions
   were not stored.
 * **Information budget:** every gain here needs task-separated unlabelled data (budget C). Pooled
-  data without task ids (budget B) gives nothing on either bench.
+  data without task ids (budget B) gives about uniform on full FT, and at most +2.6 on LoRA (dev).
 * **Not tested:** other inverse-problem mergers (Fisher merging / MaTS, RegMean++, WUDI / OptMerge
   solvers) and larger backbones.

@@ -1,0 +1,3684 @@
+{
+ "checks": [
+  {
+   "id": "C1-1",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "QR-core spectrum exact (9e-10), in units of 1e-10",
+   "doc_val": "9",
+   "new_val": "8.97",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C1-2",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "rank-r interlacing holds (violations)",
+   "doc_val": "0",
+   "new_val": "0.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C1-3",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "factor kappa changes by about 5000x under an exact gauge change (median kappa(A) ratio at cond(R) = 1e4)",
+   "doc_val": "5000",
+   "new_val": "5468.30",
+   "status": "OK",
+   "sev": "",
+   "note": "kappa(A) ratio 5468, kappa(B) ratio 2444; 'about 5000' counted OK within 1000"
+  },
+  {
+   "id": "C1-4",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "5/5 merge-correctness tests (number of test functions in tests/test_aa_lora.py; not executed)",
+   "doc_val": "5",
+   "new_val": "5.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C1-5",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "kappa_plus(Delta; tau = 0.1) is capped at 10 (maximum over the 384 pairs)",
+   "doc_val": "10",
+   "new_val": "10.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C1-6",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "80% of updates truncated at tau = 0.1",
+   "doc_val": "80",
+   "new_val": "80.47",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C1-7",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "argmin-kappa = argmax-sigma_min in 100% of maps",
+   "doc_val": "100",
+   "new_val": "100.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C1-8",
+   "doc": "AA_SIDE_REPORT s1",
+   "claim": "within-layer rho(kappa, sigma_min) = -1.00 (LoRA)",
+   "doc_val": "-1.00",
+   "new_val": "-0.9995",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C3-1",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "KnOTS dev: kappa best (literal rule)",
+   "doc_val": "54.3",
+   "new_val": "54.261",
+   "status": "OK",
+   "sev": "",
+   "note": "b=128, alpha=1; note logkappa b=16 alpha=1 reaches 54.29"
+  },
+  {
+   "id": "C3-2",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "KnOTS dev: kappa best uses b = 128",
+   "doc_val": "128",
+   "new_val": "128.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C3-3",
+   "doc": "AA_SIDE_REPORT s6/s9",
+   "claim": "KnOTS dev: best uniform (alpha 0.8)",
+   "doc_val": "52.3",
+   "new_val": "52.264",
+   "status": "OK",
+   "sev": "",
+   "note": "alpha=0.8"
+  },
+  {
+   "id": "C3-4",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "KnOTS dev: best single expert",
+   "doc_val": "54.9",
+   "new_val": "54.893",
+   "status": "OK",
+   "sev": "",
+   "note": "single:eurosat"
+  },
+  {
+   "id": "C4a-1",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "KnOTS release: argmin-kappa percentile of the 20-seed free-random null, alpha 0.8",
+   "doc_val": "95",
+   "new_val": "95.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4a-2",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "KnOTS release: argmin-kappa percentile of the 20-seed free-random null, alpha 1.0",
+   "doc_val": "95",
+   "new_val": "95.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4a-3",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "KnOTS release: argmin-kappa percentile of the 20-seed count-preserving null, alpha 0.8 (doc: '95th percentile ... count-preserving and free')",
+   "doc_val": "95",
+   "new_val": "95.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4a-4",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "KnOTS release: argmin-kappa percentile of the 20-seed count-preserving null, alpha 1.0",
+   "doc_val": "95",
+   "new_val": "95.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4a-5",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "singularity avoidance: rho +0.14, p 0.37 over 40 random selections",
+   "doc_val": "+0.14 / 0.37",
+   "new_val": "+0.146 / 0.367 (median-based definition); +0.108 / 0.506 (base-relative definition)",
+   "status": "NOTE",
+   "sev": "",
+   "note": "reconstruction; not a stored result. Qualitative claim (no significant tracking) holds under all three definitions; the doc's +0.14 is within 0.01 of the first two"
+  },
+  {
+   "id": "C4b-knots_release-pct0.8",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "knots_release: argmin-kappa percentile at alpha 0.8",
+   "doc_val": "95",
+   "new_val": "95.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-knots_release-pct1.0",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "knots_release: argmin-kappa percentile at alpha 1.0",
+   "doc_val": "95",
+   "new_val": "95.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-knots_release-kb",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "knots_release: kappa b128 (best of alpha 0.8/1.0)",
+   "doc_val": "54.3",
+   "new_val": "54.261",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-knots_release-ub",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table / FULL_REPORT s15",
+   "claim": "knots_release: best uniform",
+   "doc_val": "52.3",
+   "new_val": "52.264",
+   "status": "OK",
+   "sev": "",
+   "note": "re-evaluation of the same uniform merge in regmean_knots_release_dev.jsonl: alpha 0.8: 52.261 there vs 52.264 here; alpha 1: 52.070 there vs 52.080 here"
+  },
+  {
+   "id": "C4b-lora_c5a-pct0.8",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora_c5a: argmin-kappa percentile at alpha 0.8",
+   "doc_val": "95",
+   "new_val": "95.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora_c5a-pct1.0",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora_c5a: argmin-kappa percentile at alpha 1.0",
+   "doc_val": "100",
+   "new_val": "100.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora_c5a-kb",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora_c5a: kappa b128 (best of alpha 0.8/1.0)",
+   "doc_val": "55.3",
+   "new_val": "55.316",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora_c5a-ub",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table / FULL_REPORT s15",
+   "claim": "lora_c5a: best uniform",
+   "doc_val": "53.5",
+   "new_val": "53.527",
+   "status": "OK",
+   "sev": "",
+   "note": "re-evaluation of the same uniform merge in regmean_lora_c5a_dev.jsonl: alpha 0.8: 53.516 there vs 53.524 here; alpha 1: 52.164 there vs 52.139 here"
+  },
+  {
+   "id": "C4b-lora_c5a_seed1-pct0.8",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora_c5a_seed1: argmin-kappa percentile at alpha 0.8",
+   "doc_val": "55",
+   "new_val": "55.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora_c5a_seed1-pct1.0",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora_c5a_seed1: argmin-kappa percentile at alpha 1.0",
+   "doc_val": "45",
+   "new_val": "45.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora_c5a_seed1-kb",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora_c5a_seed1: kappa b128 (best of alpha 0.8/1.0)",
+   "doc_val": "51.8",
+   "new_val": "51.753",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora_c5a_seed1-ub",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table / FULL_REPORT s15",
+   "claim": "lora_c5a_seed1: best uniform",
+   "doc_val": "54.1",
+   "new_val": "54.075",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora-pct0.8",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora: argmin-kappa percentile at alpha 0.8",
+   "doc_val": "20",
+   "new_val": "20.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora-pct1.0",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora: argmin-kappa percentile at alpha 1.0",
+   "doc_val": "15",
+   "new_val": "15.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora-kb",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table",
+   "claim": "lora: kappa b128 (best of alpha 0.8/1.0)",
+   "doc_val": "58.0",
+   "new_val": "58.001",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4b-lora-ub",
+   "doc": "AA_SIDE_REPORT s6 cross-bank table / FULL_REPORT s15",
+   "claim": "lora: best uniform",
+   "doc_val": "64.6",
+   "new_val": "64.549",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": "best uniform is at alpha 1 here; the same uniform merge re-evaluated in regmean_lora_dev.jsonl: alpha 0.8: 62.083 there vs 62.074 here; alpha 1: 64.579 there vs 64.549 here (the doc's 64.6 matches the regmean_lora_dev.jsonl value; evaluation differences of this size between files are common)"
+  },
+  {
+   "id": "C4b-nbanks",
+   "doc": "task brief",
+   "claim": "replicate_banks.jsonl contains all 4 banks",
+   "doc_val": "4",
+   "new_val": "3",
+   "status": "DISCREPANCY",
+   "sev": "wording/structure",
+   "note": "the file has 3 banks; the KnOTS release reference is in selection_controls_null20.jsonl + rule_sweep"
+  },
+  {
+   "id": "C4d-1",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "per-layer lambda oracle on KnOTS dev (alpha learned)",
+   "doc_val": "64.8",
+   "new_val": "64.802",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4d-2",
+   "doc": "AA_SIDE_REPORT s1/s3",
+   "claim": "LoRA oracle test accuracy (alpha learned)",
+   "doc_val": "64.1",
+   "new_val": "64.078",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4d-FR",
+   "doc": "FULL_REPORT s12 table",
+   "claim": "LoRA r16 layerwise oracle alpha = 1 (dev, test) and oracle + alpha (dev, test)",
+   "doc_val": "62.3 / 61.7 / 64.8 / 64.1",
+   "new_val": "62.3 / 61.7 / 64.8 / 64.1",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4d-FR-uni",
+   "doc": "FULL_REPORT s12 table",
+   "claim": "LoRA r16 uniform (best alpha): dev / test = 52.3 / 51.2 (dev shown)",
+   "doc_val": "52.3",
+   "new_val": "52.264",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4d-3",
+   "doc": "AA_SIDE_REPORT s1",
+   "claim": "LoRA oracle headroom over best uniform on dev (+12 pt)",
+   "doc_val": "12",
+   "new_val": "12.54",
+   "status": "OK",
+   "sev": "",
+   "note": "64.80 - 52.26 = 12.54; the doc's +12 is a truncation (it rounds to +13), counted OK within 1 pt"
+  },
+  {
+   "id": "C4e-1",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "argmin-kappa mean rank among 8 swaps",
+   "doc_val": "4.27",
+   "new_val": "4.2708",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4e-2",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "argmin-kappa is the best swap in 10% of maps",
+   "doc_val": "0.10",
+   "new_val": "0.1042",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4e-3",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "argmin-kappa is the worst swap in 10% of maps",
+   "doc_val": "0.10",
+   "new_val": "0.1042",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4e-4",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "within-map rho(-kappa, gain)",
+   "doc_val": "-0.08",
+   "new_val": "-0.0764",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4f-1",
+   "doc": "AA_SIDE_REPORT s8",
+   "claim": "LoRA transfer of logkappa_q90_rev: smallest loss (doc: -4 to -18 pt), 3 KnOTS-type banks",
+   "doc_val": "-4",
+   "new_val": "-4.12",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4f-2",
+   "doc": "AA_SIDE_REPORT s8",
+   "claim": "LoRA transfer of logkappa_q90_rev: largest loss (doc: -4 to -18 pt), 3 KnOTS-type banks",
+   "doc_val": "-18",
+   "new_val": "-17.57",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4f-3",
+   "doc": "AA_SIDE_REPORT s8",
+   "claim": "LoRA transfer of logkappa_q90_rev, vit20 (`lora`) bank only: best case (doc range: -4 to -18 pt)",
+   "doc_val": "-4",
+   "new_val": "0.33",
+   "status": "DISCREPANCY",
+   "sev": "material",
+   "note": "vit20 rule - uniform ranges over -2.94 ... +0.33 pt, outside the quoted -4 to -18"
+  },
+  {
+   "id": "C4f-FR-knots",
+   "doc": "FULL_REPORT s15",
+   "claim": "transfer of logkappa_q90_rev, KnOTS release: '-4.1 to -17.6'",
+   "doc_val": "-17.6 to -4.1",
+   "new_val": "-4.123 / -10.791 / -8.459 / -17.571",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4f-FR-c5a",
+   "doc": "FULL_REPORT s15",
+   "claim": "transfer, lora_c5a: '-9.3 to -16.7'",
+   "doc_val": "-16.7 to -9.3",
+   "new_val": "-9.324 / -12.695 / -10.952 / -16.710",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4f-FR-seed1",
+   "doc": "FULL_REPORT s15",
+   "claim": "transfer, lora_c5a_seed1: '-8.7 to -12.5'",
+   "doc_val": "-12.5 to -8.7",
+   "new_val": "-9.150 / -8.744 / -10.223 / -12.522",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4f-FR-vit20-b1",
+   "doc": "FULL_REPORT s15",
+   "claim": "transfer, vit20 at b = 1: '+0.3 / -0.3' (alpha 0.8 / 1.0)",
+   "doc_val": "0.3 / -0.3",
+   "new_val": "0.3 / -0.3",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4f-FR-vit20-b4",
+   "doc": "FULL_REPORT s15",
+   "claim": "transfer, vit20 at b = 4: '-1.7 / -2.9' (alpha 0.8 / 1.0)",
+   "doc_val": "-1.7 / -2.9",
+   "new_val": "-1.7 / -2.9",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4g-1",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "frozen TEST kappa (b128, alpha 1.0)",
+   "doc_val": "53.3",
+   "new_val": "53.272",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4g-2",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "frozen TEST uniform",
+   "doc_val": "51.2",
+   "new_val": "51.220",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4g-3",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "frozen TEST kappa rank-16 compressed",
+   "doc_val": "53.2",
+   "new_val": "53.209",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4g-4",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "frozen TEST uniform rank-16 compressed",
+   "doc_val": "50.2",
+   "new_val": "50.159",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4g-5",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "frozen TEST shuffle 0",
+   "doc_val": "46.8",
+   "new_val": "46.831",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4g-6",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "frozen TEST shuffle 1",
+   "doc_val": "51.3",
+   "new_val": "51.253",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4g-7",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "frozen TEST shuffle 2",
+   "doc_val": "50.2",
+   "new_val": "50.243",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C4g-8",
+   "doc": "AA_SIDE_REPORT s6",
+   "claim": "frozen TEST best single expert (eurosat)",
+   "doc_val": "54.4",
+   "new_val": "54.354",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-1",
+   "doc": "REPORT_02 s2 / task brief",
+   "claim": "full-FT RegMean C plain, test mean_norm (a = 1, alpha = 1)",
+   "doc_val": "91.39",
+   "new_val": "91.3920",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-2",
+   "doc": "REPORT_02 s2 / task brief",
+   "claim": "full-FT RegMean C plain, test mean_acc",
+   "doc_val": "82.77",
+   "new_val": "82.7662",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-3",
+   "doc": "REPORT_02 s2",
+   "claim": "kappa cap 1e5 (alpha 1.2), test mean_norm",
+   "doc_val": "91.34",
+   "new_val": "91.3358",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-4",
+   "doc": "REPORT_02 s2",
+   "claim": "shrink a = 0.99 (alpha 1.2), test mean_norm",
+   "doc_val": "91.24",
+   "new_val": "91.2409",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-5",
+   "doc": "REPORT_02 s2",
+   "claim": "plain RegMean, dev mean_norm",
+   "doc_val": "91.68",
+   "new_val": "91.6794",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-6",
+   "doc": "REPORT_02 s2 / FULL_REPORT s16.1",
+   "claim": "kappa cap 1e5 (dev-best, alpha 1.2) dev mean_norm - the config evaluated on test is ridge->mean",
+   "doc_val": "92.08",
+   "new_val": "92.0731",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": "ridge->mean = 92.0731; the ridge->zero variant gives 92.0819 (that is the dev-best overall and rounds to 92.08)"
+  },
+  {
+   "id": "C5-7",
+   "doc": "REPORT_02 s2",
+   "claim": "shrink a = 0.99 (dev-best, alpha 1.2) dev mean_norm",
+   "doc_val": "91.93",
+   "new_val": "91.9309",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-8",
+   "doc": "REPORT_02 s2",
+   "claim": "RegMean-B plain test at alpha = 1",
+   "doc_val": "75.65",
+   "new_val": "75.6488",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-9",
+   "doc": "REPORT_02 s2",
+   "claim": "RegMean-B kappa-capped version test",
+   "doc_val": "75.9",
+   "new_val": "75.885",
+   "status": "OK",
+   "sev": "",
+   "note": "kappa_t = 1e3, alpha = 1.2 (alpha = 1 gives 75.06)"
+  },
+  {
+   "id": "C5-10",
+   "doc": "REPORT_02 s2",
+   "claim": "RegMean-B best (diagonal solve, alpha 1.6) test",
+   "doc_val": "77.35",
+   "new_val": "77.3463",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-plain-16",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 16, plain, dev (mean over seeds)",
+   "doc_val": "64.95",
+   "new_val": "64.9519",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-shr-16",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 16, shrink a = 0.95, dev",
+   "doc_val": "88.14",
+   "new_val": "88.1438",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-kc-16",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 16, kappa cap 1e5, dev",
+   "doc_val": "88.37",
+   "new_val": "88.3738",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-plain-64",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 64, plain, dev (mean over seeds)",
+   "doc_val": "89.99",
+   "new_val": "89.9852",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-shr-64",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 64, shrink a = 0.95, dev",
+   "doc_val": "90.42",
+   "new_val": "90.4191",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-kc-64",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 64, kappa cap 1e5, dev",
+   "doc_val": "90.73",
+   "new_val": "90.7274",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-plain-512",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 512, plain, dev (mean over seeds)",
+   "doc_val": "91.68",
+   "new_val": "91.6794",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-shr-512",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 512, shrink a = 0.95, dev",
+   "doc_val": "91.31",
+   "new_val": "91.3090",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-kc-512",
+   "doc": "REPORT_02 s2 table",
+   "claim": "alpha = 1, C, n = 512, kappa cap 1e5, dev",
+   "doc_val": "91.58",
+   "new_val": "91.5758",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-plain-16-lo",
+   "doc": "REPORT_02 s2 table",
+   "claim": "n = 16 plain dev range lower (63.7-65.9)",
+   "doc_val": "63.7",
+   "new_val": "63.747",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-plain-16-hi",
+   "doc": "REPORT_02 s2 table",
+   "claim": "n = 16 plain dev range upper (63.7-65.9)",
+   "doc_val": "65.9",
+   "new_val": "65.865",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-test-plain",
+   "doc": "REPORT_02 s2 table",
+   "claim": "n = 16 plain, test (mean over 3 seeds)",
+   "doc_val": "64.20",
+   "new_val": "64.1958",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-test-shr",
+   "doc": "REPORT_02 s2 table",
+   "claim": "n = 16 shrink 0.95, test",
+   "doc_val": "87.39",
+   "new_val": "87.3918",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-test-kc",
+   "doc": "REPORT_02 s2 table",
+   "claim": "n = 16 kappa cap 1e5, test",
+   "doc_val": "87.69",
+   "new_val": "87.6887",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-test-edge0",
+   "doc": "REPORT_02 s2 / RESEARCH_LOG",
+   "claim": "n = 16 test cap - shrink 0.95, seed 0",
+   "doc_val": "0.19",
+   "new_val": "0.1900",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-test-edge1",
+   "doc": "REPORT_02 s2 / RESEARCH_LOG",
+   "claim": "n = 16 test cap - shrink 0.95, seed 1",
+   "doc_val": "0.43",
+   "new_val": "0.4293",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-inst-test-edge2",
+   "doc": "REPORT_02 s2 / RESEARCH_LOG",
+   "claim": "n = 16 test cap - shrink 0.95, seed 2",
+   "doc_val": "0.27",
+   "new_val": "0.2714",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-edge-dev",
+   "doc": "REPORT_02 s2 / AA_SIDE_REPORT s9",
+   "claim": "dev kappa cap 1e5 minus shrink 0.95 at alpha 1 for n = 16 / 64 / 512 (doc: '+0.2 to +0.3 at every n')",
+   "doc_val": "+0.2 to +0.3",
+   "new_val": "0.230 / 0.308 / 0.267",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5-kG-med16",
+   "doc": "REPORT_02 s2",
+   "claim": "kappa(G) median at n = 16 (2.9e5)",
+   "doc_val": "2.9",
+   "new_val": "2.864",
+   "status": "OK",
+   "sev": "",
+   "note": "mean of the three subset medians in units of 1e5"
+  },
+  {
+   "id": "C5-kG-max16",
+   "doc": "REPORT_02 s2 / s5.1 / FULL_REPORT s16.2",
+   "claim": "kappa(G) maximum at n = 16 (1.6e13), in units of 1e13",
+   "doc_val": "1.6",
+   "new_val": "1.767",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": "individual maxima per subset: 1.767e+13, 1.610e+13, 1.596e+13; the doc's 1.6e13 matches the smallest (subset 2), the largest is 1.767e+13 (same order of magnitude)"
+  },
+  {
+   "id": "C5g-repro",
+   "doc": "RESEARCH_LOG 22:45",
+   "claim": "24 repeated configs reproduce exactly (max |diff| 0.000)",
+   "doc_val": "24",
+   "new_val": "24.00",
+   "status": "OK",
+   "sev": "",
+   "note": "max |diff| = 0.0000 (dev)"
+  },
+  {
+   "id": "C5g-1",
+   "doc": "RESEARCH_LOG 22:45",
+   "claim": "kcap ridge peak n = 16, kappa_t 3e4 (88.32)",
+   "doc_val": "88.32",
+   "new_val": "88.3200",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-2",
+   "doc": "RESEARCH_LOG 22:45",
+   "claim": "kcap ridge peak n = 16, kappa_t 1e5 (88.37)",
+   "doc_val": "88.37",
+   "new_val": "88.3738",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-3",
+   "doc": "RESEARCH_LOG 22:45",
+   "claim": "kcap ridge n = 512 peak (91.58)",
+   "doc_val": "91.58",
+   "new_val": "91.5758",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-4",
+   "doc": "RESEARCH_LOG 22:45",
+   "claim": "fixed relative ridge peak n = 16 (88.02)",
+   "doc_val": "88.02",
+   "new_val": "88.0164",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-5",
+   "doc": "RESEARCH_LOG 22:45",
+   "claim": "fixed shrinkage peak n = 16 (88.14)",
+   "doc_val": "88.14",
+   "new_val": "88.1438",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-6",
+   "doc": "RESEARCH_LOG 22:45",
+   "claim": "fixed shrinkage peak n = 512 (91.55)",
+   "doc_val": "91.55",
+   "new_val": "91.5526",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-7",
+   "doc": "RESEARCH_LOG 22:45",
+   "claim": "n = 512: 'every regularised solve is within 0.2 of plain RegMean (91.68)'",
+   "doc_val": "all regularised grid values within 0.2",
+   "new_val": "7/19 grid values within 0.2",
+   "status": "DISCREPANCY",
+   "sev": "wording",
+   "note": "worst grid value is 3.68 below plain; the statement holds for each arm's peak (kcap_ridge 0.10 below, rel_ridge 0.16 below, fixed_shrink 0.13 below) but not for the whole grid"
+  },
+  {
+   "id": "C5f-1",
+   "doc": "RESEARCH_LOG 22:40",
+   "claim": "cell 2 (kcap_shrink) vs a = 0.95, test, n = 16 (-0.11)",
+   "doc_val": "-0.11",
+   "new_val": "-0.1126",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5f-2",
+   "doc": "RESEARCH_LOG 22:40",
+   "claim": "cell 2 (kcap_shrink) vs a = 0.95, test, n = 512 (-0.48)",
+   "doc_val": "-0.48",
+   "new_val": "-0.4804",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5f-3",
+   "doc": "RESEARCH_LOG 22:40",
+   "claim": "cell 4 (rel_ridge) vs a = 0.95, test, n = 512 (+0.31)",
+   "doc_val": "0.31",
+   "new_val": "0.3029",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": "recomputed 91.3750 - 91.0721 = +0.30"
+  },
+  {
+   "id": "C5f-4",
+   "doc": "RESEARCH_LOG 22:40",
+   "claim": "cell 4 (rel_ridge) vs a = 0.95, test, n = 16 (-0.49)",
+   "doc_val": "-0.49",
+   "new_val": "-0.4875",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-sel16",
+   "doc": "RESEARCH_LOG 22:45 table",
+   "claim": "n = 16 dev-selected kcap_ridge kappa_t = 1e5",
+   "doc_val": "1e5",
+   "new_val": "1e5",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-sel16r",
+   "doc": "RESEARCH_LOG 22:45 table",
+   "claim": "n = 16 dev-selected rel_ridge value (c = r_med/1e4)",
+   "doc_val": "1e4",
+   "new_val": "1e4",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-sel16s",
+   "doc": "RESEARCH_LOG 22:45 table",
+   "claim": "n = 16 dev-selected a",
+   "doc_val": "0.95",
+   "new_val": "0.95",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-sel512",
+   "doc": "RESEARCH_LOG 22:45 table",
+   "claim": "n = 512 dev-selected kcap_ridge kappa_t",
+   "doc_val": "1e5",
+   "new_val": "1e5",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-sel512r",
+   "doc": "RESEARCH_LOG 22:45 table",
+   "claim": "n = 512 dev-selected rel_ridge value (c = r_med/1e6)",
+   "doc_val": "1e6",
+   "new_val": "1e6",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C5g-sel512s",
+   "doc": "RESEARCH_LOG 22:45 table",
+   "claim": "n = 512 dev-selected a",
+   "doc_val": "0.99",
+   "new_val": "0.99",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-full-plain",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/full plain best",
+   "doc_val": "65.3",
+   "new_val": "65.280",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-full-plain13",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/full plain at alpha 1.3",
+   "doc_val": "4.1",
+   "new_val": "4.092",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-full-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/full shrink 0.95",
+   "doc_val": "64.8",
+   "new_val": "64.757",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-full-s90",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/full shrink 0.9",
+   "doc_val": "64.3",
+   "new_val": "64.338",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-full-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/full kcap 1e4 ->zero",
+   "doc_val": "65.5",
+   "new_val": "65.520",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-full-k3",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/full kcap 1e3 ->zero",
+   "doc_val": "64.6",
+   "new_val": "64.632",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-full-k2",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/full kcap 1e2 ->zero",
+   "doc_val": "61.6",
+   "new_val": "61.578",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-full-k4-13",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/full kcap 1e4 at alpha 1.3",
+   "doc_val": "50.9",
+   "new_val": "50.919",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-sub-plain",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/sub plain best",
+   "doc_val": "57.9",
+   "new_val": "57.920",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-sub-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/sub shrink 0.95",
+   "doc_val": "57.8",
+   "new_val": "57.752",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-sub-s90",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/sub shrink 0.9",
+   "doc_val": "57.4",
+   "new_val": "57.434",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-sub-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/sub kcap 1e4 ->zero",
+   "doc_val": "57.9",
+   "new_val": "57.920",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-sub-k3",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/sub kcap 1e3 ->zero",
+   "doc_val": "57.9",
+   "new_val": "57.934",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-C-sub-k2",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev C/sub kcap 1e2 ->zero",
+   "doc_val": "57.7",
+   "new_val": "57.741",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-Bp-full-plain",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev Bp/full plain best",
+   "doc_val": "51.8",
+   "new_val": "51.809",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-Bp-full-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev Bp/full shrink 0.95",
+   "doc_val": "51.7",
+   "new_val": "51.746",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-Bp-full-s90",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev Bp/full shrink 0.9",
+   "doc_val": "51.7",
+   "new_val": "51.678",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-Bp-full-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev Bp/full kcap 1e4 ->zero",
+   "doc_val": "51.8",
+   "new_val": "51.773",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-Bp-full-k3",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev Bp/full kcap 1e3 ->zero",
+   "doc_val": "51.6",
+   "new_val": "51.589",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-Bp-full-k2",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev Bp/full kcap 1e2 ->zero",
+   "doc_val": "51.6",
+   "new_val": "51.632",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-B0-full-plain",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev B0/full plain best",
+   "doc_val": "52.3",
+   "new_val": "52.274",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-uniform",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS dev uniform best (alpha 0.8)",
+   "doc_val": "52.3",
+   "new_val": "52.261",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-cal512-plain",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "N = 512 plain",
+   "doc_val": "65.3",
+   "new_val": "65.280",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-cal512-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "N = 512 shrink 0.95",
+   "doc_val": "64.8",
+   "new_val": "64.757",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-cal512-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "N = 512 kcap 1e4",
+   "doc_val": "65.5",
+   "new_val": "65.520",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-cal512-kG",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "N = 512 median kappa(G) 1.05e5",
+   "doc_val": "1.05",
+   "new_val": "1.0495",
+   "status": "OK",
+   "sev": "",
+   "note": "in units of 1e5"
+  },
+  {
+   "id": "C6c-cal16-plain",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "N = 16 (s0) plain = 4.1 at every alpha (best over alpha)",
+   "doc_val": "4.1",
+   "new_val": "4.092",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-cal16-plain-all",
+   "doc": "AA_SIDE_REPORT s9 / REPORT_02",
+   "claim": "N = 16 plain collapses at EVERY alpha in all 3 subsets: max over alpha and subsets",
+   "doc_val": "4.1",
+   "new_val": "4.092",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-cal16-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "N = 16 (s0) shrink 0.95",
+   "doc_val": "61.7",
+   "new_val": "61.673",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-cal16-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "N = 16 (s0) kcap 1e4",
+   "doc_val": "62.2",
+   "new_val": "62.247",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-cal16-kG",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "N = 16 (s0) median kappa(G) 2.2e5",
+   "doc_val": "2.2",
+   "new_val": "2.194",
+   "status": "OK",
+   "sev": "",
+   "note": "in units of 1e5"
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 512-diff",
+   "doc": "AA_SIDE_REPORT s9 (matched single configs table)",
+   "claim": "KnOTS, N = 512: kappa-cap minus shrink, difference of the 1-decimal values as the doc prints it",
+   "doc_val": "0.7",
+   "new_val": "0.700",
+   "status": "OK",
+   "sev": "",
+   "note": "unrounded difference +0.763"
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 512-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 512: shrink 0.95",
+   "doc_val": "64.8",
+   "new_val": "64.757",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 512-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 512: kappa-cap 1e4",
+   "doc_val": "65.5",
+   "new_val": "65.520",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 64-diff",
+   "doc": "AA_SIDE_REPORT s9 (matched single configs table)",
+   "claim": "KnOTS, N = 64: kappa-cap minus shrink, difference of the 1-decimal values as the doc prints it",
+   "doc_val": "0.8",
+   "new_val": "0.800",
+   "status": "OK",
+   "sev": "",
+   "note": "unrounded difference +0.787"
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 64-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 64: shrink 0.95",
+   "doc_val": "63.9",
+   "new_val": "63.891",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 64-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 64: kappa-cap 1e4",
+   "doc_val": "64.7",
+   "new_val": "64.678",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s0-diff",
+   "doc": "AA_SIDE_REPORT s9 (matched single configs table)",
+   "claim": "KnOTS, N = 16 s0: kappa-cap minus shrink, difference of the 1-decimal values as the doc prints it",
+   "doc_val": "0.5",
+   "new_val": "0.500",
+   "status": "OK",
+   "sev": "",
+   "note": "unrounded difference +0.573"
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s0-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 16 s0: shrink 0.95",
+   "doc_val": "61.7",
+   "new_val": "61.673",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s0-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 16 s0: kappa-cap 1e4",
+   "doc_val": "62.2",
+   "new_val": "62.247",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s1-diff",
+   "doc": "AA_SIDE_REPORT s9 (matched single configs table)",
+   "claim": "KnOTS, N = 16 s1: kappa-cap minus shrink, difference of the 1-decimal values as the doc prints it",
+   "doc_val": "0.9",
+   "new_val": "0.900",
+   "status": "OK",
+   "sev": "",
+   "note": "unrounded difference +0.936"
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s1-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 16 s1: shrink 0.95",
+   "doc_val": "63.2",
+   "new_val": "63.151",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s1-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 16 s1: kappa-cap 1e4",
+   "doc_val": "64.1",
+   "new_val": "64.087",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s2-diff",
+   "doc": "AA_SIDE_REPORT s9 (matched single configs table)",
+   "claim": "KnOTS, N = 16 s2: kappa-cap minus shrink, difference of the 1-decimal values as the doc prints it",
+   "doc_val": "0.7",
+   "new_val": "0.700",
+   "status": "OK",
+   "sev": "",
+   "note": "unrounded difference +0.718"
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s2-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 16 s2: shrink 0.95",
+   "doc_val": "63.8",
+   "new_val": "63.752",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-KnOTS, N = 16 s2-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS, N = 16 s2: kappa-cap 1e4",
+   "doc_val": "64.5",
+   "new_val": "64.469",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-lora_c5a, N = 512-diff",
+   "doc": "AA_SIDE_REPORT s9 (matched single configs table)",
+   "claim": "lora_c5a, N = 512: kappa-cap minus shrink, difference of the 1-decimal values as the doc prints it",
+   "doc_val": "0.5",
+   "new_val": "0.500",
+   "status": "OK",
+   "sev": "",
+   "note": "unrounded difference +0.562"
+  },
+  {
+   "id": "C6c-set-lora_c5a, N = 512-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "lora_c5a, N = 512: shrink 0.95",
+   "doc_val": "65.1",
+   "new_val": "65.052",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-lora_c5a, N = 512-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "lora_c5a, N = 512: kappa-cap 1e4",
+   "doc_val": "65.6",
+   "new_val": "65.614",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-vit20 (lora), N = 512-diff",
+   "doc": "AA_SIDE_REPORT s9 (matched single configs table)",
+   "claim": "vit20 (lora), N = 512: kappa-cap minus shrink, difference of the 1-decimal values as the doc prints it",
+   "doc_val": "0.2",
+   "new_val": "0.200",
+   "status": "OK",
+   "sev": "",
+   "note": "unrounded difference +0.273"
+  },
+  {
+   "id": "C6c-set-vit20 (lora), N = 512-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "vit20 (lora), N = 512: shrink 0.95",
+   "doc_val": "82.4",
+   "new_val": "82.351",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-set-vit20 (lora), N = 512-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "vit20 (lora), N = 512: kappa-cap 1e4",
+   "doc_val": "82.6",
+   "new_val": "82.624",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-7of7",
+   "doc": "AA_SIDE_REPORT s9 / REPORT_02",
+   "claim": "kappa-cap beats shrink 0.95 in 7/7 settings",
+   "doc_val": "7",
+   "new_val": "7.00",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-mean",
+   "doc": "AA_SIDE_REPORT s9 / REPORT_02",
+   "claim": "mean difference over the 7 settings (+0.6)",
+   "doc_val": "0.6",
+   "new_val": "0.659",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": "the doc's +0.6 is the mean of the 1-decimal differences (0.614); the unrounded mean is +0.659 (rounds to +0.7)"
+  },
+  {
+   "id": "C6c-unrounded-range",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "largest single-setting difference in the table (+0.9, N = 16 s1)",
+   "doc_val": "0.9",
+   "new_val": "0.936",
+   "status": "OK",
+   "sev": "",
+   "note": "unrounded range +0.273 ... +0.936"
+  },
+  {
+   "id": "C6c-r16-uni",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "matched rank: uniform",
+   "doc_val": "51.3",
+   "new_val": "51.292",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-r16-plain",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "matched rank: RegMean plain",
+   "doc_val": "61.4",
+   "new_val": "61.379",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-r16-s95",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "matched rank: shrink 0.95",
+   "doc_val": "61.2",
+   "new_val": "61.154",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-r16-k4",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "matched rank: kappa-cap 1e4",
+   "doc_val": "61.7",
+   "new_val": "61.705",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-extra-rank",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "extra rank accounts for about 3.8 pt of RegMean's gain (kappa-cap exact minus kappa-cap rank-16)",
+   "doc_val": "3.8",
+   "new_val": "3.815",
+   "status": "OK",
+   "sev": "",
+   "note": "plain exact minus plain rank-16 would be 3.90"
+  },
+  {
+   "id": "C6c-over-uniform",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "at matched rank still about +10 pt over uniform",
+   "doc_val": "10",
+   "new_val": "10.41",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-12-15-lo",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "RegMean-C kappa-cap over uniform on LoRA: smallest of the 3 banks (+12 ... +15 pt)",
+   "doc_val": "12",
+   "new_val": "12.10",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6c-12-15-hi",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "RegMean-C kappa-cap over uniform on LoRA: largest of the 3 banks",
+   "doc_val": "15",
+   "new_val": "15.09",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6-Bp-knots_release",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "'The label-free pooled (Bp) Grams carry no task information for rank-16 adapters' (stated for KnOTS: Bp full 51.8 vs uniform 52.3)",
+   "doc_val": "Bp - uniform about 0 or below",
+   "new_val": "-0.43 pt (best Bp/full 51.83 at alpha 0.8 vs best uniform 52.26 at alpha 0.8)",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6-Bp-lora_c5a",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "'The label-free pooled (Bp) Grams carry no task information for rank-16 adapters' (stated for KnOTS: Bp full 51.8 vs uniform 52.3)",
+   "doc_val": "Bp - uniform about 0 or below",
+   "new_val": "+1.02 pt (best Bp/full 54.53 at alpha 0.8 vs best uniform 53.52 at alpha 0.8)",
+   "status": "NOTE",
+   "sev": "",
+   "note": "on this bank the best Bp/full configs are above uniform; the statement does not generalise"
+  },
+  {
+   "id": "C6-Bp-lora (vit20)",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "'The label-free pooled (Bp) Grams carry no task information for rank-16 adapters' (stated for KnOTS: Bp full 51.8 vs uniform 52.3)",
+   "doc_val": "Bp - uniform about 0 or below",
+   "new_val": "+2.55 pt (best Bp/full 70.09 at alpha 1.3 vs best uniform 67.54 at alpha 1.3)",
+   "status": "NOTE",
+   "sev": "",
+   "note": "on this bank the best Bp/full configs ARE above uniform; the statement does not generalise (alpha grid ends at 1.3, where the vit20 optimum also sits)"
+  },
+  {
+   "id": "C6d-1",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "KnOTS N = 512 C/full median kappa(G) ~ 1e5 and some maps singular (max inf)",
+   "doc_val": "inf",
+   "new_val": "inf",
+   "status": "OK",
+   "sev": "",
+   "note": "median 1.049e+05"
+  },
+  {
+   "id": "C6e-ridge_ad-16",
+   "doc": "AA_SIDE_REPORT s9 2x2 table",
+   "claim": "2x2 ridge_ad mean of 3 N=16 sets",
+   "doc_val": "63.60",
+   "new_val": "63.6011",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-ridge_ad-512",
+   "doc": "AA_SIDE_REPORT s9 2x2 table",
+   "claim": "2x2 ridge_ad N=512",
+   "doc_val": "65.52",
+   "new_val": "65.5202",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-ridge_fix-16",
+   "doc": "AA_SIDE_REPORT s9 2x2 table",
+   "claim": "2x2 ridge_fix mean of 3 N=16 sets",
+   "doc_val": "63.47",
+   "new_val": "63.4719",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-ridge_fix-512",
+   "doc": "AA_SIDE_REPORT s9 2x2 table",
+   "claim": "2x2 ridge_fix N=512",
+   "doc_val": "65.29",
+   "new_val": "65.2857",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-diag_ad-16",
+   "doc": "AA_SIDE_REPORT s9 2x2 table",
+   "claim": "2x2 diag_ad mean of 3 N=16 sets",
+   "doc_val": "62.58",
+   "new_val": "62.5776",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-diag_ad-512",
+   "doc": "AA_SIDE_REPORT s9 2x2 table",
+   "claim": "2x2 diag_ad N=512",
+   "doc_val": "64.53",
+   "new_val": "64.5312",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-diag_fix-16",
+   "doc": "AA_SIDE_REPORT s9 2x2 table",
+   "claim": "2x2 diag_fix mean of 3 N=16 sets",
+   "doc_val": "62.86",
+   "new_val": "62.8586",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-diag_fix-512",
+   "doc": "AA_SIDE_REPORT s9 2x2 table",
+   "claim": "2x2 diag_fix N=512",
+   "doc_val": "64.76",
+   "new_val": "64.7573",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-iso-ad",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "isotropy effect (kappa-adaptive) N=16",
+   "doc_val": "1.02",
+   "new_val": "1.0236",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-iso-ad-512",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "isotropy effect (kappa-adaptive) N=512",
+   "doc_val": "0.99",
+   "new_val": "0.9890",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-iso-fx",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "isotropy effect (fixed) N=16",
+   "doc_val": "0.61",
+   "new_val": "0.6133",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-iso-fx-512",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "isotropy effect (fixed) N=512",
+   "doc_val": "0.53",
+   "new_val": "0.5284",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-adapt-r",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "adaptivity effect, isotropic ridge, N=16",
+   "doc_val": "0.13",
+   "new_val": "0.1292",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-adapt-r-512",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "adaptivity effect, isotropic ridge, N=512",
+   "doc_val": "0.23",
+   "new_val": "0.2345",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-adapt-d",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "adaptivity effect, diagonal shrinkage, N=16",
+   "doc_val": "-0.28",
+   "new_val": "-0.2811",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-adapt-d-512",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "adaptivity effect, diagonal shrinkage, N=512",
+   "doc_val": "-0.23",
+   "new_val": "-0.2260",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-unreach-lo",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "kappa-capped shrinkage cannot reach its target in 12-17% of maps (lower end)",
+   "doc_val": "12",
+   "new_val": "12.50",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6e-unreach-hi",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "kappa-capped shrinkage cannot reach its target in 12-17% of maps (upper end)",
+   "doc_val": "17",
+   "new_val": "18.75",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": "over all four gram sets and both kappa_t the range is 12.5-18.8 % (kappa_t = 1e4 alone: 12.5 %)"
+  },
+  {
+   "id": "C6f-knots_release-pt",
+   "doc": "AA_SIDE_REPORT s9 / task brief",
+   "claim": "knots_release: test kappa-cap minus shrink point",
+   "doc_val": "0.83",
+   "new_val": "0.8302",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-knots_release-lo",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "knots_release: CI lower",
+   "doc_val": "0.71",
+   "new_val": "0.7053",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-knots_release-hi",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "knots_release: CI upper",
+   "doc_val": "0.95",
+   "new_val": "0.9500",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora_c5a-pt",
+   "doc": "AA_SIDE_REPORT s9 / task brief",
+   "claim": "lora_c5a: test kappa-cap minus shrink point",
+   "doc_val": "0.51",
+   "new_val": "0.5077",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora_c5a-lo",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "lora_c5a: CI lower",
+   "doc_val": "0.40",
+   "new_val": "0.3953",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora_c5a-hi",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "lora_c5a: CI upper",
+   "doc_val": "0.62",
+   "new_val": "0.6188",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora-pt",
+   "doc": "AA_SIDE_REPORT s9 / task brief",
+   "claim": "lora: test kappa-cap minus shrink point",
+   "doc_val": "0.20",
+   "new_val": "0.1996",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora-lo",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "lora: CI lower",
+   "doc_val": "0.10",
+   "new_val": "0.0965",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora-hi",
+   "doc": "AA_SIDE_REPORT s9",
+   "claim": "lora: CI upper",
+   "doc_val": "0.30",
+   "new_val": "0.3023",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-knots_release-uni",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "knots_release: test uniform",
+   "doc_val": "51.2",
+   "new_val": "51.222",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-knots_release-shr",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "knots_release: test RegMean + shrink 0.95",
+   "doc_val": "63.5",
+   "new_val": "63.469",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-knots_release-kc",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "knots_release: test RegMean + kappa-cap 1e4",
+   "doc_val": "64.3",
+   "new_val": "64.299",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora_c5a-uni",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "lora_c5a: test uniform",
+   "doc_val": "53.0",
+   "new_val": "53.041",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora_c5a-shr",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "lora_c5a: test RegMean + shrink 0.95",
+   "doc_val": "64.5",
+   "new_val": "64.449",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora_c5a-kc",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "lora_c5a: test RegMean + kappa-cap 1e4",
+   "doc_val": "65.0",
+   "new_val": "64.957",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora-uni",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "lora: test uniform",
+   "doc_val": "66.7",
+   "new_val": "66.679",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora-shr",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "lora: test RegMean + shrink 0.95",
+   "doc_val": "81.9",
+   "new_val": "81.888",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6f-lora-kc",
+   "doc": "AA_SIDE_REPORT s9 test table",
+   "claim": "lora: test RegMean + kappa-cap 1e4",
+   "doc_val": "82.1",
+   "new_val": "82.088",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "C6g-stale",
+   "doc": "regmean_summary.md vs raw dev files",
+   "claim": "regmean_summary.md reflects the final dev files",
+   "doc_val": "current",
+   "new_val": "25 lines would be added, 0 removed",
+   "status": "DISCREPANCY",
+   "sev": "staleness",
+   "note": "the stored file (16:15) predates the end of regmean_lora_dev.jsonl (16:18; the vit20 Bp rows and per-map kappa lines are missing) and regmean_knots_release_r16_dev.jsonl (16:23; no section)"
+  },
+  {
+   "id": "D-uni-dev",
+   "doc": "REPORT_02 s2",
+   "claim": "uniform average, alpha tuned: dev mean_norm",
+   "doc_val": "77.65",
+   "new_val": "77.6514",
+   "status": "OK",
+   "sev": "",
+   "note": "master:results/freeze/test.jsonl tag uniform|tuned"
+  },
+  {
+   "id": "D-uni-test",
+   "doc": "REPORT_02 s2",
+   "claim": "uniform average, alpha tuned: test mean_norm",
+   "doc_val": "76.68",
+   "new_val": "76.6841",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-uni-test-acc",
+   "doc": "REPORT_02 s2",
+   "claim": "uniform average, alpha tuned: test mean_acc",
+   "doc_val": "69.29",
+   "new_val": "69.2943",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-gain",
+   "doc": "REPORT_02 s5.5",
+   "claim": "gain of task-separated RegMean over uniform on full FT test (+14.7 normalised)",
+   "doc_val": "14.7",
+   "new_val": "14.708",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-lora-test-knots_release-uni",
+   "doc": "REPORT_02 s2 LoRA table",
+   "claim": "knots_release: frozen test uniform (2 decimals)",
+   "doc_val": "51.22",
+   "new_val": "51.2218",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-lora-test-knots_release-shr",
+   "doc": "REPORT_02 s2 LoRA table",
+   "claim": "knots_release: frozen test RegMean shrink 0.95 (2 decimals)",
+   "doc_val": "63.47",
+   "new_val": "63.4690",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-lora-test-lora_c5a-uni",
+   "doc": "REPORT_02 s2 LoRA table",
+   "claim": "lora_c5a: frozen test uniform (2 decimals)",
+   "doc_val": "53.04",
+   "new_val": "53.0413",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-lora-test-lora_c5a-shr",
+   "doc": "REPORT_02 s2 LoRA table",
+   "claim": "lora_c5a: frozen test RegMean shrink 0.95 (2 decimals)",
+   "doc_val": "64.45",
+   "new_val": "64.4493",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-lora-test-lora-uni",
+   "doc": "REPORT_02 s2 LoRA table",
+   "claim": "lora: frozen test uniform (2 decimals)",
+   "doc_val": "66.68",
+   "new_val": "66.6785",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-lora-test-lora-shr",
+   "doc": "REPORT_02 s2 LoRA table",
+   "claim": "lora: frozen test RegMean shrink 0.95 (2 decimals)",
+   "doc_val": "81.89",
+   "new_val": "81.8882",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-FR-16.4",
+   "doc": "FULL_REPORT s16.4 table",
+   "claim": "LoRA frozen test (N 512): uniform / shrinkage 0.95 / kappa cap 1e4 for KnOTS, lora_c5a, vit20 (2 decimals)",
+   "doc_val": "51.22 / 63.47 / 64.30 / 53.04 / 64.45 / 64.96 / 66.68 / 81.89 / 82.09",
+   "new_val": "51.22 / 63.47 / 64.30 / 53.04 / 64.45 / 64.96 / 66.68 / 81.89 / 82.09",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-r16-range",
+   "doc": "REPORT_02 s2",
+   "claim": "rank-16 truncation (KnOTS dev): '61.2-61.7 vs 51.3 for uniform'",
+   "doc_val": "61.2 to 61.7",
+   "new_val": "61.154 / 61.379 / 61.705",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-2x2-test-cells",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "full FT 2x2, test: 4 cells x (n = 16 mean, n = 512): ridge-adaptive, ridge-fixed, shrink-adaptive, shrink-fixed",
+   "doc_val": "87.69 / 91.40 / 86.90 / 91.38 / 87.28 / 90.59 / 87.39 / 91.07",
+   "new_val": "87.69 / 91.40 / 86.90 / 91.38 / 87.28 / 90.59 / 87.39 / 91.07",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-2x2-test-eff-16",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "full FT 2x2, test, n = 16: isotropy(adaptive), isotropy(fixed), adaptivity(ridge), adaptivity(shrink)",
+   "doc_val": "0.41 / -0.49 / 0.78 / -0.11",
+   "new_val": "0.41 / -0.49 / 0.78 / -0.11",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-2x2-test-eff-512",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "full FT 2x2, test, n = 512: isotropy(adaptive), isotropy(fixed), adaptivity(ridge), adaptivity(shrink)",
+   "doc_val": "0.81 / 0.30 / 0.03 / -0.48",
+   "new_val": "0.81 / 0.30 / 0.03 / -0.48",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-edge-test-kcap_ridge",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "edge over cell 3 (a = 0.95) on test: kcap_ridge, n = 16 subsets 0/1/2 then n = 512",
+   "doc_val": "0.19 / 0.43 / 0.27 / 0.33",
+   "new_val": "0.19 / 0.43 / 0.27 / 0.33",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-edge-test-kcap_shrink",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "edge over cell 3 (a = 0.95) on test: kcap_shrink, n = 16 subsets 0/1/2 then n = 512",
+   "doc_val": "-0.18 / -0.04 / -0.12 / -0.48",
+   "new_val": "-0.18 / -0.04 / -0.12 / -0.48",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-edge-test-rel_ridge",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "edge over cell 3 (a = 0.95) on test: rel_ridge, n = 16 subsets 0/1/2 then n = 512",
+   "doc_val": "-0.45 / -0.49 / -0.52 / 0.30",
+   "new_val": "-0.45 / -0.49 / -0.52 / 0.30",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-edge-dev-kcap_ridge",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "edge over cell 3 (a = 0.95) on dev: kcap_ridge, n = 16 subsets 0/1/2 then n = 512",
+   "doc_val": "0.11 / 0.32 / 0.26 / 0.27",
+   "new_val": "0.11 / 0.32 / 0.26 / 0.27",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-edge-dev-kcap_shrink",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "edge over cell 3 (a = 0.95) on dev: kcap_shrink, n = 16 subsets 0/1/2 then n = 512",
+   "doc_val": "-0.29 / 0.07 / -0.14 / -0.22",
+   "new_val": "-0.29 / 0.07 / -0.14 / -0.22",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-edge-dev-rel_ridge",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "edge over cell 3 (a = 0.95) on dev: rel_ridge, n = 16 subsets 0/1/2 then n = 512",
+   "doc_val": "-0.56 / -0.66 / -0.49 / 0.12",
+   "new_val": "-0.56 / -0.66 / -0.49 / 0.12",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-1e4-16",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "kappa_t = 1e4 diagonal shrinkage vs a = 0.95, test, n = 16 (-1.00)",
+   "doc_val": "-1.00",
+   "new_val": "-0.9996",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-1e4-512",
+   "doc": "REPORT_02 s3-s4",
+   "claim": "kappa_t = 1e4 diagonal shrinkage vs a = 0.95, test, n = 512 (-1.92)",
+   "doc_val": "-1.92",
+   "new_val": "-1.9209",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-kcap16",
+   "doc": "REPORT_02 s4 table",
+   "claim": "kappa-cap ridge, n = 16 (dev mean_norm over the 7 grid values)",
+   "doc_val": "86.75 / 87.77 / 88.11 / 88.32 / 88.37 / 88.08 / 87.57",
+   "new_val": "86.75 / 87.77 / 88.11 / 88.32 / 88.37 / 88.08 / 87.57",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-rel16",
+   "doc": "REPORT_02 s4 table",
+   "claim": "fixed ridge, n = 16",
+   "doc_val": "87.08 / 87.75 / 88.02 / 87.96 / 87.58 / 86.84 / 85.47",
+   "new_val": "87.08 / 87.75 / 88.02 / 87.96 / 87.58 / 86.84 / 85.47",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-kcap512",
+   "doc": "REPORT_02 s4 table",
+   "claim": "kappa-cap ridge, n = 512",
+   "doc_val": "90.07 / 91.09 / 91.32 / 91.58 / 91.58 / 91.51 / 91.56",
+   "new_val": "90.07 / 91.09 / 91.32 / 91.58 / 91.58 / 91.51 / 91.56",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-rel512",
+   "doc": "REPORT_02 s4 table",
+   "claim": "fixed ridge, n = 512",
+   "doc_val": "90.38 / 91.06 / 91.33 / 91.44 / 91.43 / 91.51 / 91.52",
+   "new_val": "90.38 / 91.06 / 91.33 / 91.44 / 91.43 / 91.51 / 91.52",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-shr16",
+   "doc": "REPORT_02 s4 table",
+   "claim": "fixed shrinkage, n = 16",
+   "doc_val": "85.58 / 87.16 / 87.76 / 88.14 / 88.14",
+   "new_val": "85.58 / 87.16 / 87.76 / 88.14 / 88.14",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-shr512",
+   "doc": "REPORT_02 s4 table",
+   "claim": "fixed shrinkage, n = 512",
+   "doc_val": "88.00 / 90.43 / 91.10 / 91.31 / 91.55",
+   "new_val": "88.00 / 90.43 / 91.10 / 91.31 / 91.55",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-rho",
+   "doc": "REPORT_02 s4 table",
+   "claim": "'its median rho / (tr G/d)' row of the kappa-cap arm (n = 16, 2 significant digits)",
+   "doc_val": "0.11 / 0.036 / 0.011 / 0.0035 / 0.00084 / 0 / 0",
+   "new_val": "0.11 / 0.036 / 0.011 / 0.0035 / 0.00084 / 0 / 0",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-c-as-rho",
+   "doc": "REPORT_02 s4 table",
+   "claim": "'its c' row of the fixed ridge, vs the logged rel_rho_median (n = 16, 2 significant digits)",
+   "doc_val": "0.14 / 0.051 / 0.016 / 0.0053 / 0.0016 / 0.00054 / 0.00016",
+   "new_val": "0.14 / 0.051 / 0.016 / 0.0053 / 0.0016 / 0.00054 / 0.00016",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sw-c-true",
+   "doc": "REPORT_02 s4 table / s4 text",
+   "claim": "'its c' row of the fixed ridge, vs the true c = r_med/kappa_t (`c_rel`, median over the n = 16 sets; the same section says 'c from 0.16 down to 1.6e-4')",
+   "doc_val": "0.14 / 0.051 / 0.016 / 0.0053 / 0.0016 / 0.00054 / 0.00016",
+   "new_val": "0.16 / 0.054 / 0.016 / 0.0054 / 0.0016 / 0.00054 / 0.00016",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": "the table row equals rel_rho_median = rho/trace_mean(after adding the ridge) = c/(1+c), which understates c when c is large (0.139 vs c = 0.161 at kappa_t = 1e3). entries off (0-based): [0, 1, 3]"
+  },
+  {
+   "id": "D-tie-1",
+   "doc": "REPORT_02 s4",
+   "claim": "n = 512 kappa cap tie: 3e4 = 91.5752",
+   "doc_val": "91.5752",
+   "new_val": "91.5752",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-tie-2",
+   "doc": "REPORT_02 s4",
+   "claim": "n = 512 kappa cap tie: 1e5 = 91.5758",
+   "doc_val": "91.5758",
+   "new_val": "91.5758",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-tie-3",
+   "doc": "REPORT_02 s4",
+   "claim": "n = 16 shrinkage tie: 0.95 = 88.144",
+   "doc_val": "88.144",
+   "new_val": "88.144",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-tie-4",
+   "doc": "REPORT_02 s4",
+   "claim": "n = 16 shrinkage tie: 0.99 = 88.137",
+   "doc_val": "88.137",
+   "new_val": "88.137",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-rmed",
+   "doc": "REPORT_02 s4",
+   "claim": "r_med ranges 158-161 (lambda_max/(tr/d) median over maps) - min over the 4 Gram sets",
+   "doc_val": "158",
+   "new_val": "158.01",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-rmed-hi",
+   "doc": "REPORT_02 s4",
+   "claim": "r_med ranges 158-161 - max",
+   "doc_val": "161",
+   "new_val": "161.35",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-34",
+   "doc": "REPORT_02 s4",
+   "claim": "'The 34 configurations that repeat the pre-declared run reproduce it exactly' (dev + test)",
+   "doc_val": "34",
+   "new_val": "34.00",
+   "status": "OK",
+   "sev": "",
+   "note": "dev 24 + test 10; RESEARCH_LOG 22:45 says 24 (dev only)"
+  },
+  {
+   "id": "D-med-rho-cap",
+   "doc": "REPORT_02 s3",
+   "claim": "cap's actual median strength 8.4e-4 of tr(G)/d (n = 16, kappa_t 1e5)",
+   "doc_val": "0.00084",
+   "new_val": "0.00084",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-med-rho-fixed",
+   "doc": "REPORT_02 s3",
+   "claim": "fixed ridge median strength 1.6e-3 (n = 16, c = r_med/1e5)",
+   "doc_val": "0.0016",
+   "new_val": "0.0016",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-test-n16-mean",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50",
+   "claim": "frozen test n = 16 means: kappa-cap ridge, fixed ridge, shrinkage",
+   "doc_val": "87.69 / 87.51 / 87.39",
+   "new_val": "87.69 / 87.51 / 87.39",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-test-n512",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50",
+   "claim": "frozen test n = 512: kappa-cap ridge, fixed ridge, shrinkage",
+   "doc_val": "91.40 / 91.37 / 91.33",
+   "new_val": "91.40 / 91.37 / 91.33",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-diff-kcap_ridge-rel_ridge",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50",
+   "claim": "test differences n = 16: kcap_ridge - rel_ridge, subsets 0/1/2",
+   "doc_val": "0.10 / 0.29 / 0.15",
+   "new_val": "0.10 / 0.29 / 0.15",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-diff-mean-kcap_ridge-rel_ridge",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50 / SUMMARY s3 / AA_SIDE_REPORT s9 note / FULL_REPORT s16.6",
+   "claim": "test difference n = 16, mean over subsets: kcap_ridge - rel_ridge",
+   "doc_val": "0.18",
+   "new_val": "0.1824",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-diff-kcap_ridge-fixed_shrink",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50",
+   "claim": "test differences n = 16: kcap_ridge - fixed_shrink, subsets 0/1/2",
+   "doc_val": "0.19 / 0.43 / 0.27",
+   "new_val": "0.19 / 0.43 / 0.27",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-diff-mean-kcap_ridge-fixed_shrink",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50 / SUMMARY s3 / AA_SIDE_REPORT s9 note / FULL_REPORT s16.6",
+   "claim": "test difference n = 16, mean over subsets: kcap_ridge - fixed_shrink",
+   "doc_val": "0.30",
+   "new_val": "0.2969",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-diff-rel_ridge-fixed_shrink",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50",
+   "claim": "test differences n = 16: rel_ridge - fixed_shrink, subsets 0/1/2",
+   "doc_val": "0.09 / 0.14 / 0.12",
+   "new_val": "0.09 / 0.14 / 0.12",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-diff-mean-rel_ridge-fixed_shrink",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50 / SUMMARY s3 / AA_SIDE_REPORT s9 note / FULL_REPORT s16.6",
+   "claim": "test difference n = 16, mean over subsets: rel_ridge - fixed_shrink",
+   "doc_val": "0.12",
+   "new_val": "0.1145",
+   "status": "DISCREPANCY",
+   "sev": "minor",
+   "note": "0.11449 (rounds to +0.11); the docs print +0.12, which makes the isotropy and adaptive parts (0.12 + 0.18) add to the printed +0.30 (exact parts 0.114 + 0.182 = 0.297)"
+  },
+  {
+   "id": "D-diff-512",
+   "doc": "REPORT_02 s4 / RESEARCH_LOG 22:50",
+   "claim": "test differences n = 512: kcap - fixed ridge, kcap - shrinkage, fixed ridge - shrinkage",
+   "doc_val": "0.03 / 0.07 / 0.04",
+   "new_val": "0.03 / 0.07 / 0.04",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-split-ada",
+   "doc": "REPORT_02 s4 / AA_SIDE_REPORT s9 (added note)",
+   "claim": "n = 16: edge from kappa-adaptive strength (+0.18)",
+   "doc_val": "0.18",
+   "new_val": "0.1824",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-split-pct",
+   "doc": "RESEARCH_LOG 22:50",
+   "claim": "'about 40 % isotropy and 60 % kappa-adaptive per-map strength'",
+   "doc_val": "40",
+   "new_val": "38.56",
+   "status": "OK",
+   "sev": "",
+   "note": "isotropy share in % (adaptive share is the rest): 38.6 / 61.4; counted OK as 'about'"
+  },
+  {
+   "id": "D-512-within",
+   "doc": "REPORT_02 s4/s5 / SUMMARY s3",
+   "claim": "n = 512: all regularisers within 0.07 of each other and of plain RegMean (91.39)",
+   "doc_val": "0.07",
+   "new_val": "0.0698",
+   "status": "OK",
+   "sev": "",
+   "note": "max - min over the three frozen configs and plain RegMean"
+  },
+  {
+   "id": "D-commit",
+   "doc": "RESEARCH_LOG 22:50",
+   "claim": "'All test records carry commit 6ae7a69 (clean tree)'",
+   "doc_val": "6ae7a69",
+   "new_val": "6ae7a69",
+   "status": "OK",
+   "sev": "",
+   "note": "commit stamps of the 12 strength_sweep test rows"
+  },
+  {
+   "id": "D-sum-1",
+   "doc": "SUMMARY s3",
+   "claim": "RegMean task-separated: normalised test 91.4",
+   "doc_val": "91.4",
+   "new_val": "91.392",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sum-2",
+   "doc": "SUMMARY s3",
+   "claim": "RegMean task-separated: accuracy 82.8 %",
+   "doc_val": "82.8",
+   "new_val": "82.766",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sum-3",
+   "doc": "SUMMARY s3",
+   "claim": "uniform/TA test normalised 76.7",
+   "doc_val": "76.7",
+   "new_val": "76.684",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sum-4",
+   "doc": "SUMMARY s3",
+   "claim": "diagonal shrinkage set by a kappa cap 'never helps (-0.04 to -0.48)' (test, kappa_t = 1e5, per subset and n = 512)",
+   "doc_val": "-0.48 to -0.04",
+   "new_val": "-0.1771 / -0.0410 / -0.4804",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sum-5",
+   "doc": "SUMMARY s3",
+   "claim": "full FT kappa-cap edge on test '+0.2 to +0.4' (3 subsets)",
+   "doc_val": "+0.2 to +0.4",
+   "new_val": "0.190 / 0.429 / 0.271",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sum-6",
+   "doc": "SUMMARY s3 / REPORT_02 s5",
+   "claim": "LoRA kappa-cap edge on test '+0.2 to +0.8' (3 banks)",
+   "doc_val": "+0.2 to +0.8",
+   "new_val": "0.200 / 0.830",
+   "status": "OK",
+   "sev": "",
+   "note": ""
+  },
+  {
+   "id": "D-sum-7",
+   "doc": "SUMMARY s3",
+   "claim": "'kappa up to 1e13' at few calibration images",
+   "doc_val": "1e13",
+   "new_val": "1.767e+13",
+   "status": "OK",
+   "sev": "",
+   "note": "same order of magnitude (see C5-kG-max16 for the 1.6e13 figure)"
+  },
+  {
+   "id": "X-doc-2",
+   "doc": "RESEARCH_LOG",
+   "claim": "last entry of the log at generation time",
+   "doc_val": "2026-10-18 22:50: strength sweep frozen test  [established]",
+   "new_val": "strength_sweep_C_test_* complete (4 files x 3 rows)",
+   "status": "NOTE",
+   "sev": "",
+   "note": "docs were still being edited while this appendix was built (modification times of the docs listed in X4: 22:49, 22:50, 22:54); the checks use the versions listed in X4"
+  },
+  {
+   "id": "X-doc-3",
+   "doc": "scripts/aa_summarize_regmean.py",
+   "claim": "glob `regmean_*_dev.jsonl`",
+   "doc_val": "summarises per-bank dev files",
+   "new_val": "also matches regmean_2x2_dev.jsonl (rows have no `method` key)",
+   "status": "NOTE",
+   "sev": "",
+   "note": "re-running the summarizer today would raise KeyError; the stored regmean_summary.md was produced before that file existed"
+  }
+ ],
+ "tables": [
+  {
+   "section": "C1",
+   "id": "C1a",
+   "rows": 14,
+   "cols": 4
+  },
+  {
+   "section": "C1",
+   "id": "C1b",
+   "rows": 2,
+   "cols": 9
+  },
+  {
+   "section": "C1",
+   "id": "C1c",
+   "rows": 96,
+   "cols": 9
+  },
+  {
+   "section": "C2",
+   "id": "C2a",
+   "rows": 5,
+   "cols": 13
+  },
+  {
+   "section": "C2",
+   "id": "C2b",
+   "rows": 5,
+   "cols": 16
+  },
+  {
+   "section": "C2",
+   "id": "C2c",
+   "rows": 5,
+   "cols": 5
+  },
+  {
+   "section": "C2",
+   "id": "C2d",
+   "rows": 48,
+   "cols": 10
+  },
+  {
+   "section": "C2",
+   "id": "C2e",
+   "rows": 5,
+   "cols": 4
+  },
+  {
+   "section": "C2",
+   "id": "C2f",
+   "rows": 8,
+   "cols": 6
+  },
+  {
+   "section": "C2",
+   "id": "C2g",
+   "rows": 12,
+   "cols": 6
+  },
+  {
+   "section": "C3",
+   "id": "C3a",
+   "rows": 24,
+   "cols": 7
+  },
+  {
+   "section": "C3",
+   "id": "C3b",
+   "rows": 24,
+   "cols": 10
+  },
+  {
+   "section": "C3",
+   "id": "C3c",
+   "rows": 92,
+   "cols": 11
+  },
+  {
+   "section": "C4",
+   "id": "C4a-1",
+   "rows": 21,
+   "cols": 4
+  },
+  {
+   "section": "C4",
+   "id": "C4a-2",
+   "rows": 22,
+   "cols": 5
+  },
+  {
+   "section": "C4",
+   "id": "C4a-3",
+   "rows": 7,
+   "cols": 14
+  },
+  {
+   "section": "C4",
+   "id": "C4a-4",
+   "rows": 3,
+   "cols": 10
+  },
+  {
+   "section": "C4",
+   "id": "C4b-1",
+   "rows": 4,
+   "cols": 9
+  },
+  {
+   "section": "C4",
+   "id": "C4b-2",
+   "rows": 20,
+   "cols": 7
+  },
+  {
+   "section": "C4",
+   "id": "C4b-3",
+   "rows": 21,
+   "cols": 12
+  },
+  {
+   "section": "C4",
+   "id": "C4c",
+   "rows": 6,
+   "cols": 12
+  },
+  {
+   "section": "C4",
+   "id": "C4d-1",
+   "rows": 2,
+   "cols": 13
+  },
+  {
+   "section": "C4",
+   "id": "C4d-2",
+   "rows": 14,
+   "cols": 7
+  },
+  {
+   "section": "C4",
+   "id": "C4e-1",
+   "rows": 10,
+   "cols": 4
+  },
+  {
+   "section": "C4",
+   "id": "C4e-2",
+   "rows": 8,
+   "cols": 3
+  },
+  {
+   "section": "C4",
+   "id": "C4e-3",
+   "rows": 8,
+   "cols": 9
+  },
+  {
+   "section": "C4",
+   "id": "C4e-4",
+   "rows": 5,
+   "cols": 7
+  },
+  {
+   "section": "C4",
+   "id": "C4e-5",
+   "rows": 21,
+   "cols": 3
+  },
+  {
+   "section": "C4",
+   "id": "C4f-1",
+   "rows": 104,
+   "cols": 6
+  },
+  {
+   "section": "C4",
+   "id": "C4f-2",
+   "rows": 16,
+   "cols": 11
+  },
+  {
+   "section": "C4",
+   "id": "C4g-1",
+   "rows": 10,
+   "cols": 13
+  },
+  {
+   "section": "C4",
+   "id": "C4g-2",
+   "rows": 10,
+   "cols": 3
+  },
+  {
+   "section": "C5",
+   "id": "C5a-1",
+   "rows": 19,
+   "cols": 11
+  },
+  {
+   "section": "C5",
+   "id": "C5a-2",
+   "rows": 19,
+   "cols": 11
+  },
+  {
+   "section": "C5",
+   "id": "C5a-3",
+   "rows": 95,
+   "cols": 12
+  },
+  {
+   "section": "C5",
+   "id": "C5a-4",
+   "rows": 10,
+   "cols": 7
+  },
+  {
+   "section": "C5",
+   "id": "C5b-1",
+   "rows": 19,
+   "cols": 11
+  },
+  {
+   "section": "C5",
+   "id": "C5b-2",
+   "rows": 19,
+   "cols": 11
+  },
+  {
+   "section": "C5",
+   "id": "C5b-3",
+   "rows": 95,
+   "cols": 12
+  },
+  {
+   "section": "C5",
+   "id": "C5b-4",
+   "rows": 10,
+   "cols": 7
+  },
+  {
+   "section": "C5",
+   "id": "C5c-1",
+   "rows": 5,
+   "cols": 8
+  },
+  {
+   "section": "C5",
+   "id": "C5c-2",
+   "rows": 10,
+   "cols": 11
+  },
+  {
+   "section": "C5",
+   "id": "C5c-3",
+   "rows": 9,
+   "cols": 11
+  },
+  {
+   "section": "C5",
+   "id": "C5d-1",
+   "rows": 140,
+   "cols": 12
+  },
+  {
+   "section": "C5",
+   "id": "C5d-2",
+   "rows": 20,
+   "cols": 11
+  },
+  {
+   "section": "C5",
+   "id": "C5d-3",
+   "rows": 7,
+   "cols": 4
+  },
+  {
+   "section": "C5",
+   "id": "C5d-4",
+   "rows": 3,
+   "cols": 7
+  },
+  {
+   "section": "C5",
+   "id": "C5e-1",
+   "rows": 10,
+   "cols": 20
+  },
+  {
+   "section": "C5",
+   "id": "C5e-2",
+   "rows": 9,
+   "cols": 20
+  },
+  {
+   "section": "C5",
+   "id": "C5e-3",
+   "rows": 9,
+   "cols": 20
+  },
+  {
+   "section": "C5",
+   "id": "C5e-4",
+   "rows": 6,
+   "cols": 4
+  },
+  {
+   "section": "C5",
+   "id": "C5f-1",
+   "rows": 32,
+   "cols": 14
+  },
+  {
+   "section": "C5",
+   "id": "C5f-2",
+   "rows": 32,
+   "cols": 14
+  },
+  {
+   "section": "C5",
+   "id": "C5f-3",
+   "rows": 8,
+   "cols": 10
+  },
+  {
+   "section": "C5",
+   "id": "C5f-4",
+   "rows": 8,
+   "cols": 7
+  },
+  {
+   "section": "C5",
+   "id": "C5g-1",
+   "rows": 76,
+   "cols": 14
+  },
+  {
+   "section": "C5",
+   "id": "C5g-2",
+   "rows": 12,
+   "cols": 14
+  },
+  {
+   "section": "C5",
+   "id": "C5g-3",
+   "rows": 19,
+   "cols": 8
+  },
+  {
+   "section": "C5",
+   "id": "C5g-4",
+   "rows": 6,
+   "cols": 7
+  },
+  {
+   "section": "C5",
+   "id": "C5g-5",
+   "rows": 6,
+   "cols": 5
+  },
+  {
+   "section": "C5",
+   "id": "C5h",
+   "rows": 9,
+   "cols": 9
+  },
+  {
+   "section": "C5",
+   "id": "C5i",
+   "rows": 16,
+   "cols": 6
+  },
+  {
+   "section": "C6",
+   "id": "C6a",
+   "rows": 8,
+   "cols": 11
+  },
+  {
+   "section": "C6",
+   "id": "C6b [regmean_knots_release_dev.jsonl]",
+   "rows": 60,
+   "cols": 14
+  },
+  {
+   "section": "C6",
+   "id": "C6b [regmean_knots_release_n64_dev.jsonl]",
+   "rows": 40,
+   "cols": 14
+  },
+  {
+   "section": "C6",
+   "id": "C6b [regmean_knots_release_n16_dev.jsonl]",
+   "rows": 40,
+   "cols": 14
+  },
+  {
+   "section": "C6",
+   "id": "C6b [regmean_knots_release_n16_s1_dev.jsonl]",
+   "rows": 4,
+   "cols": 14
+  },
+  {
+   "section": "C6",
+   "id": "C6b [regmean_knots_release_n16_s2_dev.jsonl]",
+   "rows": 4,
+   "cols": 14
+  },
+  {
+   "section": "C6",
+   "id": "C6b [regmean_knots_release_r16_dev.jsonl]",
+   "rows": 4,
+   "cols": 14
+  },
+  {
+   "section": "C6",
+   "id": "C6b [regmean_lora_c5a_dev.jsonl]",
+   "rows": 20,
+   "cols": 14
+  },
+  {
+   "section": "C6",
+   "id": "C6b [regmean_lora_dev.jsonl]",
+   "rows": 20,
+   "cols": 14
+  },
+  {
+   "section": "C6",
+   "id": "C6c-1",
+   "rows": 5,
+   "cols": 4
+  },
+  {
+   "section": "C6",
+   "id": "C6c-2",
+   "rows": 5,
+   "cols": 8
+  },
+  {
+   "section": "C6",
+   "id": "C6c-3",
+   "rows": 7,
+   "cols": 6
+  },
+  {
+   "section": "C6",
+   "id": "C6d",
+   "rows": 21,
+   "cols": 10
+  },
+  {
+   "section": "C6",
+   "id": "C6d-2",
+   "rows": 8,
+   "cols": 5
+  },
+  {
+   "section": "C6",
+   "id": "C6e",
+   "rows": 40,
+   "cols": 18
+  },
+  {
+   "section": "C6",
+   "id": "C6e-2",
+   "rows": 3,
+   "cols": 4
+  },
+  {
+   "section": "C6",
+   "id": "C6f-1",
+   "rows": 9,
+   "cols": 15
+  },
+  {
+   "section": "C6",
+   "id": "C6f-2",
+   "rows": 3,
+   "cols": 6
+  },
+  {
+   "section": "C6",
+   "id": "C6h-1",
+   "rows": 17,
+   "cols": 5
+  },
+  {
+   "section": "C6",
+   "id": "C6h-2",
+   "rows": 10,
+   "cols": 5
+  },
+  {
+   "section": "X1",
+   "id": "X1",
+   "rows": 274,
+   "cols": 7
+  },
+  {
+   "section": "X2",
+   "id": "X2",
+   "rows": 18,
+   "cols": 7
+  },
+  {
+   "section": "X3",
+   "id": "X3",
+   "rows": 30,
+   "cols": 6
+  },
+  {
+   "section": "X4",
+   "id": "X4",
+   "rows": 58,
+   "cols": 5
+  },
+  {
+   "section": "X4",
+   "id": "Index of tables (rows per table)",
+   "rows": 10,
+   "cols": 2
+  }
+ ],
+ "unparsed": [],
+ "manifest": [
+  {
+   "label": "aa:results/aa/lora/lora_checks.json",
+   "size": 32839,
+   "mtime": "10-18 13:51:59",
+   "sha": "40dbe3afbad1",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/lora_stats.csv",
+   "size": 171746,
+   "mtime": "10-18 13:51:59",
+   "sha": "1762ea80343c",
+   "rows": 384
+  },
+  {
+   "label": "aa:results/aa/lora/rule_sweep_dev_shard0.jsonl",
+   "size": 161831,
+   "mtime": "10-18 14:47:56",
+   "sha": "164448660392",
+   "rows": 227
+  },
+  {
+   "label": "aa:results/aa/lora/rule_sweep_dev_shard1.jsonl",
+   "size": 163871,
+   "mtime": "10-18 14:48:08",
+   "sha": "fde63f47389e",
+   "rows": 230
+  },
+  {
+   "label": "aa:results/aa/lora/rule_sweep_dev_shard2.jsonl",
+   "size": 73223,
+   "mtime": "10-18 14:48:01",
+   "sha": "ebacadab55f5",
+   "rows": 99
+  },
+  {
+   "label": "aa:results/aa/lora/selection_controls.jsonl",
+   "size": 6651,
+   "mtime": "10-18 14:44:17",
+   "sha": "8566ccc65c0d",
+   "rows": 21
+  },
+  {
+   "label": "aa:results/aa/lora/selection_controls_null20.jsonl",
+   "size": 26894,
+   "mtime": "10-18 14:57:47",
+   "sha": "febb6834ac56",
+   "rows": 84
+  },
+  {
+   "label": "aa:results/aa/lora/replicate_banks.jsonl",
+   "size": 48059,
+   "mtime": "10-18 15:09:28",
+   "sha": "b0c066aee95a",
+   "rows": 141
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_dev.jsonl",
+   "size": 99604,
+   "mtime": "10-18 15:57:48",
+   "sha": "acbaa70f5191",
+   "rows": 183
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_lora_c5a_dev.jsonl",
+   "size": 34526,
+   "mtime": "10-18 16:08:12",
+   "sha": "785ef28affec",
+   "rows": 63
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_lora_dev.jsonl",
+   "size": 34246,
+   "mtime": "10-18 16:18:15",
+   "sha": "7836357baf17",
+   "rows": 63
+  },
+  {
+   "label": "aa:results/aa/lora/gentle.json",
+   "size": 2796,
+   "mtime": "10-18 14:48:26",
+   "sha": "9bf950b5b380",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/oracle_vs_scores.json",
+   "size": 3083,
+   "mtime": "10-18 14:32:36",
+   "sha": "7ac7267d0a85",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/oracle_vs_scores.md",
+   "size": 1223,
+   "mtime": "10-18 14:32:36",
+   "sha": "96a71939e84f",
+   "rows": 16
+  },
+  {
+   "label": "aa:results/aa/lora/single_map_swap.jsonl",
+   "size": 57158,
+   "mtime": "10-18 15:32:38",
+   "sha": "ea9ff98356d4",
+   "rows": 385
+  },
+  {
+   "label": "aa:results/aa/lora/single_map_swap_summary.json",
+   "size": 507,
+   "mtime": "10-18 15:32:38",
+   "sha": "6831a36b1ea4",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/q90_transfer.jsonl",
+   "size": 11434,
+   "mtime": "10-18 15:21:33",
+   "sha": "2d21028df882",
+   "rows": 104
+  },
+  {
+   "label": "aa:results/aa/lora/test_freeze.jsonl",
+   "size": 3422,
+   "mtime": "10-18 14:55:11",
+   "sha": "13d456f3ab67",
+   "rows": 10
+  },
+  {
+   "label": "master:results/regmean/regmean_C_dev.jsonl",
+   "size": 84727,
+   "mtime": "10-18 15:53:38",
+   "sha": "b3aaafc735cf",
+   "rows": 95
+  },
+  {
+   "label": "master:results/experts/expert_accuracy.json",
+   "size": 5863,
+   "mtime": "10-18 13:32:36",
+   "sha": "b2316af835c9",
+   "rows": null
+  },
+  {
+   "label": "master:results/regmean/regmean_B_dev.jsonl",
+   "size": 87013,
+   "mtime": "10-18 16:07:07",
+   "sha": "4d6576b31736",
+   "rows": 95
+  },
+  {
+   "label": "master:results/regmean/instability_C_dev.jsonl",
+   "size": 90700,
+   "mtime": "10-18 16:08:50",
+   "sha": "14edb5f58beb",
+   "rows": 140
+  },
+  {
+   "label": "master:results/regmean/regmean_C_test.jsonl",
+   "size": 9084,
+   "mtime": "10-18 16:15:40",
+   "sha": "68d4395d416a",
+   "rows": 10
+  },
+  {
+   "label": "master:results/regmean/regmean_B_test.jsonl",
+   "size": 8231,
+   "mtime": "10-18 16:14:52",
+   "sha": "c693eedfec38",
+   "rows": 9
+  },
+  {
+   "label": "master:results/regmean/instability_C_test.jsonl",
+   "size": 6061,
+   "mtime": "10-18 16:16:14",
+   "sha": "c4f8eabcf5fc",
+   "rows": 9
+  },
+  {
+   "label": "master:results/regmean/twobytwo_C_dev.jsonl",
+   "size": 22908,
+   "mtime": "10-18 16:43:07",
+   "sha": "172e785302be",
+   "rows": 32
+  },
+  {
+   "label": "master:results/regmean/twobytwo_C_test.jsonl",
+   "size": 22957,
+   "mtime": "10-18 16:48:39",
+   "sha": "79e3f47f178e",
+   "rows": 32
+  },
+  {
+   "label": "master:results/regmean/strength_sweep_C_dev_n16s0.jsonl",
+   "size": 13476,
+   "mtime": "10-18 22:40:00",
+   "sha": "0597229d8e8c",
+   "rows": 19
+  },
+  {
+   "label": "master:results/regmean/strength_sweep_C_dev_n16s1.jsonl",
+   "size": 13460,
+   "mtime": "10-18 22:40:04",
+   "sha": "9570b84883a7",
+   "rows": 19
+  },
+  {
+   "label": "master:results/regmean/strength_sweep_C_dev_n16s2.jsonl",
+   "size": 13525,
+   "mtime": "10-18 22:40:00",
+   "sha": "1e38f8c684b0",
+   "rows": 19
+  },
+  {
+   "label": "master:results/regmean/strength_sweep_C_dev_n512s0.jsonl",
+   "size": 13508,
+   "mtime": "10-18 22:41:59",
+   "sha": "06e94d6da52f",
+   "rows": 19
+  },
+  {
+   "label": "master:results/regmean/strength_sweep_C_test_n16s0.jsonl",
+   "size": 2143,
+   "mtime": "10-18 22:45:52",
+   "sha": "782ed32bf26f",
+   "rows": 3
+  },
+  {
+   "label": "master:results/regmean/strength_sweep_C_test_n16s1.jsonl",
+   "size": 2140,
+   "mtime": "10-18 22:45:53",
+   "sha": "f89b7e18be1f",
+   "rows": 3
+  },
+  {
+   "label": "master:results/regmean/strength_sweep_C_test_n16s2.jsonl",
+   "size": 2140,
+   "mtime": "10-18 22:45:56",
+   "sha": "90d711469e4c",
+   "rows": 3
+  },
+  {
+   "label": "master:results/regmean/strength_sweep_C_test_n512s0.jsonl",
+   "size": 2147,
+   "mtime": "10-18 22:47:43",
+   "sha": "5e6dcf3e4fb2",
+   "rows": 3
+  },
+  {
+   "label": "master:results/regmean/twobytwo_summary.json",
+   "size": 7586,
+   "mtime": "10-18 22:50:33",
+   "sha": "6e544c338ae3",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_n64_dev.jsonl",
+   "size": 68833,
+   "mtime": "10-18 16:11:53",
+   "sha": "b36df420cb4c",
+   "rows": 123
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_n16_dev.jsonl",
+   "size": 68771,
+   "mtime": "10-18 15:56:55",
+   "sha": "9006934495f5",
+   "rows": 123
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_n16_s1_dev.jsonl",
+   "size": 7811,
+   "mtime": "10-18 16:11:53",
+   "sha": "485f121c3fc8",
+   "rows": 15
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_n16_s2_dev.jsonl",
+   "size": 7920,
+   "mtime": "10-18 16:14:53",
+   "sha": "eff242d126ee",
+   "rows": 15
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_r16_dev.jsonl",
+   "size": 7724,
+   "mtime": "10-18 16:23:33",
+   "sha": "f78ac2ad44ad",
+   "rows": 15
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_maps.json",
+   "size": 47241,
+   "mtime": "10-18 15:57:48",
+   "sha": "2e6497c4a135",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_n64_maps.json",
+   "size": 31485,
+   "mtime": "10-18 16:11:53",
+   "sha": "2fb842a7bc4a",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_n16_maps.json",
+   "size": 31516,
+   "mtime": "10-18 15:56:55",
+   "sha": "5ef522e85fbf",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_n16_s1_maps.json",
+   "size": 8387,
+   "mtime": "10-18 16:11:53",
+   "sha": "6483ed46b802",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_n16_s2_maps.json",
+   "size": 8450,
+   "mtime": "10-18 16:14:53",
+   "sha": "e39496ae02f3",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_knots_release_r16_maps.json",
+   "size": 8374,
+   "mtime": "10-18 16:23:33",
+   "sha": "0747aa013552",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_lora_c5a_maps.json",
+   "size": 16731,
+   "mtime": "10-18 16:08:12",
+   "sha": "86a5e3af62fa",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_lora_maps.json",
+   "size": 16745,
+   "mtime": "10-18 16:18:15",
+   "sha": "3852cb5eebb1",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_2x2_dev.jsonl",
+   "size": 19315,
+   "mtime": "10-18 16:34:26",
+   "sha": "ce77f785217e",
+   "rows": 40
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_test.json",
+   "size": 3560,
+   "mtime": "10-18 16:19:57",
+   "sha": "8951ef228bab",
+   "rows": null
+  },
+  {
+   "label": "aa:results/aa/lora/regmean_summary.md",
+   "size": 16573,
+   "mtime": "10-18 16:15:09",
+   "sha": "a754b24dbc12",
+   "rows": 252
+  },
+  {
+   "label": "aa:results/aa/lora/single_map_swap.jsonl",
+   "size": 57158,
+   "mtime": "10-18 15:32:38",
+   "sha": "ea9ff98356d4",
+   "rows": 385
+  },
+  {
+   "label": "master:results/freeze/test.jsonl",
+   "size": 73031,
+   "mtime": "10-18 15:15:17",
+   "sha": "87a9e9c7ba2b",
+   "rows": 105
+  },
+  {
+   "label": "master:docs/REPORT_02_inverse_problem.md",
+   "size": 13851,
+   "mtime": "10-18 22:49:58",
+   "sha": "bae9c633279e",
+   "rows": 263
+  },
+  {
+   "label": "master:docs/RESEARCH_LOG.md",
+   "size": 11520,
+   "mtime": "10-18 22:50:33",
+   "sha": "46f71f837957",
+   "rows": 179
+  },
+  {
+   "label": "master:docs/SUMMARY.md",
+   "size": 5145,
+   "mtime": "10-18 22:50:12",
+   "sha": "6de1227c00c8",
+   "rows": 86
+  },
+  {
+   "label": "master:docs/FULL_REPORT.md",
+   "size": 35466,
+   "mtime": "10-18 22:54:00",
+   "sha": "471e3f7f0043",
+   "rows": 654
+  },
+  {
+   "label": "aa:docs/aa/AA_SIDE_REPORT.md",
+   "size": 22262,
+   "mtime": "10-18 22:50:31",
+   "sha": "228884418c25",
+   "rows": 359
+  }
+ ]
+}

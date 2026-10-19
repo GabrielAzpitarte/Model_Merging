@@ -177,3 +177,13 @@ Primary test comparisons were fixed from dev before any test evaluation. All oth
 * Reading: on full FT at small n, the kappa-cap ridge's edge over RegMean's shrinkage is about
   40 % isotropy and 60 % kappa-adaptive per-map strength. Both parts are small, and the n = 16
   evidence is 3 calibration subsets. Write-up: Report 2 §3-6; summary updated.
+
+## 2026-10-18 23:05: errata from script-based cross-checks (appendix generators)
+
+* 22:40 entry: cell 4 at n = 512 on test is +0.30 vs shrinkage, not +0.31.
+* 22:45 entry: "every regularised solve is within 0.2 of plain RegMean at n = 512" holds only for each arm's best values, which are 0.10-0.16 below plain. It does not hold for every grid value (kappa_t = 1e3 gives 90.07).
+* 22:50 entry: the n = 16 split of the kappa cap's edge is +0.11 isotropy and +0.18 kappa-adaptive strength, about 39 % / 61 %.
+* Wave-2 entry: the Gavish-Donoho rule scores 73.3 at its derived beta = 1 (alpha 1). Its 75.5 is the best over beta in {0.5, 1, 2} x alpha.
+* LoRA pooled Grams (Bp) are not uniformly null: -0.4 on KnOTS, but +1.0 on lora_c5a and +2.6 on vit20 over uniform (dev).
+* kappa(G) max at n = 16 is 1.8e13 (subset 0).
+* REPORT_01 errata are appended to that report. Corrected numbers are in FULL_REPORT.md and REPORT_02.

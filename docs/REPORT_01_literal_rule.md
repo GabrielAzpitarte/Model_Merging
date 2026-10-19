@@ -163,3 +163,27 @@ banks (2 positive, 2 at chance), and no mechanism survived. Dead end.
    effect. Novelty must be checked against SADA/LARV/CORAM and Ludwig (2025).
 3. Outside the conditioning brief (needs a decision): data-driven per-map routing of attention maps,
    where the oracle headroom lives.
+
+## Errata (2026-10-18 evening, script-based cross-check of this report against the raw files)
+
+* §2:
+  * The literal rule's best at alpha = 1 is at b = 4 (74.80), not b = 2 (74.67).
+  * kappa_z gives 66.5 at b = 4 (66.1 is b = 8).
+  * "Per-map largest-update selection gives 36" is not reproduced. dnorm_rev at b = inf gives 58.2 at
+    alpha 1, 45.2 at 1.6 and 33.0 at 2.0.
+* §1:
+  * The absolute-beta Gavish-Donoho rules use 18 configs, not the 66-config grid.
+  * The 10 data-supported `s*` rules use pooled calibration inputs (budget B), not weights only.
+* §3:
+  * MLP kappa0 is 14-60 in 18 of 24 maps (L0 fc1 509, L1 fc1 80, L11 fc2 63).
+  * The rounding-dominated maps also include L2 k_proj (53 %).
+  * The pairwise fraction of maps with kappa_i > kappa_j is 0.36-0.71, not 0.4-0.6 (5 of 28 pairs
+    fall outside).
+* §5:
+  * A third rule is above the kappa shuffle range on B/32 test: wc:kappa_rev|tuned +0.21
+    [+0.06, +0.38]. It was not carried to the B/16 transfer.
+  * The global nulls are shuffles of global:kappa_z.
+  * The subsets are five 4-expert and two 6-expert sets.
+  * "About 45 rules" is 41 distinct non-null rules.
+* The corrected numbers are in docs/FULL_REPORT.md, and the full tables in
+  docs/appendix/A_fullft_tables.md.
