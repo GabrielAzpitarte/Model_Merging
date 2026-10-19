@@ -68,7 +68,7 @@ over uniform. These are small next to budget C (+13 to +15).
 | kappa cap 1e5 | 88.37 | 90.73 | 91.58 | 87.69 |
 
 kappa(G) has a median of 2.9e5 and a maximum of 1.8e13 at n = 16 (1.6e13-1.8e13 across subsets). The collapse comes from the near-singular
-3072-dimensional inputs (fc2, patches). LoRA (peer): plain RegMean collapses to 4 % at every alpha in
+3072-dimensional inputs (fc2, patches). LoRA (peer): plain RegMean collapses to 4 % at every alpha in [corrected 2026-10-19: the LoRA 4 % collapses are fp16 evaluation overflow; in fp32 plain RegMean is within ~0.3 pt of the kappa-capped solve (results/inverse/collapse_audit.json). The full-FT n = 16 failure is genuine and statistical.]
 every N = 16 setting.
 
 **The conditioning-guided cap has a small, consistent edge over RegMean's shrinkage.**

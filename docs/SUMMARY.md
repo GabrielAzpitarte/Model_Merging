@@ -68,7 +68,7 @@ ViT-B/16 transfer.
 RegMean with task-separated unlabelled statistics reaches 91.4 (normalised; 82.8 % accuracy) on
 ViT-B/32 test, against 76.7 for uniform/TA. With pooled statistics and no task ids it is about uniform.
 * With few calibration images, the inverted Gram matrices become near-singular (kappa up to 1e13).
-  Plain RegMean then collapses (64 vs 91 on full FT; 4 % on LoRA). Any regulariser fixes it.
+  Plain RegMean then collapses (64 vs 91 on full FT; 4 % on LoRA). Any regulariser fixes it. [corrected 2026-10-19: the LoRA 4 % collapses are fp16 evaluation overflow; in fp32 plain RegMean is within ~0.3 pt of the kappa-capped solve (results/inverse/collapse_audit.json). The full-FT n = 16 failure is genuine and statistical.]
 * The **kappa-capped ridge** (smallest ridge with kappa2(G + rho I) <= kappa_t) beats RegMean's
   off-diagonal shrinkage by a small, consistent margin:
   * full FT +0.2 to +0.4, test 3/3;

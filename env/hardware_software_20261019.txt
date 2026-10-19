@@ -1,0 +1,2 @@
+NVIDIA RTX A6000, 580.105.08
+torch 2.11.0+cu128 cuda 12.8 transformers 5.17.0 numpy 2.2.6 scipy 1.15.3
