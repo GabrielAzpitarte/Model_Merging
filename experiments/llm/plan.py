@@ -84,7 +84,7 @@ def dev_jobs(setting: str, grid: dict) -> list[tuple[dict, int]]:
     """(cfg, priority) of every dev evaluation of a setting."""
     s = SETTINGS[setting]
     bank, T = s["bank"], s["T"]
-    pbase = 10 if bank == "l31_8b" else 4
+    pbase = 10 if bank == "l31_8b" else (24 if setting == "S3" else 4)  # S3 (20 experts) after all of S2
     jobs = []
 
     def merge(rule, b, a, prio, group="dev", **kw):
