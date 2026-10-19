@@ -227,6 +227,35 @@ def analyze_setting(setting: str, B: int) -> dict:
             "n_eff": r["rule_info"].get("n_eff_mean"), "edited_expert": r.get("edited_expert")}
     if tail:
         out["tail"] = tail
+    # score / ranking change of the edited expert (exact: the edit sets its sigma_min to the BF16 floor)
+    efiles = sorted({r["cfg"]["edit_file"] for r in recs.get("tail", [])})
+    for ef in efiles:
+        try:
+            from condmerge.llm import rules
+
+            z = np.load(ROOT / ef)
+            e_idx = int(z["expert"])
+            edited = json.loads(str(z["edited_scores"]))["kappa"]
+            orig = rules.score_table(s["bank"], s["T"], "kappa")
+            mods = BK.module_names(s["bank"])
+            rank_before, rank_after, argmin_after, kchange = [], [], 0, []
+            for j, m in enumerate(mods):
+                if m not in edited:
+                    continue
+                row = orig[j].copy()
+                rank_before.append(int(np.sum(row < row[e_idx])) + 1)
+                kchange.append(edited[m] / row[e_idx])
+                row[e_idx] = edited[m]
+                rank_after.append(int(np.sum(row < row[e_idx])) + 1)
+                argmin_after += int(np.argmin(row) == e_idx)
+            out.setdefault("tail_scores", {})[ef] = {
+                "edited_expert": BK.tasks(s["bank"], s["T"])[e_idx], "n_matrices_edited": len(rank_before),
+                "median_rank_before": float(np.median(rank_before)), "median_rank_after": float(np.median(rank_after)),
+                "frac_edited_matrices_where_expert_becomes_argmin": argmin_after / max(len(rank_before), 1),
+                "median_kappa_ratio_after_over_before": float(np.median(kchange)),
+                "info": json.loads(str(z["info"]))}
+        except Exception as e:  # never break the summary
+            out.setdefault("tail_scores", {})[ef] = {"error": str(e)}
     for r in recs.get("tail_expert", []):
         out.setdefault("tail_expert", {})[r["cfg"]["split"]] = {k: r[k] for k in r if k in (
             "own_local", "kl_mean", "kl_max", "max_abs_dlogp", "rel_dhidden_mean", "rel_dhidden_max",
@@ -545,6 +574,14 @@ def md_setting(o: dict) -> str:
         for k, v in o["tail"].items():
             cell = lambda c: "" if c not in v else f"{100 * v[c]['norm']:.2f} (lam {v[c]['lambda_edited_mean']:.3f})"
             L.append(f"| {k} | {cell('A')} | {cell('B')} | {cell('C')} | {cell('D')} | {cell('U-orig')} | {cell('U-edited')} |")
+    if o.get("tail_scores"):
+        for ef, v in o["tail_scores"].items():
+            if "error" in v:
+                continue
+            L.append(f"* edit {Path(ef).name}: {v['n_matrices_edited']} matrices of {v['edited_expert']} edited; its kappa rank "
+                     f"(1 = lowest) median {v['median_rank_before']:.0f} -> {v['median_rank_after']:.0f}; becomes the argmin in "
+                     f"{100 * v['frac_edited_matrices_where_expert_becomes_argmin']:.0f} % of them; kappa x "
+                     f"{v['median_kappa_ratio_after_over_before']:.3g} (median)")
     if o.get("tail_expert"):
         L += ["", "Edited expert alone (own task):"]
         for sp, v in o["tail_expert"].items():
