@@ -10,6 +10,8 @@ x STRENGTH {kappa-adaptive per map, fixed}. Cells (all ridge-to-mean where a rid
 Verdict rule (pre-declared): if cell 2 keeps cell 1's edge over cell 3 and cell 4 loses it ->
 the edge is about conditioning; the reverse -> it is about isotropy / rotation invariance.
 Budget C, alpha = 1, n in {16 (3 subsets), 512}.
+Post-hoc strength sweep (equal grids for the kappa cap and the fixed relative ridge):
+--cells kcap_ridge,rel_ridge --kappas <grid> --out <separate file>.
 """
 
 from __future__ import annotations
@@ -47,8 +49,11 @@ def main() -> None:
     ap.add_argument("--shrinks", default="0.95,0.9")
     ap.add_argument("--alpha", type=float, default=1.0)
     ap.add_argument("--device", default="cuda:0")
+    ap.add_argument("--cells", default="kcap_ridge,kcap_shrink,rel_ridge,fixed_shrink")
+    ap.add_argument("--out", default="", help="output jsonl (default: results/regmean/twobytwo_C_<split>.jsonl)")
     args = ap.parse_args()
-    out = RESULTS / "regmean" / f"twobytwo_C_{args.split}.jsonl"
+    out = Path(args.out) if args.out else RESULTS / "regmean" / f"twobytwo_C_{args.split}.jsonl"
+    wanted = set(args.cells.split(","))
     done = done_keys(out)
     dev = args.device
     t0 = time.time()
@@ -82,7 +87,8 @@ def main() -> None:
         for kt in kappas:
             cells += [("kcap_ridge", {"kappa_target": kt}, kt), ("kcap_shrink", {"kappa_shrink_target": kt}, kt),
                       ("rel_ridge", {"rel_ridge": r_med / kt}, kt)]
-        cells += [("fixed_shrink", {"shrink": float(a)}, None) for a in args.shrinks.split(",")]
+        cells += [("fixed_shrink", {"shrink": float(a)}, None) for a in args.shrinks.split(",") if a]
+        cells = [c for c in cells if c[0] in wanted]
         print(f"[n={n} seed={seed}] grams done {time.time() - t0:.0f}s; median lambda_max/(tr/d) = {r_med:.3g}", flush=True)
         for cell, kw, kt in cells:
             cfg = {"cell": cell, "kappa_t": kt, "shrink": kw.get("shrink"), "n": n, "seed": seed, "alpha": args.alpha}

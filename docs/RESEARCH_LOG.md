@@ -118,3 +118,26 @@ Primary test comparisons were fixed from dev before any test evaluation. All oth
 * Verdict rule:
   * if cell 2 keeps the edge and cell 4 loses it, the edge is due to conditioning;
   * if the reverse, it is due to isotropy.
+
+## 2026-10-18 22:40: 2x2 outcome; post-hoc strength sweep (declared before running)
+
+* The master session ended at 16:41, before its 2x2 jobs finished (dev 16:43, test 16:48).
+  A later session recovered the results (results/regmean/twobytwo_C_{dev,test}.jsonl, commit 2e09047)
+  and writes them up in Report 2 §3.
+* **[established]** Pre-declared verdict rule, primary cells (kappa_t = 1e5 vs a = 0.95, alpha = 1):
+  * cell 2 (kappa-capped diagonal shrinkage) LOSES the edge everywhere: -0.11 / -0.48 test (n = 16 / 512);
+  * cell 4 (strength-matched fixed relative ridge) keeps it at n = 512 (+0.31 test) and LOSES it at n = 16 (-0.49 test).
+  * So at n = 512 the edge is isotropy; at n = 16 neither pre-declared outcome holds.
+* Open point: cell 4's strength was matched on the median map only. The two fixed strengths tried
+  differ by 0.4-0.6 pt at n = 16, so a properly tuned fixed ridge has not been compared.
+* **Post-hoc check, equal tuning grids** (budget C, alpha = 1, n = 16 subsets 0/1/2 and n = 512, dev;
+  results/regmean/strength_sweep_C_dev_*.jsonl):
+  * kappa-cap ridge, kappa_t in {1e3, 3e3, 1e4, 3e4, 1e5, 3e5, 1e6};
+  * fixed relative ridge, c = r_med / kappa_t over the same 7 values (c from about 0.16 down to 1.6e-4);
+  * fixed diagonal shrinkage, a in {0.5, 0.8, 0.9, 0.95, 0.99}.
+* Selection rule, fixed now, before any test evaluation:
+  * per arm and per n, take the grid value with the highest dev mean normalised accuracy
+    (for n = 16, the mean over the 3 subsets);
+  * evaluate only those configs on test.
+  * Primary comparison: kappa-cap ridge vs fixed relative ridge. Both are isotropic, so this
+    isolates kappa-adaptive strength. Secondary: each against the tuned fixed shrinkage.
