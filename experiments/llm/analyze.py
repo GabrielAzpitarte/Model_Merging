@@ -185,7 +185,7 @@ def analyze_setting(setting: str, B: int) -> dict:
         out[group] = table
         (d / f"{group}.json").write_text(json.dumps(table, indent=1, default=float))
     # shuffle ranks on test (tuned shuffles + matched-config shuffles)
-    fz = out.get("frozen", {})
+    fz = out.get("frozen") or out.get("transfer") or {}  # transfer-only settings rank against their matched nulls
     if fz:
         for sp in ("test", "fresh"):
             k = fz.get("kappa|tuned", {}).get(sp)
