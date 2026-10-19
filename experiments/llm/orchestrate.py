@@ -159,7 +159,7 @@ def phase_enqueue_dev(settings: list[str], st: dict) -> None:
         s = plan.SETTINGS[sname]
         rj = plan.ref_jobs(sname)
         if s.get("optional"):
-            rj = [(c, max(p, 6)) for c, p in rj]
+            rj = [(c, max(p, 30)) for c, p in rj]  # optional setting: after everything else
         keys = enqueue_all(rj)
         st.setdefault("ref_keys", {})[sname] = sorted(keys)
         if s.get("dev"):
