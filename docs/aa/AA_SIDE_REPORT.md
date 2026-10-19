@@ -349,6 +349,11 @@ ridge whose strength can come from a κ cap or from a fixed relative level, with
 Conditioning explains why regularization is needed; it is not the source of the gain. Given SWUDI's spectral
 filtering of merge solves, there is no conditioning-specific novelty here.
 
-PENDING:
-- rank-16 compressed comparison;
-- frozen test.
+*Added 2026-10-18, evening, after master's full-FT 2x2 and tuned strength sweep (docs/REPORT_02_inverse_problem.md
+§3-4):* on full FT the picture differs somewhat. Isotropy is worth less there (+0.12). At n = 16, κ-adaptive
+strength adds +0.18 over an equally tuned fixed ridge, positive in 3/3 calibration subsets on frozen test.
+At n = 512 nothing matters (≤ 0.07). "Agreeing with master's full-FT" above therefore holds for the n = 512
+result, not for n = 16.
+
+Both follow-ups once listed here as pending are done and reported above: the rank-16 matched-budget
+comparison and the frozen test.
