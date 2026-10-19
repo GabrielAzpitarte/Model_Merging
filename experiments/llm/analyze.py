@@ -682,7 +682,7 @@ def main() -> None:
         print(f"figure mechanism failed: {e}", flush=True)
     if not plan.SMOKE:  # cross-study outputs (CLIP + LLM + audits), read straight from the records
         sys.path.insert(0, str(ROOT / "experiments" / "report"))
-        for mod in ("headline_figure", "final_tables"):
+        for mod in ("headline_figure", "followup_figure", "final_tables"):
             try:
                 __import__(mod).main()
             except Exception as e:

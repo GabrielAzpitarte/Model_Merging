@@ -165,7 +165,12 @@ def main() -> None:
             log(f"analysis rc={r.returncode}")
             paths = [str(p.relative_to(ROOT)) for p in J.RESULTS.rglob("*") if p.is_file()
                      and p.suffix in (".jsonl", ".json", ".md", ".csv", ".png", ".pdf")]
-            commit(paths + ["configs/llm"], "LLM study: analysis re-run after the amendment-3 jobs finished")
+            # also the CLIP chain's records and the cross-study outputs (nobody else commits them); existing paths only,
+            # because one missing pathspec makes `git add` fail as a whole
+            extra = [p for p in ("configs/llm", "results/figures", "results/inverse", "results/uncert", "results/repro",
+                                 "docs/REPORT_03_tables.md") if (ROOT / p).exists()]
+            commit(paths + extra, "LLM study: analysis re-run after the amendment-3 jobs finished; CLIP follow-up "
+                                  "records and cross-study figures/tables")
             push(do_push)
             st["final_done"] = time.strftime("%Y-%m-%d %H:%M:%S")
             save_state(st)
