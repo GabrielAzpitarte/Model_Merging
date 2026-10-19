@@ -80,6 +80,19 @@ def inverse_section() -> list[str]:
         L += ["", "**Full FT, budget C (norm %, dev):**", "", "| calibration / config | fp16 | fp32 | max abs W |", "|---|---|---|---|"]
         for key, v in cf.items():
             L.append(f"| {key} | {pct(v['fp16']['mean_norm'])} | {pct(v['fp32']['mean_norm'])} | {v['max_abs_weight']:.3g} |")
+    rr = load(R / "repro" / "clip_repro_regmean.json")
+    if rr:
+        tab = {}
+        for c in rr["configs"]:
+            tab.setdefault((c["n"], c["seed"]), {})[c["cell"]] = c["mean_norm"]
+        L += ["", "**Full FT, budget C, equal-budget strength sweep (frozen test, norm %; reproduced by "
+                  "experiments/repro/clip_repro.py):**", "",
+              "| images per task / subset | kappa-cap ridge | tuned fixed relative ridge | tuned RegMean shrinkage | "
+              "kcap - fixed ridge |", "|---|---|---|---|---|"]
+        for (n, sd), v in sorted(tab.items()):
+            if {"kcap_ridge", "rel_ridge", "fixed_shrink"} <= set(v):
+                L.append(f"| {n} / {sd} | {pct(v['kcap_ridge'])} | {pct(v['rel_ridge'])} | {pct(v['fixed_shrink'])} | "
+                         f"{pct(v['kcap_ridge'] - v['rel_ridge'], sign=True)} |")
     le = load(R / "inverse" / "lora_ridge_equal_test.json")
     if le:
         L += ["", "**Equal-budget LoRA comparison (fp32 evaluation, acc %, test; dev-selected strength and alpha):**", "",
@@ -99,12 +112,20 @@ def uncert_section() -> list[str]:
     d = load(R / "uncert" / "diagnostic_summary.json")
     if not d:
         return L + ["pending"]
-    L += ["| budget:n | Spearman(u_boot, r_fun), median over subsets | best competitor (kappa(G), 1/lambda_min, "
-          "tr G^-1, ||F||) | within-map | passes |", "|---|---|---|---|---|"]
+    L += ["| budget:n | Spearman(u_rel_G, r_fun), pooled over maps x subsets | best competitor (pooled) | "
+          "within-map (median) | passes | secondary: u_rel (Frobenius) / absolute / median-over-subsets |",
+          "|---|---|---|---|---|---|"]
     for k, v in d["configs"].items():
-        L.append(f"| {k} | {v['primary']:.3f} | {v['best_competitor']:.3f} | "
-                 f"{v.get('within_map_spearman_u_rel_vs_r_fun_median')} | {v['passes']} |")
-    L.append(f"\nPre-registered criterion: {d['criterion']}. **Diagnostic passed: {d['diagnostic_passed']}**")
+        sec = v.get("secondary_not_deciding", {})
+        s1 = sec.get("frobenius_predictor_functional_target (code before amendment 3)", {}).get("pooled")
+        s2 = sec.get("absolute_functional (protocol text, unnormalised by the correction)", {}).get("pooled")
+        s3 = sec.get("primary_pair_median_over_subsets", {}).get("value")
+        fmt = lambda x: "n/a" if x is None else f"{x:+.3f}"
+        wm = v.get("within_map_spearman_primary_median")
+        L.append(f"| {k} | {v['primary']:+.3f} | {v['best_competitor']:+.3f} ({v.get('best_competitor_name', '')}) | "
+                 f"{fmt(wm)} | {v['passes']} | {fmt(s1)} / {fmt(s2)} / {fmt(s3)} |")
+    L.append(f"\nPre-registered criterion (protocol 02 sec. 9 + amendment 3): {d['criterion']}. "
+             f"**Diagnostic passed: {d['diagnostic_passed']}**")
     g = load(R / "uncert" / "gate_test.json")
     if g:
         L += ["", "Gate stage (test norm %, mean over subsets):", "```", json.dumps(g, indent=1)[:3000], "```"]
@@ -137,7 +158,14 @@ def llm_section() -> list[str]:
                   if k.startswith("shuf") and k.endswith(":kappa|tuned") and v.get("test", {}).get("vs_uniform_tuned")]
             if sh:
                 L.append(f"| tuned kappa shuffles ({len(sh)}) | | {100 * min(sh):+.2f} ... {100 * max(sh):+.2f} | | | |")
+            k1 = t.get("kappa|alpha1", {})
+            if any(k1.get(sp, {}).get("vs_uniform_alpha1") for sp in ("test", "fresh")):
+                L += ["", f"Literal rule at alpha = 1 vs uniform at alpha = 1 ({group}): test "
+                          f"{ci(k1.get('test', {}).get('vs_uniform_alpha1'))}; fresh {ci(k1.get('fresh', {}).get('vs_uniform_alpha1'))}"]
             L.append("")
+        sr1 = o.get("shuffle_rank_alpha1")
+        if sr1:
+            L.append(f"* kappa|alpha1 vs matched shuffles at alpha 1 (test): rank {sr1['rank']} of {sr1['n_null'] + 1}")
         if o.get("shuffle_rank"):
             for sp, v in o["shuffle_rank"].items():
                 if v["n_null"]:
