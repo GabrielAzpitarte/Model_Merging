@@ -16,3 +16,54 @@
 10-19 06:33:35 queue {'pending': 1647, 'running': 0, 'done': 19, 'failed': 0}; outstanding 1647 of 1666 tracked
 10-19 07:03:37 queue {'pending': 1554, 'running': 5, 'done': 107, 'failed': 0}; outstanding 1559 of 1666 tracked
 10-19 07:33:40 queue {'pending': 2350, 'running': 5, 'done': 239, 'failed': 0}; outstanding 1470 of 1666 tracked
+10-19 08:03:42 queue {'pending': 2214, 'running': 5, 'done': 375, 'failed': 0}; outstanding 1470 of 1666 tracked
+10-19 08:33:45 queue {'pending': 2078, 'running': 5, 'done': 511, 'failed': 0}; outstanding 1470 of 1666 tracked
+10-19 09:03:47 queue {'pending': 1943, 'running': 5, 'done': 646, 'failed': 0}; outstanding 1458 of 1666 tracked
+10-19 09:33:50 queue {'pending': 1808, 'running': 5, 'done': 781, 'failed': 0}; outstanding 1329 of 1666 tracked
+10-19 10:03:52 queue {'pending': 1672, 'running': 5, 'done': 917, 'failed': 0}; outstanding 1193 of 1666 tracked
+10-19 10:33:55 queue {'pending': 1536, 'running': 5, 'done': 1053, 'failed': 0}; outstanding 1057 of 1666 tracked
+10-19 11:03:57 queue {'pending': 1396, 'running': 5, 'done': 1193, 'failed': 0}; outstanding 917 of 1666 tracked
+10-19 11:22:59 S2: FROZEN (968/605 dev records): uniform|tuned b=0.0 a=2.4 dev=0.8218; uniform|alpha1 b=0.0 a=1.0 dev=0.7640; global:kappa|tuned b=0.501 a=2.0 dev=0.8242; gshuf0:global:kappa|tuned b=0.794 a=2.4 dev=0.8099; gshuf1:global:kappa|tuned b=0.794 a=2.4 dev=0.8257; gshuf2:global:kappa|tuned b=0.501 a=3.2 dev=0.8343
+10-19 11:22:59 git commit: [master bae1bd8] LLM S2: frozen dev selection (before any test/fresh evaluation of S2)
+10-19 11:23:03 local backup rc=0 backup: 26M	/shared/ssd_30T/azpitarte_condmerge_backup/20261019_112259
+10-19 11:23:03 S2: enqueued 77 confirmation jobs
+10-19 11:23:04 S2: tail edit prep for expert rte (CPU)
+10-19 11:24:15 S2: enqueued 18 tail-edit jobs (expert rte)
+10-19 11:34:16 queue {'pending': 1382, 'running': 5, 'done': 1312, 'failed': 0}; outstanding 894 of 1761 tracked
+10-19 12:04:18 queue {'pending': 1311, 'running': 5, 'done': 1383, 'failed': 0}; outstanding 823 of 1761 tracked
+10-19 12:34:20 queue {'pending': 1246, 'running': 5, 'done': 1448, 'failed': 0}; outstanding 766 of 1761 tracked
+10-19 13:04:22 queue {'pending': 1179, 'running': 5, 'done': 1515, 'failed': 0}; outstanding 726 of 1761 tracked
+10-19 13:34:24 queue {'pending': 1111, 'running': 5, 'done': 1583, 'failed': 0}; outstanding 696 of 1761 tracked
+10-19 14:04:26 queue {'pending': 1042, 'running': 5, 'done': 1652, 'failed': 0}; outstanding 665 of 1761 tracked
+10-19 14:29:28 uncertainty diagnostic PASSED -> gate stage enqueued (runs on an 8B worker's GPU, model unloaded)
+10-19 14:34:28 queue {'pending': 976, 'running': 6, 'done': 1717, 'failed': 1}; outstanding 637 of 1762 tracked
+10-19 14:57:30 S1: FROZEN (486/405 dev records): uniform|tuned b=0.0 a=1.6 dev=0.6983; uniform|alpha1 b=0.0 a=1.0 dev=0.6668; global:kappa|tuned b=0.631 a=1.6 dev=0.6530; gshuf0:global:kappa|tuned b=0.631 a=1.6 dev=0.6893; gshuf1:global:kappa|tuned b=0.631 a=2.0 dev=0.7096; kappa|tuned b=0.126 a=2.0 dev=0.6866
+10-19 14:57:30 git commit: [master 604146a] LLM S1: frozen dev selection (before any test/fresh evaluation of S1)
+10-19 14:57:35 local backup rc=0 backup: 31M	/shared/ssd_30T/azpitarte_condmerge_backup/20261019_145730
+10-19 14:57:35 S1: enqueued 61 confirmation jobs
+10-19 14:57:35 S1: tail edit prep for expert anli (CPU)
+10-19 15:01:17 S1: enqueued 18 tail-edit jobs (expert anli)
+10-19 15:01:17 S2: enqueued 34 transfer jobs from S1
+10-19 15:01:17 S4: enqueued 39 transfer jobs from S1
+10-19 15:05:18 queue {'pending': 1075, 'running': 6, 'done': 1780, 'failed': 1}; outstanding 758 of 1914 tracked
+10-19 15:35:20 queue {'pending': 1035, 'running': 6, 'done': 1820, 'failed': 1}; outstanding 722 of 1914 tracked
+10-19 16:05:22 queue {'pending': 994, 'running': 6, 'done': 1861, 'failed': 1}; outstanding 715 of 1914 tracked
+10-19 16:35:23 queue {'pending': 948, 'running': 6, 'done': 1907, 'failed': 1}; outstanding 703 of 1914 tracked
+10-19 17:05:26 queue {'pending': 903, 'running': 6, 'done': 1952, 'failed': 1}; outstanding 692 of 1914 tracked
+10-19 17:35:28 queue {'pending': 858, 'running': 6, 'done': 1997, 'failed': 1}; outstanding 681 of 1914 tracked
+10-19 18:05:30 queue {'pending': 813, 'running': 6, 'done': 2042, 'failed': 1}; outstanding 670 of 1914 tracked
+10-19 18:35:32 queue {'pending': 770, 'running': 6, 'done': 2085, 'failed': 1}; outstanding 660 of 1914 tracked
+10-19 19:05:34 queue {'pending': 726, 'running': 6, 'done': 2129, 'failed': 1}; outstanding 654 of 1914 tracked
+10-19 19:35:36 queue {'pending': 684, 'running': 6, 'done': 2171, 'failed': 1}; outstanding 651 of 1914 tracked
+10-19 20:05:38 queue {'pending': 643, 'running': 6, 'done': 2212, 'failed': 1}; outstanding 645 of 1914 tracked
+10-19 20:35:40 queue {'pending': 607, 'running': 6, 'done': 2248, 'failed': 1}; outstanding 613 of 1914 tracked
+10-19 21:05:41 queue {'pending': 570, 'running': 6, 'done': 2285, 'failed': 1}; outstanding 576 of 1914 tracked
+10-19 21:35:43 queue {'pending': 531, 'running': 6, 'done': 2324, 'failed': 1}; outstanding 537 of 1914 tracked
+10-19 22:05:45 queue {'pending': 495, 'running': 6, 'done': 2360, 'failed': 1}; outstanding 501 of 1914 tracked
+10-19 22:35:47 queue {'pending': 458, 'running': 6, 'done': 2397, 'failed': 1}; outstanding 464 of 1914 tracked
+10-19 23:05:49 queue {'pending': 422, 'running': 6, 'done': 2433, 'failed': 1}; outstanding 428 of 1914 tracked
+10-19 23:35:50 queue {'pending': 384, 'running': 6, 'done': 2471, 'failed': 1}; outstanding 390 of 1914 tracked
+10-20 00:05:52 queue {'pending': 346, 'running': 6, 'done': 2509, 'failed': 1}; outstanding 352 of 1914 tracked
+10-20 00:35:54 queue {'pending': 309, 'running': 6, 'done': 2546, 'failed': 1}; outstanding 315 of 1914 tracked
+10-20 01:05:56 queue {'pending': 272, 'running': 6, 'done': 2583, 'failed': 1}; outstanding 278 of 1914 tracked
+10-20 01:35:58 queue {'pending': 237, 'running': 6, 'done': 2618, 'failed': 1}; outstanding 243 of 1914 tracked

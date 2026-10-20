@@ -350,8 +350,10 @@ def run_script(cfg: dict, key: str, device: str) -> dict:
     log_path = BK.ROOT / "logs" / "llm" / f"script_{key}.log"
     t0 = time.time()
     with open(log_path, "w") as lf:
+        # the bank loader sets HF_HOME to the Llama cache; the CLIP scripts need the default cache
+        env = {k: v for k, v in os.environ.items() if k != "HF_HOME"}
         r = subprocess.run(["/data/home/azpitarte/lora_merging_ica/.venv/bin/python", cfg["script"], *cfg.get("args", [])],
-                           cwd=BK.ROOT, stdout=lf, stderr=subprocess.STDOUT)
+                           cwd=BK.ROOT, stdout=lf, stderr=subprocess.STDOUT, env=env)
     if r.returncode != 0:
         raise RuntimeError(f"script {cfg['script']} failed rc={r.returncode}; see {log_path}")
     return {"script": cfg["script"], "rc": r.returncode, "seconds": time.time() - t0, "log": str(log_path.relative_to(BK.ROOT))}

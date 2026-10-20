@@ -64,14 +64,91 @@ Reproduction audit: 10 frozen B/32 test configurations rerun; max |diff vs recor
 | setting | uniform | plain-or-best shrink | tuned fixed ridge | kappa-cap ridge | kcap - fixed [95 % CI] | kcap - shrink [CI] | rank-16: kcap - fixed [CI] |
 |---|---|---|---|---|---|---|---|
 | KnOTS N512 | 51.22 | 64.06 (a=0.99) | 64.15 | 64.31 | +0.15 [+0.10, +0.21] | +0.25 [+0.17, +0.34] | +0.13 [+0.07, +0.19] |
+| KnOTS N16 s0 | 51.22 | 61.16 (a=1.0) | 61.33 | 61.36 | +0.04 [-0.02, +0.09] | +0.21 [+0.10, +0.31] | +0.00 [-0.05, +0.06] |
+| KnOTS N16 s1 | 51.22 | 63.13 (a=0.99) | 63.27 | 63.40 | +0.13 [+0.05, +0.21] | +0.27 [+0.16, +0.38] | +0.14 [+0.05, +0.24] |
+| KnOTS N16 s2 | 51.22 | 63.34 (a=1.0) | 63.54 | 63.62 | +0.08 [+0.02, +0.14] | +0.29 [+0.20, +0.38] | +0.03 [-0.03, +0.09] |
+| lora_c5a N512 | 53.04 | 64.95 (a=1.0) | 64.86 | 65.53 | +0.66 [+0.43, +0.89] | +0.58 [+0.34, +0.81] | +1.04 [+0.82, +1.26] |
+| vit20 N512 | 66.67 | 82.18 (a=1.0) | 81.97 | 82.09 | +0.12 [+0.07, +0.16] | -0.09 [-0.18, -0.02] | +0.05 [-0.03, +0.12] |
 
 ## Uncertainty diagnostic (CLIP full FT)
 
-pending
+| budget:n | Spearman(u_rel_G, r_fun), pooled over maps x subsets | best competitor (pooled) | within-map (median) | passes | secondary: u_rel (Frobenius) / absolute / median-over-subsets |
+|---|---|---|---|---|---|
+| B:n16 | +0.957 | -0.485 (trinv) | +0.048 | True | +0.696 / +0.981 / +0.971 |
+| C:n16 | +0.595 | -0.288 (trinv) | -0.238 | True | +0.606 / +0.906 / +0.602 |
+| C:n64 | +0.756 | -0.515 (kappa_G) | -0.238 | True | +0.540 / +0.890 / +0.810 |
+
+Pre-registered criterion (protocol 02 sec. 9 + amendment 3): pooled Spearman over maps x subsets of ('u_rel_G', 'r_fun') >= 0.5 and >= 0.1 above every competitor ('kappa_G', 'inv_lmin', 'trinv', 'fnorm_rel') (pooled Spearman with r_fun), in every config (C:16, C:64, B:16) -- protocol 02 sec. 9 + amendment 3. **Diagnostic passed: True**
 
 ## LLM banks (exact spectra, exact merges)
 
-* S1: pending
-* S2: pending
+### S1: l31_8b T8
+
+frozen (norm %, diff vs tuned uniform with paired 95 % CI; joint accuracy %)
+
+| config | test norm | test diff | fresh norm | fresh diff | test joint |
+|---|---|---|---|---|---|
+| uniform|tuned | 70.25 | pending | 67.92 | pending | 49.98 |
+| uniform|alpha1 | 67.69 | -2.56 [-3.34, -1.79] | 65.74 | -2.18 [-3.02, -1.30] | 49.15 |
+| kappa|tuned | 68.77 | -1.48 [-2.17, -0.80] | 65.28 | -2.64 [-3.39, -1.92] | 48.91 |
+| kappa|alpha1 | 67.29 | -2.97 [-3.77, -2.14] | 65.60 | -2.32 [-3.15, -1.42] | 48.79 |
+| kappa_rev|tuned | 68.34 | -1.91 [-2.59, -1.29] | 65.36 | -2.56 [-3.28, -1.81] | 47.04 |
+| global:kappa|tuned | 66.00 | -4.25 [-5.25, -3.16] | 64.91 | -3.01 [-4.18, -1.87] | 44.94 |
+| logkappa|tuned | 68.85 | -1.41 [-1.94, -0.87] | 66.43 | -1.49 [-2.05, -0.96] | 49.23 |
+| kappa_res|tuned | 69.89 | -0.37 [-1.03, +0.28] | 66.68 | -1.24 [-1.96, -0.59] | 48.75 |
+| tuned kappa shuffles (5) | | -0.97 ... +1.90 | | | |
+
+Literal rule at alpha = 1 vs uniform at alpha = 1 (frozen): test -0.40 [-0.83, +0.03]; fresh -0.14 [-0.56, +0.27]
+
+* kappa|alpha1 vs matched shuffles at alpha 1 (test): rank 6 of 11
+* kappa vs shuffles (test): rank 16 of 21
+* kappa vs shuffles (fresh): rank 6 of 6
+* numerical-noise range: test@1.6 0.11 pt; val@1.6 0.19 pt; val@1.0 0.17 pt
+* Iso-C (weight-only context): test 87.14; val 87.80; fresh 86.11
+* tail edit (norm %): kappa|concentrated|val: A 64.98, D 54.21, C 54.63, B 65.17; kappa|tuned|val: A 68.66, C 68.67, B 68.22, D 68.54; kappa|tuned|test: A 68.77, D 68.62, B 68.70, C 68.66; uniform|tuned|val: U-edited 69.84, U-orig 69.83; uniform|tuned|test: U-edited 70.22, U-orig 70.25
+* allocation usefulness (median within-matrix Spearman with -dL/dlambda): kappa|tuned: kappa -0.071, logkappa -0.071, kappa_res -0.012, dnorm -0.095; uniform|tuned: kappa -0.060, logkappa -0.060, kappa_res +0.060, dnorm -0.190
+
+### S2: l32_3b T8
+
+frozen (norm %, diff vs tuned uniform with paired 95 % CI; joint accuracy %)
+
+| config | test norm | test diff | fresh norm | fresh diff | test joint |
+|---|---|---|---|---|---|
+| uniform|tuned | 83.21 | pending | 84.80 | pending | 55.50 |
+| uniform|alpha1 | 76.12 | -7.10 [-8.34, -5.89] | 77.79 | -7.02 [-9.41, -4.77] | 51.84 |
+| kappa|tuned | 81.62 | -1.60 [-2.16, -1.01] | 82.28 | -2.53 [-3.81, -1.63] | 54.54 |
+| kappa|alpha1 | 76.86 | -6.35 [-7.57, -5.14] | 77.99 | -6.81 [-8.68, -5.02] | 52.13 |
+| kappa_rev|tuned | 79.33 | -3.89 [-4.61, -3.19] | 79.57 | -5.23 [-6.53, -4.18] | 53.60 |
+| global:kappa|tuned | 82.82 | -0.40 [-1.37, +0.53] | 85.38 | +0.58 [-1.18, +2.58] | 55.42 |
+| logkappa|tuned | 81.28 | -1.93 [-2.78, -1.09] | 82.60 | -2.20 [-3.81, -0.63] | 54.69 |
+| kappa_res|tuned | 84.26 | +1.04 [+0.27, +1.78] | 86.31 | +1.50 [+0.04, +2.65] | 55.59 |
+| tuned kappa shuffles (10) | | -1.30 ... +3.00 | | | |
+
+Literal rule at alpha = 1 vs uniform at alpha = 1 (frozen): test +0.75 [+0.14, +1.39]; fresh +0.20 [-1.32, +1.76]
+
+transfer (norm %, diff vs tuned uniform with paired 95 % CI; joint accuracy %)
+
+| config | test norm | test diff | fresh norm | fresh diff | test joint |
+|---|---|---|---|---|---|
+| uniform|tuned | 81.54 | pending | 82.03 | pending | 54.28 |
+| uniform|alpha1 | 76.12 | -5.42 [-6.53, -4.44] | 77.79 | -4.24 [-6.08, -2.43] | 51.84 |
+| kappa|tuned | 78.62 | -2.92 [-3.84, -1.99] | 78.80 | -3.23 [-5.03, -1.35] | 53.32 |
+| kappa|alpha1 | 76.26 | -5.28 [-6.22, -4.35] | 75.81 | -6.22 [-8.15, -4.57] | 51.72 |
+| kappa_rev|tuned | 76.93 | -4.61 [-5.44, -3.82] | 76.62 | -5.41 [-6.85, -3.74] | 51.84 |
+| global:kappa|tuned | 82.17 | +0.63 [-0.31, +1.50] | 84.56 | +2.53 [+0.50, +4.98] | 55.10 |
+| logkappa|tuned | 81.33 | -0.21 [-0.68, +0.29] | 81.50 | -0.53 [-0.98, -0.05] | 54.21 |
+| kappa_res|tuned | 82.93 | +1.39 [+0.71, +2.11] | 84.77 | +2.74 [+1.80, +4.08] | 54.88 |
+| tuned kappa shuffles (5) | | -4.91 ... +1.95 | | | |
+
+Literal rule at alpha = 1 vs uniform at alpha = 1 (transfer): test +0.14 [-0.69, +0.99]; fresh -1.98 [-3.64, -0.76]
+
+* kappa|alpha1 vs matched shuffles at alpha 1 (test): rank 2 of 11
+* kappa vs shuffles (test): rank 26 of 26
+* kappa vs shuffles (fresh): rank 11 of 11
+* numerical-noise range: val@1.0 0.28 pt; val@1.6 0.33 pt; test@2.4 0.11 pt
+* Iso-C (weight-only context): val 85.23; fresh 87.32; test 86.22
+* tail edit (norm %): kappa|tuned|val: D 78.95, C 78.25, A 81.04, B 80.63; kappa|concentrated|val: D 72.50, C 72.56, B 77.02, A 77.07; uniform|tuned|val: U-orig 82.18, U-edited 82.24; uniform|tuned|test: U-edited 83.35, U-orig 83.21; kappa|tuned|test: A 81.62, D 78.61, B 81.67, C 78.67
+* allocation usefulness (median within-matrix Spearman with -dL/dlambda): kappa|tuned: kappa +0.107, logkappa +0.107, kappa_res +0.095, dnorm -0.298; uniform|tuned: kappa +0.071, logkappa +0.071, kappa_res +0.071, dnorm -0.262
+
 * S3: pending
 * S4: pending
